@@ -12,8 +12,9 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
-
 <?php
+session_start();
+include('../database/condb.php');
 $active = array();
 $active[0] = "active";
 ?>
@@ -41,6 +42,11 @@ $active[0] = "active";
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -51,7 +57,7 @@ $active[0] = "active";
     <?php include('bar/sidebar.php'); ?>
 
     <!-- End SideBar  -->
-    
+
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">

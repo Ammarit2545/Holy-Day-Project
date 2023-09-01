@@ -1,4 +1,7 @@
-<?php include('database/condb.php'); ?>
+<?php
+session_start();
+include('database/condb.php');
+?>
 <!doctype html>
 <html lang="en">
 
@@ -25,6 +28,11 @@
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="sweetalert2.all.min.js"></script>
+	<script src="sweetalert2.min.js"></script>
+	<link rel="stylesheet" href="sweetalert2.min.css">
 
 </head>
 
@@ -353,7 +361,34 @@
 
 	</div>
 	<!-- End wrapper -->
-
+	<?php if (isset($_SESSION['logout'])) {
+	?>
+		<script>
+			let timerInterval
+			Swal.fire({
+				title: 'Logout Successfully',
+				html: 'I will close in <b></b> milliseconds.',
+				timer: 2000,
+				timerProgressBar: true,
+				didOpen: () => {
+					Swal.showLoading()
+					const b = Swal.getHtmlContainer().querySelector('b')
+					timerInterval = setInterval(() => {
+						b.textContent = Swal.getTimerLeft()
+					}, 100)
+				},
+				willClose: () => {
+					clearInterval(timerInterval)
+				}
+			}).then((result) => {
+				/* Read more about handling dismissals below */
+				if (result.dismiss === Swal.DismissReason.timer) {
+					console.log('I was closed by the timer')
+				}
+			})
+		</script>
+	<?php
+	} ?>
 	<!-- Javascript -->
 	<script src="assets/js/jquery-3.3.1.min.js"></script>
 	<script src="assets/js/jquery-migrate-3.0.0.min.js"></script>
@@ -364,6 +399,7 @@
 	<script src="assets/js/jquery.waypoints.min.js"></script>
 	<script src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script src="assets/js/scripts.js"></script>
+
 
 </body>
 

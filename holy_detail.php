@@ -1,4 +1,7 @@
-<?php include('database/condb.php'); ?>
+<?php
+session_start();
+include('database/condb.php');
+?>
 <!doctype html>
 <html lang="en">
 

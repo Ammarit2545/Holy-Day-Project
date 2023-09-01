@@ -3,7 +3,7 @@ session_start();
 include('../database/condb.php');
 // require_once('line_login.php');
 if (!isset($_SESSION['role_id'])) {
-    $log_id = $_SESSION['log_id'];
+    $log_id = $_SESSION["log_id"];
     echo $log_id;
 
     $sql = "UPDATE `log_member` SET `lm_date_out`= NOW() WHERE lm_id = '$log_id'";
@@ -14,10 +14,11 @@ if (!isset($_SESSION['role_id'])) {
     }
 
     session_destroy();
+    $_SESSION['logout'] = 1;
     echo "<script> alert(' ออกจากระบบเสร็จสิ้นแล้ว '); </script>";
     header("location:../index.php");
-
-} elseif (isset($_SESSION['role_id'])) {
+}
+ elseif (isset($_SESSION['role_id'])) {
     $log_id = $_SESSION['log_id'];
     echo $log_id;
 
@@ -29,9 +30,9 @@ if (!isset($_SESSION['role_id'])) {
     }
 
     session_destroy();
+    $_SESSION['logout'] = 1;
     echo "<script> alert(' ออกจากระบบเสร็จสิ้นแล้ว '); </script>";
     header("location:../index.php");
-
 } 
 // elseif (isset($_SESSION['profile'])) {
 //     $profile = $_SESSION['profile'];

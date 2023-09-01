@@ -116,7 +116,7 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link  " href="sign-in.php">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -135,7 +135,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Sign In</span>
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link  " href="sign-up.php">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -159,7 +159,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="../action/sign-out.php">
+                <a class="nav-link  " id="logout-link">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fas fa-sign-out-alt"></i>
 
@@ -185,3 +185,30 @@
         </ul>
     </div>
 </aside>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the logout link element
+        const logoutLink = document.getElementById("logout-link");
+
+        // Add a click event listener to the logout link
+        logoutLink.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the link from navigating
+
+            // Show the Swal confirmation dialog
+            Swal.fire({
+                title: "Logout",
+                text: "Are you sure you want to logout?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Logout",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // If the user confirms, navigate to the logout page
+                    window.location.href = "../action/sign-out.php";
+                }
+            });
+        });
+    });
+</script>
