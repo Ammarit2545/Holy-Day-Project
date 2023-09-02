@@ -44,6 +44,61 @@ include('../database/condb.php');
 </head>
 
 <body class="">
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">กฏของเว็บไซต์</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+          <p>ข้อมูลส่วนตัว:</p>
+          ผู้ใช้ต้องกรอกข้อมูลส่วนตัวที่ถูกต้องและเป็นปัจจุบัน เช่น ชื่อ, ที่อยู่, อีเมล, และหมายเลขโทรศัพท์ (หากจำเป็น).
+          เว็บไซต์ต้องระบุว่าข้อมูลส่วนตัวของผู้ใช้จะถูกใช้เพื่อวัตถุประสงค์ใด และต้องปฏิบัติตามข้อกำหนด GDPR (General Data Protection Regulation) หรือกฏระเบียบคุ้มครองข้อมูลส่วนบุคคลที่เกี่ยวข้อง.
+
+          <p> การล็อกอินและรักษาความปลอดภัย:</p>
+          การสร้างบัญชีผู้ใช้ควรมีการล็อกอินด้วยชื่อผู้ใช้และรหัสผ่าน เพื่อรักษาความปลอดภัยของข้อมูล.
+          ระบบควรมีมาตรการรักษาความปลอดภัยเพื่อป้องกันการเข้าถึงข้อมูลโดยไม่ได้รับอนุญาต.
+
+          <p> การสื่อสาร:</p>
+          การสื่อสารระหว่างผู้ใช้ควรเป็นที่เคารพและสร้างสรรค์ ห้ามใช้ภาษาหยาบคายหรือไม่เหมาะสม.
+          หากเว็บไซต์มีระบบสนทนาหรือบอร์ดการสนทนา ควรมีกฎหรือมาตรการเพื่อป้องกันการแสดงความเกียจคร้านและการรุมเร้า.
+
+          <p>การลิงก์ไปยังเว็บไซต์อื่น:</p>
+          หากมีการลิงก์ไปยังเว็บไซต์อื่น ควรระบุว่าเว็บไซต์นี้ไม่รับผิดชอบต่อเนื้อหาและนโยบายความเป็นส่วนตัวของเว็บไซต์อื่น ๆ.
+
+          <p>การใช้คุกกี้ (Cookies):</p>
+          หากใช้คุกกี้เพื่อเก็บข้อมูลการใช้งาน ควรแจ้งให้ผู้ใช้ทราบและให้ตัวเลือกในการยอมรับหรือปฏิเสธคุกกี้.
+
+          <p>ลิขสิทธิ์และลิขสิทธิ์ทางปัญญา:</p>
+          สิทธิ์ทางปัญญาที่เกี่ยวกับเนื้อหาบนเว็บไซต์ต้องถูกคุ้มครอง และผู้ใช้ต้องเคารพลิขสิทธิ์ของผู้อื่น.
+          ห้ามเผยแพร่หรือนำเนื้อหาของเว็บไซต์ไปใช้งานเพื่อวัตถุประสงค์ที่ไม่ถูกต้อง.
+
+          <p>ข้อผิดพลาดและปัญหาเทคนิค:</p>
+          การแจ้งข้อผิดพลาดหรือปัญหาเทคนิคควรทำได้ง่ายๆ และเว็บไซต์ควรให้การสนับสนุนเพื่อแก้ไขปัญหาที่เกิดขึ้น.
+
+          <p> การปรับปรุงและการเปลี่ยนแปลง:</p>
+          การปรับปรุงนโยบายและกฏของเว็บไซต์ควรมีการแจ้งให้ผู้ใช้ทราบ และผู้ใช้ควรตรวจสอบอย่างเป็นประจำ.
+
+          <p> การลบบัญชี:</p>
+          ผู้ใช้ควรมีสิทธิ์ในการลบบัญชีของตนเองจากเว็บไซต์เมื่อต้องการ.
+
+          <p>การคุ้มครองเด็ก:</p>
+          หากเว็บไซต์เหมาะสำหรับเด็ก ควรมีมาตรการเพื่อคุ้มครองเด็กและข้อมูลส่วนตัวของเด็ก.
+
+          <p> การละเมิดกฎและการปรับสภาพ:</p>
+          หากผู้ใช้ละเมิดกฎและกติกา เว็บไซต์ควรมีสิทธิ์ในการระงับบัญชีผู้ใช้หรือกระทำการอื่น ๆ ตามที่กำหนดไว้ในกฎ.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Navbar -->
   <!-- <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4">
     <div class="container">
@@ -176,7 +231,13 @@ include('../database/condb.php');
                   <div class="form-check form-check-info text-left">
                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked required>
                     <label class="form-check-label" for="flexCheckDefault">
-                      I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                      I agree the <a href="javascript:;" class="text-dark font-weight-bolder" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Terms and Conditions</a>
+                      <!-- Button trigger modal -->
+                      <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Launch demo modal
+                      </button> -->
+
+
                     </label>
                   </div>
                   <div class="text-center">

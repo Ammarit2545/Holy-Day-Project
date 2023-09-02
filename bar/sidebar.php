@@ -1,3 +1,9 @@
+<?php
+if (isset($_SESSION["role_id"])) {
+	header("location:admin/");
+}
+?>
+
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

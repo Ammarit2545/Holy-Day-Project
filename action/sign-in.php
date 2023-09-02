@@ -57,7 +57,7 @@ if ($row > 0) {
         $_SESSION['Error'] = "";
         $_SESSION["address"] = $row_e['e_add'];
         $_SESSION["tel"] = $row_e['e_tel'];
-        $_SESSION["role_id"] = $row_e['role_id'];
+        $_SESSION["role_id"] = $row_e['r_id'];
         echo "ture";
 
         $e_id = $_SESSION["id"];
