@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['title_file'])) {
     }
     echo $uploadPath;
     $_SESSION['title_file'] = $folderPath;
-    header('location:../create_blog.php');
+    header('location:../page_writer.php');
 }
 
 // Auto delete old files (e.g., files older than 7 days)
