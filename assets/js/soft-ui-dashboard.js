@@ -246,7 +246,26 @@ function sidebarColor(a) {
     sidenavCardIcon.classList.add(...sidenavCardIconClasses);
   }
 
+  // Send the color to the server
+  fetch('../admin/action/update-session-color.php', {
+    method: 'POST',
+    body: JSON.stringify({ color: color }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      // Session color updated successfully
+    } else {
+      // Handle the error
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
+
 
 // Set Navbar Fixed
 function navbarFixed(el) {

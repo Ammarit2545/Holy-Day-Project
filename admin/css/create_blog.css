@@ -1,0 +1,11 @@
+/* Hide the input */
+.invisible-input {
+    border: none;
+    background: none;
+    color: transparent;
+}
+
+/* Show the placeholder text */
+.invisible-input::placeholder {
+    color: initial; /* Change this to the desired placeholder text color */
+}
