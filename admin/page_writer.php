@@ -12,15 +12,15 @@ include('../database/condb.php');
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Main - Holy Day</title>
-
     <!-- CSS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <link rel="stylesheet" href="../assets/css/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="../assets/css/animate.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/media-queries.css">
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- Favicon and touch icons -->
     <link rel="shortcut icon" href="../image/icon/logo.png">
@@ -29,15 +29,15 @@ include('../database/condb.php');
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+    <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="sweetalert2.all.min.js"></script>
-    <script src="sweetalert2.min.js"></script>
-    <link rel="stylesheet" href="sweetalert2.min.css">
+
+    <!-- Your Custom JavaScript -->
+    <script src="your-custom-script.js"></script>
+
     <style>
         /* Hide the input background and border */
         .invisible-input {
@@ -243,7 +243,7 @@ include('../database/condb.php');
                 }
             </style>
 
-            <a href="#" id="bounce-item" data-bs-toggle="tooltip" data-bs-placement="left" title="กดเพื่อเพิ่ม Section ใหม่">
+            <a id="bounce-item" data-bs-toggle="tooltip" data-bs-placement="left" title="กดเพื่อเพิ่ม Section ใหม่">
                 <div class="container">
                     <div class="row">
                         <div class="col">
@@ -256,7 +256,108 @@ include('../database/condb.php');
                     </div>
                 </div>
             </a>
+            <br><br>
+            <!-- Button to trigger the modal -->
+            <button type="button" class="btn btn-primary" id="showModalButton">
+                Launch demo modal
+            </button>
 
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" width="700px">
+                <div class="modal-dialog modal-dialog-centered" >
+                    <div class="modal-content" style="width: 1500px" >
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Choose Your Section</h5>
+                        </div>
+                        <div class="modal-body">
+                            <h5>#1 Section</h5>
+                            <!-- Section 1 Content -->
+                            <!-- <d iv class="section-2-container section-container section-container-gray-bg" id="section-2">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col section-2 section-description wow fadeIn">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-8 section-2-box wow fadeInLeft">
+                                            <h3>About Us</h3>
+                                            <p class="medium-paragraph" style="font-size:80%">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                                sed do eiusmod tempor incididunt ut labore et. Ut wisi enim ad minim veniam, quis nostrud.
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
+                                            </p>
+                                        </div>
+                                        <div class="col-4 section-2-box wow fadeInUp">
+                                            <img src="../assets/img/about-us.jpg" alt="about-us">
+                                        </div>
+                                    </div>
+                                </div>
+                            </d> -->
+                            <!-- ... -->
+
+                            <button type="button" class="btn btn-primary text-end" data-bs-dismiss="modal" aria-label="Close">Select</button>
+                            <!-- ... -->
+
+                            <hr>
+
+                            <h5>#2 Section</h5>
+                            <!-- Section 2 Content -->
+                            <img src="../image/example/Section2.PNG" alt="about-us">
+                            <!-- ... -->
+
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Select</button>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- Custom Close Button -->
+                            <button type="button" id="btn-close-button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- JavaScript to open the modal -->
+            <script>
+                // Get a reference to the modal element by its ID
+                var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+
+                // Get a reference to the button that triggers the modal
+                var showModalButton = document.getElementById('showModalButton');
+
+                // Get a reference to the "Close" button in the modal
+                var closeButton = document.getElementById('btn-close-button');
+
+                // Add a click event listener to open the modal
+                showModalButton.addEventListener('click', function() {
+                    myModal.show();
+                });
+
+                // Add a click event listener to the "Close" button to close the modal
+                closeButton.addEventListener('click', function() {
+                    myModal.hide();
+                });
+            </script>
+
+
+
+
+            <div class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Modal body text goes here.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -333,7 +434,7 @@ include('../database/condb.php');
                             </p>
                         </div>
                         <div class="col-4 section-2-box wow fadeInUp">
-                            <img src="assets/img/about-us.jpg" alt="about-us">
+                            <img src=" ../assets/img/about-us.jpg" alt="about-us">
                         </div>
                     </div>
                 </div>
