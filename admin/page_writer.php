@@ -224,6 +224,40 @@ include('../database/condb.php');
                     };
                 }
             </script>
+            <br>
+            <br>
+            <br>
+            <style>
+                /* Define the initial and hover styles */
+                #bounce-item {
+                    display: block;
+                    transition: transform 0.3s;
+                    /* Add a smooth transition effect */
+                    text-decoration: none;
+                    /* Remove the underline */
+                }
+
+                #bounce-item:hover {
+                    transform: scale(1.1);
+                    /* Scale the element by 1.1 on hover */
+                }
+            </style>
+
+            <a href="#" id="bounce-item" data-bs-toggle="tooltip" data-bs-placement="left" title="กดเพื่อเพิ่ม Section ใหม่">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="box-shadow: 2px 2px 5px black; opacity: 0.5;">
+                                <div class="card-body">
+                                    <h1 style="font-size: 300%; color: gray; font-weight: bold;">+</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+
 
 
             <!-- Section 1 -->
@@ -280,7 +314,7 @@ include('../database/condb.php');
             </div>
 
             <!-- Section 2 -->
-            <div class="section-2-container section-container section-container-gray-bg" id="section-2">
+            <d iv class="section-2-container section-container section-container-gray-bg" id="section-2">
                 <div class="container">
                     <div class="row">
                         <div class="col section-2 section-description wow fadeIn">
@@ -292,11 +326,9 @@ include('../database/condb.php');
                             <p class="medium-paragraph">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                 sed do eiusmod tempor incididunt ut labore et. Ut wisi enim ad minim veniam, quis nostrud.
-                            </p>
-                            <p>
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
                                 Ut wisi enim ad minim veniam, quis nostrud.
-                                Exerci tation ullamcorper suscipit <a href="holy_detail.php">lobortis nisl</a> ut aliquip ex ea commodo consequat.
+                                Exerci tation ullamcorper suscipit ut aliquip ex ea commodo consequat.
                                 Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl.
                             </p>
                         </div>
@@ -305,7 +337,7 @@ include('../database/condb.php');
                         </div>
                     </div>
                 </div>
-            </div>
+            </d>
 
             <!-- Section 3 -->
             <div class="section-3-container section-container" id="section-3">
