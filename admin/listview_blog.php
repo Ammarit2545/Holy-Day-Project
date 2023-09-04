@@ -35,12 +35,80 @@ while (!isset($_SESSION['title_1'])) {
             $_SESSION['title_color_' . $count_blog] = $row_topic['t_color'];
             $_SESSION['title_detail_' . $count_blog] = $row_topic['t_detail'];
             $_SESSION['title_id_' . $count_blog] = $row_topic['t_id'];
+            $_SESSION['title_date_in_' . $count_blog] = $row_topic['t_date_in'];
             $t_id = $row_topic['t_id'];
 
             $sql_pic = "SELECT * FROM picture WHERE t_id = '$t_id' AND del_flg = 0";
             $result_pic = mysqli_query($conn, $sql_pic);
             while ($row_pic = mysqli_fetch_array($result_pic)) {
                 $_SESSION['title_file_' . $count_blog] = $row_pic['p_pic'];
+            }
+            $sub_title_count = 1;
+
+            $sql_st = "SELECT * FROM sub_topic WHERE t_id = '$t_id' AND del_flg = 0";
+            $result_st = mysqli_query($conn, $sql_st);
+
+            if (mysqli_num_rows($result_st) > 0) {
+                // Records found in the initial query
+                while ($row_st = mysqli_fetch_array($result_st)) {
+                    $_SESSION['sub_title_id_' . $count_blog . '_' . $sub_title_count] = $row_st['st_id'];
+                    $_SESSION['sub_title_' . $count_blog . '_' . $sub_title_count] = $row_st['st_main'];
+                    $_SESSION['sub_title_detail_' . $count_blog . '_' . $sub_title_count] = $row_st['st_detail'];
+                    $_SESSION['sub_title_section_' . $count_blog . '_' . $sub_title_count] = $row_st['st_type_sec'];
+                    $st_id = $row_st['st_id'];
+
+                    $sub_pic_count = 1;
+                    $sql_pic = "SELECT * FROM picture WHERE st_id = '$st_id' AND del_flg = 0";
+                    $result_pic = mysqli_query($conn, $sql_pic);
+                    while ($row_pic = mysqli_fetch_array($result_pic)) {
+                        $_SESSION['sub_title_pic_' . $count_blog . '_' . $sub_title_count . '_' . $sub_pic_count] = $row_st['p_pic'];
+                        $sub_pic_count++;
+                    }
+                    $sub_title_count++;
+                }
+            } else {
+                // No records found, insert new data
+                for ($i = 1; $i <= 4; $i++) {
+                    $t_id; // You should set the value of $t_id here.
+
+                    if ($i == 1) {
+                        $st_name = 'ประวัติและความสำคัญ';
+                        $st_detail = '* เพิ่มข้อมูลของคุณ';
+                        $sec_type = 1;
+                    } elseif ($i == 2) {
+                        $st_name = 'กิจกรรม/พิธีกรรม';
+                        $st_detail = '* เพิ่มข้อมูลของคุณ';
+                        $sec_type = 1;
+                    } elseif ($i == 3) {
+                        $st_name = 'บุคคลสำคัญ';
+                        $st_detail = '* เพิ่มข้อมูลของคุณ';
+                        $sec_type = 1;
+                    } elseif ($i == 4) {
+                        $st_name = 'ติดต่อและเข้าถึง';
+                        $st_detail = '* เพิ่มข้อมูลของคุณ';
+                        $sec_type = 1;
+                    }
+
+                    $sql_insert = "INSERT INTO sub_topic (st_main, st_detail, st_date_in, t_id, st_type_sec) VALUES ('$st_name', '$st_detail', NOW(),'$t_id','$sec_type')";
+                    $result_insert = mysqli_query($conn, $sql_insert);
+
+                    if ($result_insert) {
+                        // Get the last inserted ID
+                        $st_id_insert = mysqli_insert_id($conn);
+
+                        $sql_sub_top = "SELECT * FROM sub_topic WHERE st_id = ? AND del_flg = 0";
+                        $stmt = mysqli_prepare($conn, $sql_sub_top);
+                        mysqli_stmt_bind_param($stmt, "i", $st_id_insert); // Assuming 'st_id' is an integer
+                        mysqli_stmt_execute($stmt);
+                        $result_sub_top = mysqli_stmt_get_result($stmt);
+                        $row_st = mysqli_fetch_array($result_sub_top);
+
+                        $_SESSION['sub_title_id_' . $count_blog . '_' . $i] = $row_st['st_id'];
+                        $_SESSION['sub_title_' . $count_blog . '_' . $i] = $row_st['st_main']; // Use 'st_name' instead of 'st_main' based on your INSERT query
+                        $_SESSION['sub_title_detail_' . $count_blog . '_' . $i] = $row_st['st_detail'];
+                        $_SESSION['sub_title_section_' . $count_blog . '_' . $i] = $row_st['st_type_sec'];
+                    }
+                }
             }
         } else {
             break; // Break out of the inner while loop
@@ -52,7 +120,6 @@ while (!isset($_SESSION['title_1'])) {
         break; // Break out of the outer while loop
     }
 }
-
 
 
 $count_blog = 1;
@@ -145,8 +212,6 @@ if (!isset($_SESSION['title_1'])) {
                 mysqli_free_result($result_pic);
             }
 
-
-
             $e_id = $_SESSION['id'];
 
             $sql_update = "UPDATE topic SET t_name=?, t_detail=?, t_color=?, t_update=NOW(), e_id=? WHERE t_id = ?";
@@ -171,7 +236,7 @@ if (!isset($_SESSION['title_1'])) {
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../image/icon/logo.png">
     <title>
-        <?= 'asdad' . $_SESSION['title_id_1'] ?> Listview Blog - HolyDay
+        Listview Blog - HolyDay
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -202,7 +267,7 @@ if (!isset($_SESSION['title_1'])) {
         <?php include('bar/navbar.php'); ?>
         <!-- End Navbar -->
         <div class="container-fluid">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md">
                     <div class="row">
                         <div class="col-md-6 mb-xl-0 mb-4">
@@ -267,109 +332,9 @@ if (!isset($_SESSION['title_1'])) {
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-12 mb-lg-0 mb-4">
-                            <div class="card mt-4">
-                                <div class="card-header pb-0 p-3">
-                                    <div class="row">
-                                        <div class="col-6 d-flex align-items-center">
-                                            <h6 class="mb-0">Payment Method</h6>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add New Card</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-md-0 mb-4">
-                                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                                <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">
-                                                <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>
-                                                <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                                <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
-                                                <h6 class="mb-0">****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248</h6>
-                                                <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
-                <!-- <div class="col-lg-4">
-                    <div class="card h-100">
-                        <div class="card-header pb-0 p-3">
-                            <div class="row">
-                                <div class="col-6 d-flex align-items-center">
-                                    <h6 class="mb-0">Invoices</h6>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-3 pb-0">
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-1 text-dark font-weight-bold text-sm">March, 01, 2020</h6>
-                                        <span class="text-xs">#MS-415646</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $180
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="text-dark mb-1 font-weight-bold text-sm">February, 10, 2021</h6>
-                                        <span class="text-xs">#RV-126749</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $250
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="text-dark mb-1 font-weight-bold text-sm">April, 05, 2020</h6>
-                                        <span class="text-xs">#FB-212562</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $560
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="text-dark mb-1 font-weight-bold text-sm">June, 25, 2019</h6>
-                                        <span class="text-xs">#QW-103578</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $120
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="text-dark mb-1 font-weight-bold text-sm">March, 01, 2019</h6>
-                                        <span class="text-xs">#AR-803481</span>
-                                    </div>
-                                    <div class="d-flex align-items-center text-sm">
-                                        $300
-                                        <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-md mt-4">
                     <div class="card">
@@ -385,10 +350,26 @@ if (!isset($_SESSION['title_1'])) {
                                 ?>
                                         <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                                             <div class="d-flex flex-column">
+
                                                 <h6 class="mb-3 text-sm"><?= $_SESSION['title_' . $count_all_blog] ?></h6>
-                                                <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
-                                                <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                                                <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                                                <!-- <span class="text-xs">หมายเลข : <span class="text-dark ms-sm-2 font-weight-bold"><?= $_SESSION['title_id_' . $count_all_blog] ?></span></span> -->
+                                                <span class="mb-2 text-xs">Sub Title : <span class="text-dark font-weight-bold ms-sm-2">
+                                                        <?php
+                                                        $sub_title = 1;
+                                                        while (isset($_SESSION['sub_title_' . $count_all_blog . '_' . $sub_title])) {
+                                                            $sub_title++;
+                                                        }
+                                                        $sub_title -= 1;
+
+                                                        if ($sub_title == 0) {
+                                                            echo 'ไม่มีหัวข้อย่อย';
+                                                        } else {
+                                                            echo $sub_title . ' หัวข้อย่อย';
+                                                        }
+                                                        ?>
+                                                    </span></span>
+                                                <span class="mb-2 text-xs">วันที่สร้าง : <span class="text-dark ms-sm-2 font-weight-bold"><?= $_SESSION['title_date_in_' . $count_all_blog] ?></span></span>
+
                                             </div>
                                             <div class="ms-auto text-end">
                                                 <button class="btn btn-link text-danger text-gradient px-3 mb-0" id="delete-button-<?= $count_all_blog ?>" data-blogid="<?= $_SESSION['title_id_' . $count_all_blog] ?>">
@@ -438,142 +419,11 @@ if (!isset($_SESSION['title_1'])) {
                                 <?php
                                 } ?>
 
-                                <!-- <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                                        <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                    </div>
-                                    <div class="ms-auto text-end">
-                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                                    </div>
-                                </li> -->
-                                <!-- <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Lucas Harper</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Stone Tech Zone</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
-                                        <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                    </div>
-                                    <div class="ms-auto text-end">
-                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Ethan James</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Fiber Notion</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">ethan@fiber.com</span></span>
-                                        <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                    </div>
-                                    <div class="ms-auto text-end">
-                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                                    </div>
-                                </li> -->
                             </ul>
 
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-md-3 mt-4">
-                    <div class="card h-100 mb-4">
-                        <div class="card-header pb-0 px-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h6 class="mb-0">Your Transaction's</h6>
-                                </div>
-                                <div class="col-md-6 d-flex justify-content-end align-items-center">
-                                    <i class="far fa-calendar-alt me-2"></i>
-                                    <small>23 - 30 March 2020</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body pt-4 p-3">
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-down"></i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Netflix</h6>
-                                            <span class="text-xs">27 March 2020, at 12:30 PM</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                        - $ 2,500
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Apple</h6>
-                                            <span class="text-xs">27 March 2020, at 04:30 AM</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 2,000
-                                    </div>
-                                </li>
-                            </ul>
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6>
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Stripe</h6>
-                                            <span class="text-xs">26 March 2020, at 13:45 PM</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 750
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">HubSpot</h6>
-                                            <span class="text-xs">26 March 2020, at 12:30 PM</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 1,000
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-arrow-up"></i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Creative Tim</h6>
-                                            <span class="text-xs">26 March 2020, at 08:30 AM</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                        + $ 2,500
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i class="fas fa-exclamation"></i></button>
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">Webflow</h6>
-                                            <span class="text-xs">26 March 2020, at 05:00 AM</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center text-dark text-sm font-weight-bold">
-                                        Pending
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> -->
             </div>
             <footer class="footer pt-3  ">
                 <div class="container-fluid">

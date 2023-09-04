@@ -33,7 +33,7 @@ $blog_now = $_GET['blog'];
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../image/icon/logo.png">
     <title>
-        <?= $blog_now ?> - Edit Blog - HolyDay
+        Edit Blog - HolyDay
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -316,12 +316,12 @@ $blog_now = $_GET['blog'];
                                                             <div class="mb-3">
                                                                 <!-- <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label> -->
                                                                 <textarea class="form-control invisible-textarea" id="exampleFormControlTextarea1" rows="5" name="title_detail_<?= $blog_now ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" id="title_detail">
-    <?php if (isset($_SESSION['title_detail_' . $blog_now])) {
-        echo $_SESSION['title_detail_' . $blog_now];
-    } else {
-        echo '* Your Detail';
-    } ?>
-</textarea>
+                                                                    <?php if (isset($_SESSION['title_detail_' . $blog_now])) {
+                                                                        echo $_SESSION['title_detail_' . $blog_now];
+                                                                    } else {
+                                                                        echo '* Your Detail';
+                                                                    } ?>
+                                                                </textarea>
 
                                                                 <script>
                                                                     function checkWordCount() {
@@ -462,77 +462,114 @@ $blog_now = $_GET['blog'];
                         </div>
                         <div class="card-body pt-4 p-3">
                             <ul class="list-group">
-                                <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <!-- <h6 class="mb-3 text-sm">ประวัติและความสำคัญ</h6> -->
-                                        <h6 class="mb-3 text-sm"><?= $_SESSION['sub_title_' . $blog_now . '_1'] ?></h6>
-                                        <span class="mb-2 text-xs">รูปแบบ Section : <span class="text-dark font-weight-bold ms-sm-2">2</span></span>
-                                        <span class="mb-2 text-xs">จำนวนรูปภาพ : <span class="text-dark font-weight-bold ms-sm-2">1</span></span>
+                                <?php
+                                $sub_title = 1;
+                                while (isset($_SESSION['sub_title_' . $blog_now . '_' . $sub_title])) {
+                                ?>
+                                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                        <div class="d-flex flex-column" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $sub_title ?>" aria-expanded="false" aria-controls="collapse<?= $sub_title ?>">
+                                            <h6 class="mb-3 text-sm" id="sub_title_2_<?= $blog_now ?>_<?= $sub_title ?>"><?= $_SESSION['sub_title_' . $blog_now . '_' . $sub_title] ?></h6>
+                                            <span class="mb-2 text-xs">รูปแบบ Section : <span class="text-dark font-weight-bold ms-sm-2"><?= $_SESSION['sub_title_section_' . $blog_now . '_' . $sub_title] ?></span></span>
+                                        </div>
+                                        <div class="ms-auto text-end">
+                                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">
+                                                <i class="far fa-trash-alt me-2"></i>Delete
+                                            </button>
 
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-xl">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">หัวข้อย่อย :</label>
-                                                                <input type="text" class="form-control" id="recipient-name">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="message-text" class="col-form-label">รายละเอียด :</label>
-                                                                <input type="text" name="sub_title_<?= $blog_now ?>_1" id="sub_title_<?= $blog_now ?>_1" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if (isset($_SESSION['sub_title_' . $blog_now . '_1'])) {
-                                                                                                                                                                                                                                                                                                                                                                                echo $_SESSION['sub_title_' . $blog_now . '_1'];
-                                                                                                                                                                                                                                                                                                                                                                            } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
-                                                                <!-- </input> -->
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
-                                                    </div>
+                                            <!-- Edit button that opens the corresponding modal -->
+                                            <button type="button" class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $sub_title ?>" data-bs-whatever="@mdo">
+                                                <i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit
+                                            </button>
+                                        </div>
+                                    </li>
+
+                                    <!-- Modal for each item -->
+                                    <div class="modal fade" id="exampleModal<?= $sub_title ?>" tabindex="-1" aria-labelledby="exampleModalLabel<?= $sub_title ?>" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel<?= $sub_title ?>">Edit <?= $_SESSION['sub_title_' . $blog_now . '_' . $sub_title] ?></h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Modal content here -->
+                                                    <form>
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">หัวข้อย่อย :</label>
+                                                            <!-- <input type="text" class="form-control" id="recipient-name"> -->
+                                                            <input type="text" name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if ($_SESSION['sub_title_' . $blog_now . '_' . $sub_title]) {
+                                                                                                                                                                                                                                                                                                                                                                                                            echo $_SESSION['sub_title_' . $blog_now . '_' . $sub_title];
+                                                                                                                                                                                                                                                                                                                                                                                                        } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="message-text" class="col-form-label">รายละเอียด :</label>
+                                                            <input type="text" name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if ($_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title]) {
+                                                                                                                                                                                                                                                                                                                                                                                                                            echo $_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title];
+                                                                                                                                                                                                                                                                                                                                                                                                                        } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <!-- <button type="button" class="btn btn-primary">Send message</button> -->
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <h5>รายละเอียด : </h5>
-                                        <p id="output">
-                                            <?php if (isset($_SESSION['sub_title_' . $blog_now])) {
-                                                echo $_SESSION['sub_title_' . $blog_now];
-                                            } ?>
-                                        </p> -->
-
-
                                     </div>
-                                    <div class="ms-auto text-end">
-                                        <!-- <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a> -->
-                                        <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">
-                                            <i class="far fa-trash-alt me-2"></i>Delete
-                                        </button>
 
-                                        <!-- Include SweetAlert2 library -->
-                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-
-
-
-                                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                                    </div>
-                                </li>
-                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <div class="col alert alert-secondary ml-4" style="color:white">
-                                            <h6>รายละเอียด</h6>
-                                            <input type="text" name="sub_title_<?= $blog_now ?>_1" id="sub_title_<?= $blog_now ?>_1" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if (isset($_SESSION['sub_title_' . $blog_now . '_1'])) {
-                                                                                                                                                                                                                                                                                                                                                            echo $_SESSION['sub_title_' . $blog_now . '_1'];
-                                                                                                                                                                                                                                                                                                                                                        } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                    <!-- Accordion for each item -->
+                                    <div class="accordion" id="accordion<?= $sub_title ?>">
+                                        <div class="accordion-item">
+                                            <!-- <h2 class="accordion-header" id="heading<?= $sub_title ?>">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $sub_title ?>" aria-expanded="false" aria-controls="collapse<?= $sub_title ?>">
+                    รายละเอียด
+                </button>
+            </h2> -->
+                                            <div id="collapse<?= $sub_title ?>" class="accordion-collapse collapse" aria-labelledby="heading<?= $sub_title ?>" data-bs-parent="#accordion<?= $sub_title ?>">
+                                                <div class="accordion-body">
+                                                    <!-- Accordion content here -->
+                                                    <input type="text" name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_2_<?= $blog_now ?>_<?= $sub_title ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.5); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if ($_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title]) {
+                                                                                                                                                                                                                                                                                                                                                                                                                    echo $_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title];
+                                                                                                                                                                                                                                                                                                                                                                                                                } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <script>
+                                        // Get references to the input fields and the target element
+                                        const sub_title_<?= $blog_now ?>_<?= $sub_title ?> = document.getElementById(`sub_title_<?= $blog_now ?>_<?= $sub_title ?>`);
+                                        const sub_title_2_<?= $blog_now ?>_<?= $sub_title ?> = document.getElementById(`sub_title_2_<?= $blog_now ?>_<?= $sub_title ?>`);
+
+                                        // Add an event listener to the input field
+                                        sub_title_<?= $blog_now ?>_<?= $sub_title ?>.addEventListener('input', function() {
+                                            // Update the text content of sub_title_2 with the value of sub_title_input
+                                            sub_title_2_<?= $blog_now ?>_<?= $sub_title ?>.textContent = sub_title_<?= $blog_now ?>_<?= $sub_title ?>.value;
+                                        });
+
+                                        const subTitleInput_<?= $blog_now ?>_<?= $sub_title ?> = document.getElementById(`sub_title_detail_2_<?= $blog_now ?>_<?= $sub_title ?>`);
+                                        const subTitleDetailInput_<?= $blog_now ?>_<?= $sub_title ?> = document.getElementById(`sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>`);
+
+                                        // Add an input event listener to the first input field
+                                        subTitleInput_<?= $blog_now ?>_<?= $sub_title ?>.addEventListener('input', function() {
+                                            // Update the value of the second input field
+                                            subTitleDetailInput_<?= $blog_now ?>_<?= $sub_title ?>.value = this.value;
+                                        });
+
+                                        // Add an input event listener to the second input field
+                                        subTitleDetailInput_<?= $blog_now ?>_<?= $sub_title ?>.addEventListener('input', function() {
+                                            // Update the value of the first input field
+                                            subTitleInput_<?= $blog_now ?>_<?= $sub_title ?>.value = this.value;
+                                        });
+                                    </script>
+                                <?php
+                                    $sub_title++;
+                                }
+                                ?>
+
+
+
+
+
 
                                 <!-- <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
                                     <div class="d-flex flex-column">
