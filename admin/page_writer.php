@@ -1,6 +1,8 @@
 <?php
 session_start();
 include('../database/condb.php');
+
+$blog_now = $_GET['blog'];
 ?>
 <!doctype html>
 <html lang="en">
@@ -81,7 +83,7 @@ include('../database/condb.php');
             text-shadow: 0 0 3px black;
             border: none;
             background-color: transparent;
-            <?php if (isset($_SESSION['title_color'])) { ?>color: <?= $_SESSION['title_color'] ?>;
+            <?php if (isset($_SESSION['title_color_' . $blog_now])) { ?>color: <?= $_SESSION['title_color_' . $blog_now] ?>;
             <?php } else { ?>color: white;
             /* Default text color */
             <?php } ?>
@@ -91,7 +93,7 @@ include('../database/condb.php');
 
 
         #image_bg_back {
-            background: url('<?= $_SESSION['title_file'] ?>');
+            background: url('<?= $_SESSION['title_file_' . $blog_now] ?>');
             background-color: gray;
             background-size: 100%;
         }
@@ -126,37 +128,64 @@ include('../database/condb.php');
                 <label for="titleColor" style="cursor: pointer; color: white;">
                     <i class="fa fa-paint-brush w-5 mb-0 p-4" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Change Color Text"></i>
                 </label>
-                <a for="titleColor" style="cursor: pointer; color: white; text-decoration: none; text-decoration: none;" href="index.php">
+                <a for="titleColor" style="cursor: pointer; color: white; text-decoration: none; text-decoration: none;" href="create_blog.php?blog=<?= $blog_now ?>">
                     <i class="fa fa-arrow-left w-5 mb-0 p-4" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Back to Page"></i>
                 </a>
                 </span>
             </div>
 
-            <form id="upload_image" action="action/upload_image_title.php" method="POST" enctype="multipart/form-data">
-                <input type="file" class="invisible-input form-control" id="titleFile" name="title_file" placeholder="Your File" style="display: none;" required hidden>
+            <form id="upload_image" action="action/upload_image_title.php?blog=<?= $blog_now ?>" method="POST" enctype="multipart/form-data">
+                <input type="file" class="invisible-input form-control" id="titleFile" name="title_file_<?= $blog_now ?>" placeholder="Your File" style="display: none;" required hidden>
+                <input type="text" class="invisible-input form-control" id="titlePage" name="title_page" placeholder="Your Page" value="page_writer.php" style="display: none;" required hidden>
             </form>
-            <input type="color" class="invisible-input form-control w-0" id="titleColor" name="title_color" placeholder="Your Title" value="<?php if (isset($_SESSION['title_color'])) {
-                                                                                                                                                echo $_SESSION['title_color'];
-                                                                                                                                            } ?>" required hidden>
+            <input type="color" class="invisible-input form-control w-0" id="titleColor" name="title_color_<?= $blog_now ?>" placeholder="* Your Color" value="<?php if (isset($_SESSION['title_color_' . $blog_now])) {
+                                                                                                                                                                    echo $_SESSION['title_color_' . $blog_now];
+                                                                                                                                                                } ?>" required hidden>
 
             <!-- Top content -->
-            <div style="background: url('<?= $_SESSION['title_file'] ?>'); width: 100%; padding: 60px 0 120px 0; ">
+            <div style="<?php if (isset($_SESSION['title_file_' . $blog_now])) {
+
+                        ?>background: url('<?= $_SESSION['title_file_' . $blog_now] ?>');<?php } else {
+                                                                                            ?>background-color:gray;<?php
+                                                                                                                } ?> width: 100%; padding: 60px 0 120px 0; ">
                 <div class="container">
                     <div class="row">
                         <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
 
                             <h1 class="wow fadeIn text-center">
-                                <input type="text" name="title" id="titleInput" class="invisible-input form-control mb-0 mr-1 text-center" placeholder="Your Title" value="<?php if (isset($_SESSION['title'])) {
-                                                                                                                                                                                echo $_SESSION['title'];
-                                                                                                                                                                            } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                <input type="text" name="title_<?= $blog_now ?>" id="titleInput" class="invisible-input form-control mb-0 mr-1 text-center" placeholder="* Your Title" value="<?php if (isset($_SESSION['title_' . $blog_now])) {
+                                                                                                                                                                                                    echo $_SESSION['title_' . $blog_now];
+                                                                                                                                                                                                } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
                             </h1>
 
 
                             <div class="description wow fadeInLeft">
                                 <p>
-                                    <textarea type="text" name="title_detail" id="title_detail" class="invisible-input form-control mb-0 mr-1 text-center" placeholder="Your Detail Title" value="<?php if (isset($_SESSION['title_detail'])) {
-                                                                                                                                                                                                        echo $_SESSION['title_detail'];
-                                                                                                                                                                                                    } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" required><?= $_SESSION['title_detail'] ?></textarea>
+                                <style>
+    /* CSS to make the textarea auto-resize */
+    textarea.autosize {
+        overflow-y: hidden;
+    }
+</style>
+
+<textarea name="title_detail_<?= $blog_now ?>" id="title_detail" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="Your Detail Title" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" required><?php if (isset($_SESSION['title_detail_' . $blog_now])) {
+    echo $_SESSION['title_detail_' . $blog_now];
+} else {
+    echo '* Your Detail';
+} ?></textarea>
+
+<script>
+    // JavaScript to make the textarea auto-resize
+    var textarea = document.querySelector('textarea.autosize');
+
+    textarea.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+</script>
+
+
+
                                 </p>
                             </div>
                             <!-- <div class="buttons wow fadeInUp">
@@ -264,8 +293,8 @@ include('../database/condb.php');
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" width="700px">
-                <div class="modal-dialog modal-dialog-centered" >
-                    <div class="modal-content" style="width: 1500px" >
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="width: 1500px">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Choose Your Section</h5>
                         </div>

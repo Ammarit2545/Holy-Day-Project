@@ -1,29 +1,29 @@
 <?php
+
+// Page 
+// Image
+// Blog Now
+// e_id
+
 session_start();
-$e_id = $_SESSION['id'];
 
-$folderPath = '../uploads/' . $e_id . '/holder/title/'; // Replace with the actual path to your folder
-
-if (is_dir($folderPath)) {
-    $files = scandir($folderPath);
-    foreach ($files as $file) {
-        // Exclude . and .. entries, which represent the current and parent directory
-        if ($file != "." && $file != "..") {
-            $filePath = $folderPath . "/" . $file;
-
-            // Check if it's a file (not a directory) before attempting to delete
-            if (is_file($filePath)) {
-                if (unlink($filePath)) {
-                    echo "Deleted: $filePath<br>";
-                } else {
-                    echo "Failed to delete: $filePath<br>";
-                }
-            }
-        }
-    }
+// Get the user ID from the session
+if (isset($_SESSION['id'])) {
+    $e_id = $_SESSION['id'];
 } else {
-    echo "Folder does not exist.";
+    // Handle the case where 'id' is not set in the session
+    die("User ID not found in session.");
 }
+
+// Get the 'blog' parameter from the GET request
+if (isset($_GET['blog'])) {
+    $blog_now = $_GET['blog'];
+} else {
+    // Handle the case where 'blog' parameter is not set in the GET request
+    die("Blog parameter not found in the GET request.");
+}
+
+$title_page = $_POST['title_page'];
 
 // Define the base folder path
 $baseFolderPath = "../uploads/$e_id/";
@@ -31,7 +31,8 @@ $baseFolderPath = "../uploads/$e_id/";
 // Create the nested folders if they don't exist
 $foldersToCreate = [
     "holder/",
-    "holder/title/",
+    "holder/$blog_now/",
+    "holder/$blog_now/title/",
 ];
 
 foreach ($foldersToCreate as $folder) {
@@ -47,18 +48,46 @@ foreach ($foldersToCreate as $folder) {
     }
 }
 
-$folderPath = "uploads/$e_id/holder/title/";
+$folderPath = "../uploads/$e_id/holder/$blog_now/title/";
 
+// Check if the folder exists
+if (is_dir($folderPath)) {
+    // Open the folder
+    if ($handle = opendir($folderPath)) {
+        // Loop through the files in the folder
+        while (false !== ($file = readdir($handle))) {
+            // Exclude "." and ".." from the list of files
+            if ($file != "." && $file != "..") {
+                // Construct the full file path
+                $filePath = $folderPath . $file;
+                
+                // Delete the file
+                if (unlink($filePath)) {
+                    echo "Deleted file: $filePath<br>";
+                } else {
+                    echo "Failed to delete file: $filePath<br>";
+                }
+            }
+        }
+        // Close the folder
+        closedir($handle);
+    } else {
+        echo "Failed to open folder: $folderPath<br>";
+    }
+} else {
+    echo "Folder does not exist: $folderPath<br>";
+}
+$folderPath = "uploads/$e_id/holder/$blog_now/title/";
 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf']; // Add allowed file extensions here
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['title_file'])) {
-    $file = $_FILES['title_file'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['title_file_' . $blog_now])) {
+    $file = $_FILES['title_file_' . $blog_now];
     $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
     if (in_array($fileExtension, $allowedExtensions)) {
         // Generate a unique filename to prevent overwriting existing files
         $newFileName = uniqid() . '.' . $fileExtension;
-        $uploadPath = $baseFolderPath . "holder/title/" . $newFileName;
+        $uploadPath = $baseFolderPath . "holder/$blog_now/title/$newFileName";
         $folderPath = $folderPath . $newFileName;
 
         // Check if a file with the same name already exists and delete it
@@ -70,9 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['title_file'])) {
         if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
             echo '<br>File uploaded successfully.';
 
-            // Check if the uploaded file is an image
-            $imageInfo = getimagesize($uploadPath);
-            if ($imageInfo !== false) {
+            // Check if the uploaded file is an image (for image compression)
+            if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
                 // Perform image compression to reduce file size
                 $image = imagecreatefromjpeg($uploadPath); // You can adjust this based on the image type
                 imagejpeg($image, $uploadPath, 80); // Adjust the quality factor (80 in this example)
@@ -85,9 +113,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['title_file'])) {
     } else {
         echo '<br>Invalid file type. Allowed file types: ' . implode(', ', $allowedExtensions);
     }
-    echo $uploadPath;
-    $_SESSION['title_file'] = $folderPath;
-    header('location:../page_writer.php');
+
+    // Store the file path in the session for future use
+    $_SESSION['title_file_' . $blog_now] = $folderPath;
+    // Make sure $title_page and $blog_now are defined before using them
+
+
+    // Use the variables in the header function
+    header("Location: ../$title_page?blog=$blog_now");
+
+
+
+
+    exit; // Make sure to exit after redirecting
 }
 
 // Auto delete old files (e.g., files older than 7 days)

@@ -20,6 +20,9 @@ $active = array();
 $active[5] = "active";
 
 $page = 'Create Blog';
+$blog_now = $_GET['blog'];
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +33,7 @@ $page = 'Create Blog';
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../image/icon/logo.png">
     <title>
-        Soft UI Dashboard by Creative Tim
+        <?= $blog_now ?> - Edit Blog - HolyDay
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -74,7 +77,6 @@ $page = 'Create Blog';
                                         <h2>Your Information</h2>
                                     </button>
                                 </h1>
-
                                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         <div class="row">
@@ -197,9 +199,10 @@ $page = 'Create Blog';
                                                 <!-- <i class="fa fa-color w-5 mb-0 p-4" aria-hidden="true"></i> -->
                                                 <i class="fa fa-paint-brush w-5 mb-0 p-4" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Change Color Text" style="color:gray"></i>
                                             </label>
-                                            <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="fas fa-desktop"></i>&nbsp;&nbsp;See Demo Web</a>
+                                            <a class="btn bg-gradient-dark mb-0" href="page_writer.php?blog=<?= $blog_now ?>"><i class="fas fa-desktop"></i>&nbsp;&nbsp;See Demo Web</a>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="row">
@@ -241,16 +244,23 @@ $page = 'Create Blog';
                                                     text-shadow: 0 0 3px black;
                                                     border: none;
                                                     background-color: transparent;
-                                                    <?php if (isset($_SESSION['title_color'])) { ?>color: <?= $_SESSION['title_color'] ?>;
+                                                    <?php if (isset($_SESSION['title_color_' . $blog_now])) { ?>color: <?= $_SESSION['title_color_' . $blog_now] ?>;
                                                     <?php } else { ?>color: white;
                                                     /* Default text color */
                                                     <?php } ?>
                                                     /* Change this to the desired text color */
                                                 }
 
+                                                #titletextarea {
+                                                    <?php if (isset($_SESSION['title_color_' . $blog_now])) { ?>color: <?= $_SESSION['title_color_' . $blog_now] ?>;
+                                                    <?php } else { ?>color: white;
+                                                    /* Default text color */
+                                                    <?php } ?>
+                                                }
+
 
                                                 #image_bg_back {
-                                                    background: url('<?= $_SESSION['title_file'] ?>');
+                                                    background: url('<?= $_SESSION['title_file_' . $blog_now] ?>');
                                                     background-color: gray;
                                                     background-size: 100%;
                                                 }
@@ -263,9 +273,9 @@ $page = 'Create Blog';
                                             <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" style="background-color: gray;" id="image_bg_back">
                                                 <i class="fa fa-book w-5 mb-0 p-4" aria-hidden="true" style="text-shadow: 0 0 3px black; color:white"></i>
 
-                                                <input type="text" name="title" id="titleInput" class="invisible-input form-control mb-0 mr-1" placeholder="Your Title" value="<?php if (isset($_SESSION['title'])) {
-                                                                                                                                                                                    echo $_SESSION['title'];
-                                                                                                                                                                                } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                                <input type="text" name="title_<?= $blog_now ?>" id="titleInput" class="invisible-input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if (isset($_SESSION['title_' . $blog_now])) {
+                                                                                                                                                                                                        echo $_SESSION['title_' . $blog_now];
+                                                                                                                                                                                                    } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
 
 
                                                 <!-- <div style="background-color: gray;">
@@ -280,74 +290,85 @@ $page = 'Create Blog';
                                                 </div> -->
 
                                                 <!-- Your file input remains unchanged -->
-                                                <form id="upload_image" action="action/upload_image_title.php" method="POST" enctype="multipart/form-data">
-                                                    <input type="file" class="invisible-input form-control" id="titleFile" name="title_file" placeholder="Your File" style="display: none;" required hidden>
+                                                <form id="upload_image" action="action/upload_image_title.php?blog=<?= $blog_now ?>" method="POST" enctype="multipart/form-data">
+                                                    <input type="file" class="invisible-input form-control" id="titleFile" name="title_file_<?= $blog_now ?>" placeholder="Your File" style="display: none;" required hidden accept=".jpg, .jpeg .png">
+                                                    <input type="text" class="invisible-input form-control" id="titlePage" name="title_page" placeholder="Your Page" value="create_blog.php" style="display: none;" required hidden>
                                                 </form>
-                                                <input type="color" class="invisible-input form-control w-0" id="titleColor" name="title_color" placeholder="Your Title" value="<?php if (isset($_SESSION['title_color'])) {
-                                                                                                                                                                                    echo $_SESSION['title_color'];
-                                                                                                                                                                                } ?>" required hidden>
-                                                <script>
-                                                    // When a file is selected, trigger the form submission
-                                                    $('#titleFile').on('change', function() {
-                                                        $('#upload_image').submit();
-                                                    });
-                                                </script>
-                                                <script>
-                                                    $(document).ready(function() {
-                                                        // Listen for changes in the color input field
-                                                        $('#titleColor').on('input', function() {
-                                                            var selectedColor = $(this).val();
-                                                            $('#titleInput').css('color', selectedColor);
-                                                        });
-                                                    });
-                                                </script>
+                                                <input type="color" class="invisible-input form-control w-0" id="titleColor" name="title_color_<?= $blog_now ?>" placeholder="*Your Color" value="<?php if (isset($_SESSION['title_color_' . $blog_now])) {
+                                                                                                                                                                                                        echo $_SESSION['title_color_' . $blog_now];
+                                                                                                                                                                                                    } ?>" required hidden>
 
+                                            </div>
+                                            <hr>
+                                            <div class="col-6 d-flex align-items-center">
+                                                <h6 class="mb-0">Your Title Details</h6>
+                                            </div>
+                                            <br>
+                                            <div class="accordion alert " style="background-color: gray;" id="image_bg_back" data-bs-toggle="tooltip" data-bs-placement="top" title="กดเพื่อย่อรายละเอียด">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" id="headingTwo">
+                                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                            <h5 id="titletextarea">รายละเอียด (โดยย่อ)</h5>
+                                                        </button>
+                                                    </h2>
+                                                    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="mb-3">
+                                                                <!-- <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label> -->
+                                                                <textarea class="form-control invisible-textarea" id="exampleFormControlTextarea1" rows="5" name="title_detail_<?= $blog_now ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" id="title_detail">
+    <?php if (isset($_SESSION['title_detail_' . $blog_now])) {
+        echo $_SESSION['title_detail_' . $blog_now];
+    } else {
+        echo '* Your Detail';
+    } ?>
+</textarea>
+
+                                                                <script>
+                                                                    function checkWordCount() {
+                                                                        var textarea = document.getElementById('title_detail');
+                                                                        var maxWords = 200;
+                                                                        var words = textarea.value.trim().split(/\s+/);
+                                                                        if (words.length > maxWords) {
+                                                                            var truncatedWords = words.slice(0, maxWords);
+                                                                            textarea.value = truncatedWords.join(' ');
+                                                                        }
+                                                                    }
+
+                                                                    // Add an event listener for input
+                                                                    var textarea = document.getElementById('title_detail');
+                                                                    textarea.addEventListener('input', checkWordCount);
+                                                                </script>
+
+
+
+                                                                <!-- <h5 id="titletextarea">รายละเอียด</h5>
+                                                                <input type="color" id="titleColor" value="#000000"> -->
+
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        // Listen for changes in the color input field
+                                                                        $('#titleColor').on('input', function() {
+                                                                            var selectedColor = $(this).val();
+                                                                            $('#titletextarea').css('color', selectedColor);
+                                                                        });
+                                                                    });
+                                                                </script>
+
+
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-2 mb-md-0 mb-4" hidden>
                                             <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="image_bg_back">
-
-
                                             </div>
                                         </div>
-                                        <script>
-                                            const inputs = document.querySelectorAll('.invisible-input');
 
-                                            inputs.forEach(input => {
-                                                input.addEventListener('input', function() {
-                                                    if (this.value.trim() !== '') {
-                                                        this.classList.add('has-content');
-                                                        updateSession(this);
-                                                    } else {
-                                                        this.classList.remove('has-content');
-                                                    }
-                                                });
-                                            });
-
-                                            function updateSession(input) {
-                                                const name = input.getAttribute('name');
-                                                const value = input.value;
-
-                                                // Create an AJAX request to update the session based on input name
-                                                const xhr = new XMLHttpRequest();
-                                                xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all inputs
-                                                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-                                                // Send the data as a single string in the request body
-                                                const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
-                                                xhr.send(data);
-
-                                                // Handle the response if needed
-                                                xhr.onload = function() {
-                                                    if (xhr.status === 200) {
-                                                        const response = JSON.parse(xhr.responseText);
-                                                        console.log(response.message); // You can handle the response here
-                                                    } else {
-                                                        console.error('Error:', xhr.statusText);
-                                                    }
-                                                };
-                                            }
-                                        </script>
                                     </div>
                                 </div>
                             </div>
@@ -356,8 +377,6 @@ $page = 'Create Blog';
 
                     </div>
                 </div>
-
-
 
                 <!-- <div class="col-lg-4">
                     <div class="card h-100">
@@ -444,11 +463,94 @@ $page = 'Create Blog';
                         <div class="card-body pt-4 p-3">
                             <ul class="list-group">
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                                    <div class="d-flex flex-column" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <!-- <h6 class="mb-3 text-sm">ประวัติและความสำคัญ</h6> -->
+                                        <h6 class="mb-3 text-sm"><?= $_SESSION['sub_title_' . $blog_now . '_1'] ?></h6>
+                                        <span class="mb-2 text-xs">รูปแบบ Section : <span class="text-dark font-weight-bold ms-sm-2">2</span></span>
+                                        <span class="mb-2 text-xs">จำนวนรูปภาพ : <span class="text-dark font-weight-bold ms-sm-2">1</span></span>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name" class="col-form-label">หัวข้อย่อย :</label>
+                                                                <input type="text" class="form-control" id="recipient-name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text" class="col-form-label">รายละเอียด :</label>
+                                                                <input type="text" name="sub_title_<?= $blog_now ?>_1" id="sub_title_<?= $blog_now ?>_1" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if (isset($_SESSION['sub_title_' . $blog_now . '_1'])) {
+                                                                                                                                                                                                                                                                                                                                                                                echo $_SESSION['sub_title_' . $blog_now . '_1'];
+                                                                                                                                                                                                                                                                                                                                                                            } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                                                <!-- </input> -->
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <!-- <button type="button" class="btn btn-primary">Send message</button> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <h5>รายละเอียด : </h5>
+                                        <p id="output">
+                                            <?php if (isset($_SESSION['sub_title_' . $blog_now])) {
+                                                echo $_SESSION['sub_title_' . $blog_now];
+                                            } ?>
+                                        </p> -->
+
+
+                                    </div>
+                                    <div class="ms-auto text-end">
+                                        <!-- <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a> -->
+                                        <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">
+                                            <i class="far fa-trash-alt me-2"></i>Delete
+                                        </button>
+
+                                        <!-- Include SweetAlert2 library -->
+                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
+
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                    </div>
+                                </li>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div class="col alert alert-secondary ml-4" style="color:white">
+                                            <h6>รายละเอียด</h6>
+                                            <input type="text" name="sub_title_<?= $blog_now ?>_1" id="sub_title_<?= $blog_now ?>_1" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if (isset($_SESSION['sub_title_' . $blog_now . '_1'])) {
+                                                                                                                                                                                                                                                                                                                                                            echo $_SESSION['sub_title_' . $blog_now . '_1'];
+                                                                                                                                                                                                                                                                                                                                                        } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
                                     <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Viking Burrito</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                                        <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                                        <h6 class="mb-3 text-sm">กิจกรรม/พิธีกรรม</h6>
+                                        <span class="mb-2 text-xs">รูปแบบ Section : <span class="text-dark font-weight-bold ms-sm-2">2</span></span>
+                                        <span class="mb-2 text-xs">จำนวนรูปภาพ : <span class="text-dark font-weight-bold ms-sm-2">1</span></span>
+                                    </div>
+                                    <div class="ms-auto text-end">
+                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                    </div>
+
+                                </li> -->
+                                <!-- <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
+                                    <div class="d-flex flex-column">
+                                        <h6 class="mb-3 text-sm">บุคคลสำคัญ</h6>
+                                        <span class="mb-2 text-xs">รูปแบบ Section : <span class="text-dark font-weight-bold ms-sm-2">2</span></span>
+                                        <span class="mb-2 text-xs">จำนวนรูปภาพ : <span class="text-dark font-weight-bold ms-sm-2">1</span></span>
                                     </div>
                                     <div class="ms-auto text-end">
                                         <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
@@ -457,28 +559,15 @@ $page = 'Create Blog';
                                 </li>
                                 <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
                                     <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Lucas Harper</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Stone Tech Zone</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
-                                        <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
+                                        <h6 class="mb-3 text-sm">ติดต่อและเข้าถึง</h6>
+                                        <span class="mb-2 text-xs">รูปแบบ Section : <span class="text-dark font-weight-bold ms-sm-2">2</span></span>
+                                        <span class="mb-2 text-xs">จำนวนรูปภาพ : <span class="text-dark font-weight-bold ms-sm-2">1</span></span>
                                     </div>
                                     <div class="ms-auto text-end">
                                         <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
                                         <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
                                     </div>
-                                </li>
-                                <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                                    <div class="d-flex flex-column">
-                                        <h6 class="mb-3 text-sm">Ethan James</h6>
-                                        <span class="mb-2 text-xs">Company Name: <span class="text-dark font-weight-bold ms-sm-2">Fiber Notion</span></span>
-                                        <span class="mb-2 text-xs">Email Address: <span class="text-dark ms-sm-2 font-weight-bold">ethan@fiber.com</span></span>
-                                        <span class="text-xs">VAT Number: <span class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                                    </div>
-                                    <div class="ms-auto text-end">
-                                        <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                                    </div>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -579,6 +668,40 @@ $page = 'Create Blog';
                     </div>
                 </div> -->
             </div>
+            <br>
+            <center>
+                <button class="btn btn-danger" id="delete-button" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">Delete</button>
+                <a class="btn btn-primary" href="listview_blog.php">Back</a>
+
+
+
+                <!-- <script>
+                    // Add an event listener to the "Delete" button
+                    document.getElementById('delete-button').addEventListener('click', function() {
+                        // Get the blog ID from the data-blogid attribute
+                        var blogId = this.getAttribute('data-blogid');
+                        // Get the blog title from PHP
+                        var blogTitle = "<?= $_SESSION['title_' . $blog_now] ?>";
+
+                        // Show a SweetAlert confirmation dialog
+                        Swal.fire({
+                            title: 'คุณแน่ใจที่จะลบหรือไม่?',
+                            text: 'หัวข้อ "' + blogTitle + '" จะถูกลบ!',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Redirect to "delete_blog.php" with the blog ID parameter
+                                window.location.href = "action/delete_blog.php?blog=" + blogId + "&session=<?= $blog_now ?>";
+                            }
+                        });
+                    });
+                </script> -->
+                <a class="btn btn-success" href="listview_blog.php">Save</a>
+            </center>
             <footer class="footer pt-3  ">
                 <div class="container-fluid">
                     <div class="row align-items-center justify-content-lg-between">
@@ -680,6 +803,99 @@ $page = 'Create Blog';
             </div>
         </div>
     </div>
+    <script>
+        const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea, .sub_title_input');
+
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    this.classList.add('has-content');
+                    updateSession(this);
+                } else {
+                    this.classList.remove('has-content');
+                }
+            });
+        });
+
+        function updateSession(input) {
+            const name = input.getAttribute('name');
+            const value = input.value;
+
+            // Create an AJAX request to update the session based on input name
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all inputs
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            // Send the data as a single string in the request body
+            const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
+            xhr.send(data);
+
+            // Handle the response if needed
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log(response.message); // You can handle the response here
+                } else {
+                    console.error('Error:', xhr.statusText);
+                }
+            };
+        }
+    </script>
+    <script>
+        // When a file is selected, trigger the form submission
+        $('#titleFile').on('change', function() {
+            $('#upload_image').submit();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Listen for changes in the color input field
+            $('#titleColor').on('input', function() {
+                var selectedColor = $(this).val();
+                $('#titleInput').css('color', selectedColor);
+            });
+        });
+    </script>
+    <script>
+        // Add an event listener to the "Delete" button
+        document.getElementById('delete-button').addEventListener('click', function() {
+            // Get the blog ID from the data-blogid attribute
+            var blogId = this.getAttribute('data-blogid');
+            // Get the blog title from PHP
+            var blogTitle = "<?= $_SESSION['title_' . $blog_now] ?>";
+
+            // Show a SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'คุณแน่ใจที่จะลบหรือไม่?',
+                text: 'หัวข้อ "' + blogTitle + '" จะถูกลบ!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to "delete_blog.php" with the blog ID parameter
+                    window.location.href = "action/delete_blog.php?blog=" + blogId + "&session=<?= $blog_now ?>";
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Listen for input changes in the textarea
+            $('#Subtitle').on('input', function() {
+                // Get the current value of the textarea
+                var inputValue = $(this).val();
+
+                // Replace newline characters with <br> tags
+                var formattedValue = inputValue.replace(/\n/g, '<br>');
+
+                // Update the <p> element with the formatted value
+                $('#output').html(formattedValue);
+            });
+        });
+    </script>
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>
