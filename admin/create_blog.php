@@ -315,13 +315,29 @@ $blog_now = $_GET['blog'];
                                                         <div class="accordion-body">
                                                             <div class="mb-3">
                                                                 <!-- <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label> -->
-                                                                <textarea class="form-control invisible-textarea" id="exampleFormControlTextarea1" rows="5" name="title_detail_<?= $blog_now ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" id="title_detail">
+                                                                <!-- <textarea class="form-control invisible-textarea" id="ControlTextarea_Detail" name="title_detail_<?= $blog_now ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" id="title_detail">
                                                                     <?php if (isset($_SESSION['title_detail_' . $blog_now])) {
                                                                         echo $_SESSION['title_detail_' . $blog_now];
                                                                     } else {
                                                                         echo '* Your Detail';
                                                                     } ?>
-                                                                </textarea>
+                                                                </textarea> -->
+                                                                <textarea name="title_detail_<?= $blog_now ?>" id="ControlTextarea_Detail" class="invisible-input form-control mb-0 mr-1 " placeholder="Your Detail Title" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" style=" color: white; font-size: 18px;" required><?php if (isset($_SESSION['title_detail_' . $blog_now])) {
+                                                                                                                                                                                                                                                                                                                                                                echo $_SESSION['title_detail_' . $blog_now];
+                                                                                                                                                                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                                                                                                                                                                                echo '* Your Detail';
+                                                                                                                                                                                                                                                                                                                                                            } ?></textarea>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        var textarea = document.getElementById('ControlTextarea_Detail');
+
+                                                                        // Set the height of the textarea to auto
+                                                                        textarea.style.height = 'auto';
+
+                                                                        // Set the textarea's height to its scrollHeight (content height)
+                                                                        textarea.style.height = (textarea.scrollHeight) + 'px';
+                                                                    });
+                                                                </script>
 
                                                                 <script>
                                                                     function checkWordCount() {
@@ -472,9 +488,14 @@ $blog_now = $_GET['blog'];
                                             <span class="mb-2 text-xs">รูปแบบ Section : <span class="text-dark font-weight-bold ms-sm-2"><?= $_SESSION['sub_title_section_' . $blog_now . '_' . $sub_title] ?></span></span>
                                         </div>
                                         <div class="ms-auto text-end">
-                                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">
-                                                <i class="far fa-trash-alt me-2"></i>Delete
-                                            </button>
+                                            <?php if (isset($_SESSION['title_id_' . $blog_now])) {
+                                            ?>
+                                                <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">
+                                                    <i class="far fa-trash-alt me-2"></i>Delete
+                                                </button>
+                                            <?php
+                                            } ?>
+
 
                                             <!-- Edit button that opens the corresponding modal -->
                                             <button type="button" class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $sub_title ?>" data-bs-whatever="@mdo">
@@ -503,9 +524,31 @@ $blog_now = $_GET['blog'];
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="message-text" class="col-form-label">รายละเอียด :</label>
-                                                            <input type="text" name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if ($_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title]) {
-                                                                                                                                                                                                                                                                                                                                                                                                                            echo $_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title];
-                                                                                                                                                                                                                                                                                                                                                                                                                        } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                                            <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px; overflow-y: hidden;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required><?php if ($_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title]) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            echo $_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title];
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        } ?></textarea>
+                                                            <!-- <script>
+                                                                $(document).ready(function() {
+                                                                    var textarea = document.getElementById('sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>');
+
+                                                                    // Function to update the textarea height
+                                                                    function updateTextareaHeight_<?= $blog_now ?>_<?= $sub_title ?>() {
+                                                                        textarea.style.height = 'auto';
+                                                                        textarea.style.height = (textarea.scrollHeight) + 'px';
+                                                                    }
+
+                                                                    // Initial height update
+                                                                    updateTextareaHeight_<?= $blog_now ?>_<?= $sub_title ?>();
+
+                                                                    // Listen for input events and update height accordingly
+                                                                    textarea.addEventListener('input', updateTextareaHeight_<?= $blog_now ?>_<?= $sub_title ?>);
+                                                                });
+                                                            </script> -->
+
+
+                                                            <!-- <input type="text" name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.2); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if ($_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title]) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                echo $_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title];
+                                                                                                                                                                                                                                                                                                                                                                                                                            } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required> -->
                                                         </div>
                                                     </form>
                                                 </div>
@@ -528,9 +571,38 @@ $blog_now = $_GET['blog'];
                                             <div id="collapse<?= $sub_title ?>" class="accordion-collapse collapse" aria-labelledby="heading<?= $sub_title ?>" data-bs-parent="#accordion<?= $sub_title ?>">
                                                 <div class="accordion-body">
                                                     <!-- Accordion content here -->
-                                                    <input type="text" name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_2_<?= $blog_now ?>_<?= $sub_title ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.5); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" value="<?php if ($_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title]) {
-                                                                                                                                                                                                                                                                                                                                                                                                                    echo $_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title];
-                                                                                                                                                                                                                                                                                                                                                                                                                } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                                    <label for="message-text" class="col-form-label">รายละเอียด :</label>
+                                                    <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="white-space: pre; background-color: rgba(0, 0, 0, 0.5); border: 2px solid rgba(0,0,0,0.2); color: white; font-size: 18px;" class="sub_title_input form-control mb-0 mr-1" placeholder="* Your Title" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required><?php if ($_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title]) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                echo $_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title];
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            } ?></textarea>
+
+                                                    <!-- <script>
+                                                        document.addEventListener('input', function(e) {
+                                                            if (e.target && e.target.matches('textarea')) {
+                                                                updateTextareaHeight(e.target);
+                                                            }
+                                                        });
+
+                                                        function updateTextareaHeight(textarea) {
+                                                            const text = textarea.value;
+                                                            const lines = text.split('\n');
+                                                            const lineCount = lines.length;
+
+                                                            // Calculate the new height based on line count (adjust these values as needed)
+                                                            const lineHeight = 24; // Adjust this value as needed
+                                                            const minHeight = 24; // Adjust this value as needed
+                                                            const newHeight = Math.max(minHeight, lineCount * lineHeight) + 'px';
+
+                                                            textarea.style.height = newHeight;
+                                                        }
+
+                                                        // Trigger initial height update
+                                                        const initialTextarea = document.getElementById('sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>');
+                                                        if (initialTextarea) {
+                                                            updateTextareaHeight(initialTextarea);
+                                                        }
+                                                    </script> -->
+
                                                 </div>
                                             </div>
                                         </div>
@@ -707,7 +779,12 @@ $blog_now = $_GET['blog'];
             </div>
             <br>
             <center>
-                <button class="btn btn-danger" id="delete-button" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">Delete</button>
+                <?php if (isset($_SESSION['title_id_' . $blog_now])) {
+                ?>
+                    <button class="btn btn-danger" id="delete-button" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">Delete</button>
+                <?php
+                } ?>
+
                 <a class="btn btn-primary" href="listview_blog.php">Back</a>
 
 

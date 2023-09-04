@@ -161,28 +161,40 @@ $blog_now = $_GET['blog'];
 
                             <div class="description wow fadeInLeft">
                                 <p>
-                                <style>
-    /* CSS to make the textarea auto-resize */
-    textarea.autosize {
-        overflow-y: hidden;
-    }
-</style>
+                                    <style>
+                                        /* CSS to make the textarea auto-resize */
+                                        textarea.autosize {
+                                            overflow-y: hidden;
+                                        }
+                                    </style>
 
-<textarea name="title_detail_<?= $blog_now ?>" id="title_detail" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="Your Detail Title" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" required><?php if (isset($_SESSION['title_detail_' . $blog_now])) {
-    echo $_SESSION['title_detail_' . $blog_now];
-} else {
-    echo '* Your Detail';
-} ?></textarea>
+                                    <textarea name="title_detail_<?= $blog_now ?>" id="title_detail" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="Your Detail Title" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" required><?php if (isset($_SESSION['title_detail_' . $blog_now])) {
+                                                                                                                                                                                                                                                                                                        echo $_SESSION['title_detail_' . $blog_now];
+                                                                                                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                                                                                                        echo '* Your Detail';
+                                                                                                                                                                                                                                                                                                    } ?></textarea>
+                                    <script>
+                                        $(document).ready(function() {
+                                            var textarea = document.getElementById('title_detail');
 
-<script>
-    // JavaScript to make the textarea auto-resize
-    var textarea = document.querySelector('textarea.autosize');
+                                            // Set the height of the textarea to auto
+                                            textarea.style.height = 'auto';
 
-    textarea.addEventListener('input', function () {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
-    });
-</script>
+                                            // Set the textarea's height to its scrollHeight (content height)
+                                            textarea.style.height = (textarea.scrollHeight) + 'px';
+                                        });
+                                    </script>
+
+
+                                    <script>
+                                        // JavaScript to make the textarea auto-resize
+                                        var textarea = document.querySelector('textarea.autosize');
+
+                                        textarea.addEventListener('input', function() {
+                                            this.style.height = 'auto';
+                                            this.style.height = (this.scrollHeight) + 'px';
+                                        });
+                                    </script>
 
 
 
@@ -215,44 +227,7 @@ $blog_now = $_GET['blog'];
                     });
                 });
             </script>
-            <script>
-                const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea');
 
-                inputs.forEach(input => {
-                    input.addEventListener('input', function() {
-                        if (this.value.trim() !== '') {
-                            this.classList.add('has-content');
-                            updateSession(this);
-                        } else {
-                            this.classList.remove('has-content');
-                        }
-                    });
-                });
-
-                function updateSession(input) {
-                    const name = input.getAttribute('name');
-                    const value = input.value;
-
-                    // Create an AJAX request to update the session based on input name
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all inputs
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-                    // Send the data as a single string in the request body
-                    const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
-                    xhr.send(data);
-
-                    // Handle the response if needed
-                    xhr.onload = function() {
-                        if (xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText);
-                            console.log(response.message); // You can handle the response here
-                        } else {
-                            console.error('Error:', xhr.statusText);
-                        }
-                    };
-                }
-            </script>
             <br>
             <br>
             <br>
@@ -272,7 +247,7 @@ $blog_now = $_GET['blog'];
                 }
             </style>
 
-            <a id="bounce-item" data-bs-toggle="tooltip" data-bs-placement="left" title="กดเพื่อเพิ่ม Section ใหม่">
+            <!-- <a id="bounce-item" data-bs-toggle="tooltip" data-bs-placement="left" title="กดเพื่อเพิ่ม Section ใหม่">
                 <div class="container">
                     <div class="row">
                         <div class="col">
@@ -286,10 +261,9 @@ $blog_now = $_GET['blog'];
                 </div>
             </a>
             <br><br>
-            <!-- Button to trigger the modal -->
             <button type="button" class="btn btn-primary" id="showModalButton">
                 Launch demo modal
-            </button>
+            </button> -->
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" width="700px">
@@ -391,7 +365,7 @@ $blog_now = $_GET['blog'];
 
 
             <!-- Section 1 -->
-            <div class="section-1-container section-container" id="section-1">
+            <!-- <div class="section-1-container section-container" id="section-1">
                 <div class="container">
                     <div class="row">
                         <div class="col section-1 section-description wow fadeIn">
@@ -441,36 +415,173 @@ $blog_now = $_GET['blog'];
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <!-- Section 2 -->
-            <d iv class="section-2-container section-container section-container-gray-bg" id="section-2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col section-2 section-description wow fadeIn">
+            <?php
+            $sub_title = 1;
+            $Section_1 = 0;
+            while (isset($_SESSION['sub_title_' . $blog_now . '_' . $sub_title])) {
+                $sub_title_section = $_SESSION['sub_title_section_' . $blog_now . '_' . $sub_title];
+
+                $sub_title_main =  $_SESSION['sub_title_' . $blog_now . '_' . $sub_title];
+                $detail_sub_title =  $_SESSION['sub_title_detail_' . $blog_now . '_' . $sub_title];
+                if ($sub_title_section == 1) {
+                    $Section_1++;
+                    $title_id = $_SESSION['sub_title_id_' . $blog_now . '_' . $sub_title];
+                    $sql_select_pic = "SELECT p_pic FROM picture WHERE st_id = '$title_id'";
+                    $result_pic = mysqli_query($conn, $sql_select_pic);
+                    if (mysqli_num_rows($result_pic) > 0) {
+                        if (($Section_1 % 2) == 0) { ?>
+                            <!-- Section 1 -->
+                            <d iv class="section-2-container section-container section-container-gray-bg" id="section-2">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col section-2 section-description wow fadeIn">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-8 section-2-box wow fadeInLeft">
+                                            <h3><?= $sub_title_main  ?></h3>
+                                            <p class="medium-paragraph">
+                                                <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" cols="30" rows="10">
+                                                    <?= $detail_sub_title  ?>
+                                                </textarea>
+                                            </p>
+                                        </div>
+                                        <div class="col-4 section-2-box wow fadeInUp">
+                                            <img src=" ../assets/img/about-us.jpg" alt="about-us">
+                                        </div>
+                                    </div>
+                                </div>
+                            </d>
+                        <?php } else { ?>
+                            <!-- Section 2 -->
+                            <d iv class="section-2-container section-container section-container-gray-bg" id="section-2">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col section-2 section-description wow fadeIn">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 section-2-box wow fadeInUp">
+                                            <img src=" ../assets/img/about-us.jpg" alt="about-us">
+                                        </div>
+                                        <div class="col-8 section-2-box wow fadeInLeft">
+                                            <h3><?= $sub_title_main  ?></h3>
+                                            <p class="medium-paragraph">
+                                                <?= $detail_sub_title  ?>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </d>
+                        <?php
+                        }
+                    } else { ?>
+                        <!-- Section 1 -->
+                        <d iv class="section-2-container section-container section-container-gray-bg" id="section-2">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col section-2 section-description wow fadeIn">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col section-2-box wow fadeInLeft">
+                                        <h3>
+                                            <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
+
+                                        </h3>
+                                        <p class="medium-paragraph">
+                                            <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($detail_sub_title) ?></textarea>
+
+                                            <script>
+                                                $(document).ready(function() {
+                                                    var textarea = document.getElementById('sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>');
+
+                                                    // Set the height of the textarea to auto
+                                                    textarea.style.height = 'auto';
+
+                                                    // Set the textarea's height to its scrollHeight (content height)
+                                                    textarea.style.height = (textarea.scrollHeight) + 'px';
+                                                });
+                                            </script>
+
+                                            <!-- <?= $detail_sub_title ?> -->
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </d>
+                    <?php
+                    }
+                }
+                if ($sub_title_section == 2) {  ?>
+                    <!-- Section 1 -->
+                    <d iv class="section-2-container section-container section-container-gray-bg" id="section-2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col section-2 section-description wow fadeIn">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col section-2-box wow fadeInLeft">
+                                    <h3><?= $sub_title_main  ?></h3>
+                                    <p class="medium-paragraph">
+                                        <?= $detail_sub_title  ?>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8 section-2-box wow fadeInLeft">
-                            <h3>About Us</h3>
-                            <p class="medium-paragraph">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                sed do eiusmod tempor incididunt ut labore et. Ut wisi enim ad minim veniam, quis nostrud.
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-                                Ut wisi enim ad minim veniam, quis nostrud.
-                                Exerci tation ullamcorper suscipit ut aliquip ex ea commodo consequat.
-                                Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl.
-                            </p>
-                        </div>
-                        <div class="col-4 section-2-box wow fadeInUp">
-                            <img src=" ../assets/img/about-us.jpg" alt="about-us">
-                        </div>
-                    </div>
-                </div>
-            </d>
+                    </d>
+                <?php
+                }
+                ?>
+                <script>
+                    const textareas_<?= $blog_now ?>_<?= $sub_title ?> = document.querySelectorAll('.sub_title_<?= $blog_now ?>_<?= $sub_title ?>, .sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>');
+
+                    textareas_<?= $blog_now ?>_<?= $sub_title ?>.forEach(textarea => {
+                        textarea.addEventListener('input', function() {
+                            if (this.value.trim() !== '') {
+                                this.classList.add('has-content');
+                                updateSession_<?= $blog_now ?>_<?= $sub_title ?>(this);
+                            } else {
+                                this.classList.remove('has-content');
+                            }
+                        });
+                    });
+
+                    function updateSession_<?= $blog_now ?>_<?= $sub_title ?>(textarea) {
+                        const name = textarea.getAttribute('name');
+                        const value = textarea.value;
+
+                        // Create an AJAX request to update the session based on input name
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all textareas
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                        // Send the data as a single string in the request body
+                        const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
+                        xhr.send(data);
+
+                        // Handle the response if needed
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                const response = JSON.parse(xhr.responseText);
+                                console.log(response.message); // You can handle the response here
+                            } else {
+                                console.error('Error:', xhr.statusText);
+                            }
+                        };
+                    }
+                </script>
+            <?php
+                $sub_title++;
+            } ?>
 
             <!-- Section 3 -->
-            <div class="section-3-container section-container" id="section-3">
+            <!-- <div class="section-3-container section-container" id="section-3">
                 <div class="container">
 
                     <div class="row">
@@ -551,7 +662,7 @@ $blog_now = $_GET['blog'];
                     </div>
 
                 </div>
-            </div>
+            </div> -->
 
             <!-- Section 4 -->
             <div class="section-4-container section-container section-container-image-bg" id="section-4">
@@ -661,7 +772,7 @@ $blog_now = $_GET['blog'];
             </div>
 
             <!-- Footer -->
-            <?php include('bar/footer.php'); ?>
+            <?php include('../bar/footer.php'); ?>
 
         </div>
         <!-- End content -->
@@ -694,6 +805,46 @@ $blog_now = $_GET['blog'];
                 }
             })
         </script>
+        <script>
+            const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea');
+
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value.trim() !== '') {
+                        this.classList.add('has-content');
+                        updateSession(this);
+                    } else {
+                        this.classList.remove('has-content');
+                    }
+                });
+            });
+
+            function updateSession(input) {
+                const name = input.getAttribute('name');
+                const value = input.value;
+
+                // Create an AJAX request to update the session based on input name
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all inputs
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                // Send the data as a single string in the request body
+                const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
+                xhr.send(data);
+
+                // Handle the response if needed
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log(response.message); // You can handle the response here
+                    } else {
+                        console.error('Error:', xhr.statusText);
+                    }
+                };
+            }
+        </script>
+
+
     <?php
     } ?>
     <!-- Javascript -->
