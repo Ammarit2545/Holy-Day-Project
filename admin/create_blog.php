@@ -369,11 +369,6 @@ $blog_now = $_GET['blog'];
                                                                         });
                                                                     });
                                                                 </script>
-
-
-
-
-
                                                             </div>
                                                         </div>
                                                     </div>
@@ -384,16 +379,12 @@ $blog_now = $_GET['blog'];
                                             <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="image_bg_back">
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-
                 <!-- <div class="col-lg-4">
                     <div class="card h-100">
                         <div class="card-header pb-0 p-3">

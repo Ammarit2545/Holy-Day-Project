@@ -102,7 +102,23 @@ $blog_now = $_GET['blog'];
             text-shadow: 0 0 3px black;
             color: white;
         }
+
+        #icon-image {
+            /* Set initial properties */
+            color: initial-color;
+            transform: scale(1);
+            transition: color 0.3s ease, transform 0.3s ease;
+            /* Add transition for color and transform */
+        }
+
+        #icon-image:hover {
+            color: white;
+            /* Change color on hover */
+            transform: scale(1.1);
+            /* Scale up on hover */
+        }
     </style>
+
 
 </head>
 
@@ -430,6 +446,44 @@ $blog_now = $_GET['blog'];
                     $title_id = $_SESSION['sub_title_id_' . $blog_now . '_' . $sub_title];
                     $sql_select_pic = "SELECT p_pic FROM picture WHERE st_id = '$title_id'";
                     $result_pic = mysqli_query($conn, $sql_select_pic);
+
+            ?>
+                    <style>
+                        <?php
+                        $file_name = 'sub_title_pic_' . $blog_now . '_' . $sub_title;
+                        ?>@media only screen and (min-width: 767px) {
+                            #picture<?= '_' . $blog_now . '_' . $sub_title ?> {
+                                width: 100%;
+                                /* Make the picture element span full width */
+                                padding: 0%;
+                                <?php
+                                if (isset($_SESSION[$file_name])) {
+                                ?>background-image: url('<?= $_SESSION[$file_name] ?>');
+                                <?php
+                                } else {
+                                ?>background-image: url('../image/example/black.PNG');
+                                <?php
+                                } ?>
+                            }
+                        }
+
+                        @media only screen and (max-width: 767px) {
+                            #picture<?= '_' . $blog_now . '_' . $sub_title ?> {
+                                width: 100%;
+                                /* Make the picture element span full width */
+                                padding: 10%;
+                                <?php
+                                if (isset($_SESSION[$file_name])) {
+                                ?>background-image: url('<?= $_SESSION[$file_name] ?>');
+                                <?php
+                                } else {
+                                ?>background-image: url('../image/example/black.PNG');
+                                <?php
+                                } ?>
+                            }
+                        }
+                    </style>
+                    <?php
                     if (mysqli_num_rows($result_pic) > 0) {
                         if (($Section_1 % 2) == 0) { ?>
                             <!-- Section 1 -->
@@ -441,15 +495,43 @@ $blog_now = $_GET['blog'];
                                     </div>
                                     <div class="row">
                                         <div class="col-8 section-2-box wow fadeInLeft">
-                                            <h3><?= $sub_title_main  ?></h3>
+                                            <h3>
+                                                <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
+
+                                            </h3>
                                             <p class="medium-paragraph">
-                                                <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" cols="30" rows="10">
-                                                    <?= $detail_sub_title  ?>
-                                                </textarea>
+                                                <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($detail_sub_title) ?></textarea>
+
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        var textarea = document.getElementById('sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>');
+
+                                                        // Set the height of the textarea to auto
+                                                        textarea.style.height = 'auto';
+
+                                                        // Set the textarea's height to its scrollHeight (content height)
+                                                        textarea.style.height = (textarea.scrollHeight) + 'px';
+                                                    });
+                                                </script>
+
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        var textarea = document.getElementById('sub_title_<?= $blog_now ?>_<?= $sub_title ?>');
+
+                                                        // Set the height of the textarea to auto
+                                                        textarea.style.height = 'auto';
+
+                                                        // Set the textarea's height to its scrollHeight (content height)
+                                                        textarea.style.height = (textarea.scrollHeight) + 'px';
+                                                    });
+                                                </script>
                                             </p>
                                         </div>
-                                        <div class="col-4 section-2-box wow fadeInUp">
-                                            <img src=" ../assets/img/about-us.jpg" alt="about-us">
+                                        <div class="col-md-4 section-2-box wow fadeInUp" style="border-radius: 3%; display: flex; justify-content: center; align-items: center;" id="picture<?= '_' . $blog_now . '_' . $sub_title ?>">
+                                            <label for="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="cursor: pointer;" id="icon-image">
+                                                <i class="fa fa-plus"></i>
+                                                เปลี่ยนรูปภาพ
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -463,13 +545,44 @@ $blog_now = $_GET['blog'];
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-4 section-2-box wow fadeInUp">
-                                            <img src=" ../assets/img/about-us.jpg" alt="about-us">
+                                        <div class="col-md-4 section-2-box wow fadeInUp" style="border-radius: 3%; display: flex; justify-content: center; align-items: center;" id="picture<?= '_' . $blog_now . '_' . $sub_title ?>">
+                                            <label for="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="cursor: pointer;" id="icon-image">
+                                                <i class="fa fa-plus"></i>
+                                                เปลี่ยนรูปภาพ
+                                            </label>
+
                                         </div>
                                         <div class="col-8 section-2-box wow fadeInLeft">
-                                            <h3><?= $sub_title_main  ?></h3>
+                                            <h3>
+                                                <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
+
+                                            </h3>
                                             <p class="medium-paragraph">
-                                                <?= $detail_sub_title  ?>
+                                                <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($detail_sub_title) ?></textarea>
+
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        var textarea = document.getElementById('sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>');
+
+                                                        // Set the height of the textarea to auto
+                                                        textarea.style.height = 'auto';
+
+                                                        // Set the textarea's height to its scrollHeight (content height)
+                                                        textarea.style.height = (textarea.scrollHeight) + 'px';
+                                                    });
+                                                </script>
+
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        var textarea = document.getElementById('sub_title_<?= $blog_now ?>_<?= $sub_title ?>');
+
+                                                        // Set the height of the textarea to auto
+                                                        textarea.style.height = 'auto';
+
+                                                        // Set the textarea's height to its scrollHeight (content height)
+                                                        textarea.style.height = (textarea.scrollHeight) + 'px';
+                                                    });
+                                                </script>
                                             </p>
                                         </div>
 
@@ -487,9 +600,9 @@ $blog_now = $_GET['blog'];
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col section-2-box wow fadeInLeft">
+                                    <div class="col-md-8 section-2-box wow fadeInLeft">
                                         <h3>
-                                            <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
+                                            <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
 
                                         </h3>
                                         <p class="medium-paragraph">
@@ -507,9 +620,30 @@ $blog_now = $_GET['blog'];
                                                 });
                                             </script>
 
-                                            <!-- <?= $detail_sub_title ?> -->
+                                            <script>
+                                                $(document).ready(function() {
+                                                    var textarea = document.getElementById('sub_title_<?= $blog_now ?>_<?= $sub_title ?>');
+
+                                                    // Set the height of the textarea to auto
+                                                    textarea.style.height = 'auto';
+
+                                                    // Set the textarea's height to its scrollHeight (content height)
+                                                    textarea.style.height = (textarea.scrollHeight) + 'px';
+                                                });
+                                            </script>
                                         </p>
                                     </div>
+
+
+                                    <div class="col-md-4 section-2-box wow fadeInUp" style="border-radius: 3%; display: flex; justify-content: center; align-items: center;" id="picture<?= '_' . $blog_now . '_' . $sub_title ?>">
+                                        <label for="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="cursor: pointer;" id="icon-image">
+                                            <!-- <p>sub_title_pic_<?= $blog_now ?>_<?= $sub_title ?></p> -->
+                                            <i class="fa fa-plus"></i>
+                                        </label>
+                                    </div>
+
+
+
 
                                 </div>
                             </div>
@@ -574,6 +708,21 @@ $blog_now = $_GET['blog'];
                                 console.error('Error:', xhr.statusText);
                             }
                         };
+                    }
+                </script>
+                <form action="action/upload_image_sub_title.php?blog=<?= $blog_now ?>&sub=<?= $sub_title ?>" method="post" enctype="multipart/form-data" id="uploadFormPic<?= '_' . $blog_now . '_' . $sub_title ?>">
+
+                    <!-- $title_page -->
+                    <input type="file" name="sub_title_pic_<?= $blog_now ?>_<?= $sub_title ?>" id="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="display: none;">
+                    <input type="text" name="title_page" id="title_page_<?= $blog_now ?>_<?= $sub_title ?>" value="page_writer.php" style="display: none;">
+                </form>
+                <script>
+                    var pictureBlogInput = document.getElementById('picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>');
+
+                    if (pictureBlogInput) {
+                        pictureBlogInput.addEventListener('change', function() {
+                            document.getElementById('uploadFormPic<?= '_' . $blog_now . '_' . $sub_title ?>').submit();
+                        });
                     }
                 </script>
             <?php
@@ -738,23 +887,20 @@ $blog_now = $_GET['blog'];
                     </div>
                     <div class="row">
                         <div class="col-md-6 section-6-box wow fadeInUp">
-                            <h3>By eMail</h3>
-                            <div class="section-6-form">
-                                <form role="form" action="assets/contact.php" method="post">
+                            <h3 style="color:gray">Writer</h3>
+                            <div class="section-6-form"  style="color:gray">
+                                <!-- <form role="form" action="assets/contact.php" method="post"> -->
                                     <div class="form-group">
-                                        <label class="sr-only" for="contact-email">Email</label>
-                                        <input type="text" name="email" placeholder="Email..." class="contact-email form-control" id="contact-email">
+                                         <p id="contact-email">Name : <?= $_SESSION["fname"].' '.$_SESSION["lname"] ?></p>
                                     </div>
                                     <div class="form-group">
-                                        <label class="sr-only" for="contact-subject">Subject</label>
-                                        <input type="text" name="subject" placeholder="Subject..." class="contact-subject form-control" id="contact-subject">
+                                         <p id="contact-email">Email : <?= $_SESSION["email"] ?></p>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="contact-message">Message</label>
-                                        <textarea name="message" placeholder="Message..." class="contact-message form-control" id="contact-message"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-customized"><i class="fas fa-paper-plane"></i> Send Message</button>
-                                </form>
+                                    <!-- <div class="form-group">
+                                         <p id="contact-email">Tel : <?= $_SESSION["tel"] ?></p>
+                                    </div> -->
+                                    <!-- <button type="submit" class="btn btn-primary btn-customized"><i class="fas fa-paper-plane"></i> Send Message</button> -->
+                                <!-- </form> -->
                             </div>
                         </div>
                         <div class="col-md-5 offset-md-1 section-6-box wow fadeInDown">
