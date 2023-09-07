@@ -354,9 +354,6 @@ $blog_now = $_GET['blog'];
                                                                     var textarea = document.getElementById('title_detail');
                                                                     textarea.addEventListener('input', checkWordCount);
                                                                 </script>
-
-
-
                                                                 <!-- <h5 id="titletextarea">รายละเอียด</h5>
                                                                 <input type="color" id="titleColor" value="#000000"> -->
 
@@ -463,7 +460,7 @@ $blog_now = $_GET['blog'];
                                     <h6 class="mb-0">Your Sub Title</h6>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add New Card</a>
+                                    <a class="btn bg-gradient-dark mb-0" href="add_card.php?topic=<?= $blog_now ?>"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add New Card</a>
                                 </div>
                             </div>
                         </div>
@@ -481,9 +478,9 @@ $blog_now = $_GET['blog'];
                                         <div class="ms-auto text-end">
                                             <?php if (isset($_SESSION['title_id_' . $blog_now])) {
                                             ?>
-                                                <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>">
+                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>" href="delete_sub_main.php?sub=<?= $_SESSION['sub_title_id_' . $blog_now . '_' . $sub_title] ?>">
                                                     <i class="far fa-trash-alt me-2"></i>Delete
-                                                </button>
+                                                </a>
                                             <?php
                                             } ?>
 
@@ -1020,5 +1017,7 @@ $blog_now = $_GET['blog'];
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
 </body>
+<?php
+?>
 
 </html>

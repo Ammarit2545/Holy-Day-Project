@@ -19,8 +19,6 @@ include('../database/condb.php');
 $active = array();
 $active[5] = "active";
 
-
-
 $page = 'Billing';
 
 $e_id = $_SESSION['id'];
@@ -56,12 +54,13 @@ while (!isset($_SESSION['title_1'])) {
                     $_SESSION['sub_title_detail_' . $count_blog . '_' . $sub_title_count] = $row_st['st_detail'];
                     $_SESSION['sub_title_section_' . $count_blog . '_' . $sub_title_count] = $row_st['st_type_sec'];
                     $st_id = $row_st['st_id'];
-
+                    // echo $st_id;
                     $sub_pic_count = 1;
-                    $sql_pic = "SELECT * FROM picture WHERE st_id = '$st_id' AND del_flg = 0";
+                    $sql_pic = "SELECT p_pic FROM picture WHERE st_id = '$st_id' AND del_flg = 0";
                     $result_pic = mysqli_query($conn, $sql_pic);
-                    while ($row_pic = mysqli_fetch_array($result_pic)) {
-                        $_SESSION['sub_title_pic_' . $count_blog . '_' . $sub_title_count . '_' . $sub_pic_count] = $row_st['p_pic'];
+                    if (mysqli_num_rows($result_pic) > 0) {
+                        $row_pic = mysqli_fetch_array($result_pic);
+                        $_SESSION['sub_title_pic_' . $count_blog . '_' . $sub_title_count] = $row_pic['p_pic']; // Use $row_pic here
                         $sub_pic_count++;
                     }
                     $sub_title_count++;
@@ -120,7 +119,6 @@ while (!isset($_SESSION['title_1'])) {
         break; // Break out of the outer while loop
     }
 }
-
 
 $count_blog = 1;
 if (!isset($_SESSION['title_1'])) {
@@ -218,6 +216,12 @@ if (!isset($_SESSION['title_1'])) {
             $result_topic = mysqli_stmt_get_result($stmt_topic);
             $row_topic = mysqli_fetch_array($result_topic);
 
+            $sql_update_topic = "UPDATE topic SET t_name=?,t_detail=?,t_color=? WHERE t_id = ?";
+            $stmt_update_topic = mysqli_prepare($conn, $sql_update_topic);
+            mysqli_stmt_bind_param($stmt_update_topic, "sssi", $t_name, $title_detail, $title_color, $title_id);
+            mysqli_stmt_execute($stmt_update_topic);
+            mysqli_stmt_close($stmt_update_topic);
+
             $_SESSION['title_date_in_' . $count_blog] = $row_topic['t_date_in'];
 
             // Check if a picture is associated with the title
@@ -308,6 +312,8 @@ if (!isset($_SESSION['title_1'])) {
     mysqli_stmt_close($stmt_st);
     mysqli_close($conn);
 }
+
+
 
 ?>
 <!DOCTYPE html>
@@ -455,7 +461,65 @@ if (!isset($_SESSION['title_1'])) {
 
                                             </div>
                                             <div class="ms-auto text-end">
-                                                <button class="btn btn-link text-danger text-gradient px-3 mb-0" id="delete-button-<?= $count_all_blog ?>" data-blogid="<?= $_SESSION['title_id_' . $count_all_blog] ?>">
+                                                <!-- <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="rememberMe<?= $_SESSION['title_id_' . $count_all_blog] ?>" checked>
+                                                    <label class="form-check-label" for="rememberMe<?= $_SESSION['title_id_' . $count_all_blog] ?>" id="checked_pub<?= $_SESSION['title_id_' . $count_all_blog] ?>"></label>
+                                                </div>
+
+                                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                <script>
+                                                    $(document).ready(function() {
+                                                        // Function to update the label text based on the checkbox state
+                                                        function updateLabel() {
+                                                            var isChecked = $("#rememberMe<?= $_SESSION['title_id_' . $count_all_blog] ?>").is(":checked");
+                                                            var label = isChecked ? "public" : "private";
+                                                            $("#checked_pub<?= $_SESSION['title_id_' . $count_all_blog] ?>").text(label);
+                                                        }
+
+                                                        // Initial update
+                                                        updateLabel();
+
+                                                        // Bind a change event to the checkbox
+                                                        $("#rememberMe<?= $_SESSION['title_id_' . $count_all_blog] ?>").change(function() {
+                                                            updateLabel();
+                                                        });
+                                                    });
+                                                </script> -->
+
+                                                <button class="btn btn-link text-success text-gradient px-3 mb-0" id="public-button-<?= $count_all_blog ?>" data-blogid="<?= $_SESSION['title_id_' . $count_all_blog] ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="แสดงสู่สาธารณะ">
+                                                    <i class="fa fa-group"></i> Public
+                                                </button>
+
+                                                <script>
+                                                    // Add an event listener to the "Delete" button
+                                                    document.getElementById('public-button-<?= $count_all_blog ?>').addEventListener('click', function() {
+                                                        // Get the blog ID from the data-blogid attribute
+                                                        var blogId = this.getAttribute('data-blogid');
+
+                                                        // Show a SweetAlert confirmation dialog
+                                                        Swal.fire({
+                                                            title: 'คุณแน่ใจที่จะแสดงแบบสาธารณะหรือไม่?',
+                                                            text: 'หัวข้อ \"<?= $_SESSION['title_' . $count_all_blog] ?>\" จะแสดงในหน้าเว็บหลัก',
+                                                            icon: 'question',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Yes, Show it!'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                // Redirect to "delete_blog.php" with the blog ID parameter
+                                                                window.location.href = "action/public_blog.php?blog=" + blogId + "&session=" + <?= $count_all_blog ?>;
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+
+                                                <!-- <button class="btn btn-link text-primary text-gradient px-3 mb-0" id="delete-button-<?= $count_all_blog ?>" data-blogid="<?= $_SESSION['title_id_' . $count_all_blog] ?>">
+                                                    <i class="far fa-trash-alt me-2"></i>Private
+                                                </button> -->
+
+
+                                                <button class="btn btn-link text-danger text-gradient px-3 mb-0" id="delete-button-<?= $count_all_blog ?>" data-blogid="<?= $_SESSION['title_id_' . $count_all_blog] ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="ลบรายการ">
                                                     <i class="far fa-trash-alt me-2"></i>Delete
                                                 </button>
 
@@ -482,12 +546,7 @@ if (!isset($_SESSION['title_1'])) {
                                                         });
                                                     });
                                                 </script>
-
-
-
-
-
-                                                <a class="btn btn-link text-dark px-3 mb-0" href="create_blog.php?blog=<?= $count_all_blog ?>"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                                <a class="btn btn-link text-dark px-3 mb-0" href="create_blog.php?blog=<?= $count_all_blog ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="แก้ไข"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
                                             </div>
                                         </li>
                                     <?php
@@ -614,7 +673,7 @@ if (!isset($_SESSION['title_1'])) {
             let timerInterval
             Swal.fire({
                 title: 'ทำการลบ \"<?= $_SESSION['delete-blog'] ?>\" เสร็จสิ้น!',
-                html: 'I will close in <b></b> milliseconds.',
+                html: 'ปิดการแจ้งเตือนอัตโนมัติใน <b></b> ',
                 timer: 3000,
                 timerProgressBar: true,
                 didOpen: () => {
@@ -637,6 +696,35 @@ if (!isset($_SESSION['title_1'])) {
 
     <?php
         unset($_SESSION['delete-blog']);
+    } ?>
+
+    <?php if (isset($_SESSION['show-blog'])) {  ?>
+        <script>
+            Swal.fire({
+                title: 'แสดง \"<?= $_SESSION['show-blog'] ?>\" เสร็จสิ้น!',
+                html: 'ปิดการแจ้งเตือนอัตโนมัติใน <b></b> ',
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log('I was closed by the timer')
+                }
+            })
+        </script>
+
+    <?php
+        unset($_SESSION['show-blog']);
     } ?>
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>

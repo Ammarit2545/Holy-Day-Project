@@ -190,6 +190,44 @@ $blog_now = $_GET['blog'];
                                                                                                                                                                                                                                                                                                         echo '* Your Detail';
                                                                                                                                                                                                                                                                                                     } ?></textarea>
                                     <script>
+                                        const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea');
+
+                                        inputs.forEach(input => {
+                                            input.addEventListener('input', function() {
+                                                if (this.value.trim() !== '') {
+                                                    this.classList.add('has-content');
+                                                    updateSession(this);
+                                                } else {
+                                                    this.classList.remove('has-content');
+                                                }
+                                            });
+                                        });
+
+                                        function updateSession(input) {
+                                            const name = input.getAttribute('name');
+                                            const value = input.value;
+
+                                            // Create an AJAX request to update the session based on input name
+                                            const xhr = new XMLHttpRequest();
+                                            xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all inputs
+                                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                                            // Send the data as a single string in the request body
+                                            const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
+                                            xhr.send(data);
+
+                                            // Handle the response if needed
+                                            xhr.onload = function() {
+                                                if (xhr.status === 200) {
+                                                    const response = JSON.parse(xhr.responseText);
+                                                    console.log(response.message); // You can handle the response here
+                                                } else {
+                                                    console.error('Error:', xhr.statusText);
+                                                }
+                                            };
+                                        }
+                                    </script>
+                                    <script>
                                         $(document).ready(function() {
                                             var textarea = document.getElementById('title_detail');
 
@@ -888,18 +926,18 @@ $blog_now = $_GET['blog'];
                     <div class="row">
                         <div class="col-md-6 section-6-box wow fadeInUp">
                             <h3 style="color:gray">Writer</h3>
-                            <div class="section-6-form"  style="color:gray">
+                            <div class="section-6-form" style="color:gray">
                                 <!-- <form role="form" action="assets/contact.php" method="post"> -->
-                                    <div class="form-group">
-                                         <p id="contact-email">Name : <?= $_SESSION["fname"].' '.$_SESSION["lname"] ?></p>
-                                    </div>
-                                    <div class="form-group">
-                                         <p id="contact-email">Email : <?= $_SESSION["email"] ?></p>
-                                    </div>
-                                    <!-- <div class="form-group">
+                                <div class="form-group">
+                                    <p id="contact-email">Name : <?= $_SESSION["fname"] . ' ' . $_SESSION["lname"] ?></p>
+                                </div>
+                                <div class="form-group">
+                                    <p id="contact-email">Email : <?= $_SESSION["email"] ?></p>
+                                </div>
+                                <!-- <div class="form-group">
                                          <p id="contact-email">Tel : <?= $_SESSION["tel"] ?></p>
                                     </div> -->
-                                    <!-- <button type="submit" class="btn btn-primary btn-customized"><i class="fas fa-paper-plane"></i> Send Message</button> -->
+                                <!-- <button type="submit" class="btn btn-primary btn-customized"><i class="fas fa-paper-plane"></i> Send Message</button> -->
                                 <!-- </form> -->
                             </div>
                         </div>
@@ -951,44 +989,7 @@ $blog_now = $_GET['blog'];
                 }
             })
         </script>
-        <script>
-            const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea');
 
-            inputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    if (this.value.trim() !== '') {
-                        this.classList.add('has-content');
-                        updateSession(this);
-                    } else {
-                        this.classList.remove('has-content');
-                    }
-                });
-            });
-
-            function updateSession(input) {
-                const name = input.getAttribute('name');
-                const value = input.value;
-
-                // Create an AJAX request to update the session based on input name
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all inputs
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-                // Send the data as a single string in the request body
-                const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
-                xhr.send(data);
-
-                // Handle the response if needed
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        console.log(response.message); // You can handle the response here
-                    } else {
-                        console.error('Error:', xhr.statusText);
-                    }
-                };
-            }
-        </script>
 
 
     <?php
