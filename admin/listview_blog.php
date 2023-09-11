@@ -13,6 +13,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
 <?php
+// Increase the maximum execution time and memory limit
+ini_set('max_execution_time', 300); // 5 minutes
+ini_set('memory_limit', '256M'); // 256 megabytes
+
 session_start();
 include('../database/condb.php');
 
@@ -23,6 +27,10 @@ $page = 'Billing';
 
 $e_id = $_SESSION['id'];
 $count_blog = 1;
+
+// Create a prepared statement for inserting topics
+$sql_insert_topic = "INSERT INTO topic (t_name, t_detail, t_color, t_date_in, e_id, t_test) VALUES (?, ?, ?, NOW(), ?, 1)";
+$stmt_insert_topic = mysqli_prepare($conn, $sql_insert_topic);
 
 while (!isset($_SESSION['title_1'])) {
     $sql_topic = "SELECT * FROM topic WHERE e_id = '$e_id' AND del_flg = 0 AND t_test = 1";
@@ -54,13 +62,13 @@ while (!isset($_SESSION['title_1'])) {
                     $_SESSION['sub_title_detail_' . $count_blog . '_' . $sub_title_count] = $row_st['st_detail'];
                     $_SESSION['sub_title_section_' . $count_blog . '_' . $sub_title_count] = $row_st['st_type_sec'];
                     $st_id = $row_st['st_id'];
-                    // echo $st_id;
+
                     $sub_pic_count = 1;
                     $sql_pic = "SELECT p_pic FROM picture WHERE st_id = '$st_id' AND del_flg = 0";
                     $result_pic = mysqli_query($conn, $sql_pic);
                     if (mysqli_num_rows($result_pic) > 0) {
                         $row_pic = mysqli_fetch_array($result_pic);
-                        $_SESSION['sub_title_pic_' . $count_blog . '_' . $sub_title_count] = $row_pic['p_pic']; // Use $row_pic here
+                        $_SESSION['sub_title_pic_' . $count_blog . '_' . $sub_title_count] = $row_pic['p_pic'];
                         $sub_pic_count++;
                     }
                     $sub_title_count++;
@@ -97,71 +105,29 @@ while (!isset($_SESSION['title_1'])) {
 
                         $sql_sub_top = "SELECT * FROM sub_topic WHERE st_id = ? AND del_flg = 0";
                         $stmt = mysqli_prepare($conn, $sql_sub_top);
-                        mysqli_stmt_bind_param($stmt, "i", $st_id_insert); // Assuming 'st_id' is an integer
+                        mysqli_stmt_bind_param($stmt, "i", $st_id_insert);
                         mysqli_stmt_execute($stmt);
                         $result_sub_top = mysqli_stmt_get_result($stmt);
                         $row_st = mysqli_fetch_array($result_sub_top);
 
                         $_SESSION['sub_title_id_' . $count_blog . '_' . $i] = $row_st['st_id'];
-                        $_SESSION['sub_title_' . $count_blog . '_' . $i] = $row_st['st_main']; // Use 'st_name' instead of 'st_main' based on your INSERT query
+                        $_SESSION['sub_title_' . $count_blog . '_' . $i] = $row_st['st_main'];
                         $_SESSION['sub_title_detail_' . $count_blog . '_' . $i] = $row_st['st_detail'];
                         $_SESSION['sub_title_section_' . $count_blog . '_' . $i] = $row_st['st_type_sec'];
                     }
                 }
             }
         } else {
-            break; // Break out of the inner while loop
+            break;
         }
         $count_blog++;
     }
 
     if ($row_topic === null) {
-        break; // Break out of the outer while loop
-    }
-}
-
-$count_blog = 1;
-if (!isset($_SESSION['title_1'])) {
-    $_SESSION['title_now'] = 1;
-} else {
-    while (isset($_SESSION['title_' . $count_blog])) {
-        $_SESSION['title_now'] = $count_blog;
-
-        if (!isset($_SESSION['title_id_' . $count_blog])) {
-            // Title doesn't exist, insert a new record
-            $t_name = $_SESSION['title_' . $count_blog];
-            $title_color = isset($_SESSION['title_color_' . $count_blog]) ? $_SESSION['title_color_' . $count_blog] : null;
-            $title_detail = isset($_SESSION['title_detail_' . $count_blog]) ? $_SESSION['title_detail_' . $count_blog] : null;
-            $title_file = isset($_SESSION['title_file_' . $count_blog]) ? $_SESSION['title_file_' . $count_blog] : null;
-
-            // Insert new title into the 'topic' table
-            $sql_insert = "INSERT INTO topic (t_name, t_detail, t_color, t_date_in, e_id, t_test) VALUES (?, ?, ?, NOW(), ?, 1)";
-            $stmt = mysqli_prepare($conn, $sql_insert);
-            mysqli_stmt_bind_param($stmt, "ssii", $t_name, $title_detail, $title_color, $e_id);
-            mysqli_stmt_execute($stmt);
-
-            // Get the last inserted ID
-            $last_inserted_id = mysqli_insert_id($conn);
-
-            if ($title_file) {
-                // Insert an associated picture if it exists
-                $sql_insert_pic = "INSERT INTO picture (p_pic, p_date_in, t_id) VALUES (?, NOW(), ?)";
-                $stmt_pic = mysqli_prepare($conn, $sql_insert_pic);
-                mysqli_stmt_bind_param($stmt_pic, "si", $title_file, $last_inserted_id);
-                mysqli_stmt_execute($stmt_pic);
-                mysqli_stmt_close($stmt_pic);
-            }
-
-            if ($last_inserted_id > 0) {
-                // Store the title_id in session
-                $_SESSION['title_id_' . $count_blog] = $last_inserted_id;
-            } else {
-                // Insertion failed
-            }
-
+        if (!isset($_SESSION['sub_title_id_' . $count_blog . '_1'])) {
             // No records found, insert new data
             for ($i = 1; $i <= 4; $i++) {
-                $last_inserted_id; // You should set the value of $t_id here.
+                $t_id; // You should set the value of $t_id here.
 
                 if ($i == 1) {
                     $st_name = 'ประวัติและความสำคัญ';
@@ -181,25 +147,84 @@ if (!isset($_SESSION['title_1'])) {
                     $sec_type = 1;
                 }
 
-                $sql_insert = "INSERT INTO sub_topic (st_main, st_detail, st_date_in, t_id, st_type_sec) VALUES ('$st_name', '$st_detail', NOW(),'$last_inserted_id','$sec_type')";
-                $result_insert = mysqli_query($conn, $sql_insert);
+                $_SESSION['sub_title_id_' . $count_blog . '_' . $i] = null;
+                $_SESSION['sub_title_' . $count_blog . '_' . $i] = $st_name;
+                $_SESSION['sub_title_detail_' . $count_blog . '_' . $i] = $st_detail;
+                $_SESSION['sub_title_section_' . $count_blog . '_' . $i] = $sec_type;
+                $_SESSION['title_date_in_' . $count_blog] = date('Y-m-d H:i:s');
+            }
+        }
+        break;
+    }
+}
 
-                if ($result_insert) {
-                    // Get the last inserted ID
-                    $st_id_insert = mysqli_insert_id($conn);
+$count_blog = 1;
+if (!isset($_SESSION['title_1'])) {
+    $_SESSION['title_now'] = 1;
+} else {
+    while (isset($_SESSION['title_' . $count_blog])) {
+        $_SESSION['title_now'] = $count_blog;
 
-                    $sql_sub_top = "SELECT * FROM sub_topic WHERE st_id = ? AND del_flg = 0";
-                    $stmt = mysqli_prepare($conn, $sql_sub_top);
-                    mysqli_stmt_bind_param($stmt, "i", $st_id_insert); // Assuming 'st_id' is an integer
-                    mysqli_stmt_execute($stmt);
-                    $result_sub_top = mysqli_stmt_get_result($stmt);
-                    $row_st = mysqli_fetch_array($result_sub_top);
+        if (!isset($_SESSION['title_id_' . $count_blog])) {
+            echo '<br>' . $count_blog;
+            // Title doesn't exist, insert a new record
+            $t_name = $_SESSION['title_' . $count_blog];
+            $title_color = isset($_SESSION['title_color_' . $count_blog]) ? $_SESSION['title_color_' . $count_blog] : null;
+            $title_detail = isset($_SESSION['title_detail_' . $count_blog]) ? $_SESSION['title_detail_' . $count_blog] : null;
+            $title_file = isset($_SESSION['title_file_' . $count_blog]) ? $_SESSION['title_file_' . $count_blog] : null;
+            $_SESSION['title_date_in_' . $count_blog] = date('Y-m-d H:i:s');
 
-                    $_SESSION['sub_title_id_' . $count_blog . '_' . $i] = $row_st['st_id'];
-                    $_SESSION['sub_title_' . $count_blog . '_' . $i] = $row_st['st_main']; // Use 'st_name' instead of 'st_main' based on your INSERT query
-                    $_SESSION['sub_title_detail_' . $count_blog . '_' . $i] = $row_st['st_detail'];
-                    $_SESSION['sub_title_section_' . $count_blog . '_' . $i] = $row_st['st_type_sec'];
+            mysqli_stmt_bind_param($stmt_insert_topic, "sssi", $t_name, $title_detail, $title_color, $e_id);
+            mysqli_stmt_execute($stmt_insert_topic);
+
+            $last_inserted_id = mysqli_insert_id($conn);
+
+            if ($title_file) {
+                $sql_insert_pic = "INSERT INTO picture (p_pic, p_date_in, t_id) VALUES (?, NOW(), ?)";
+                $stmt_pic = mysqli_prepare($conn, $sql_insert_pic);
+                mysqli_stmt_bind_param($stmt_pic, "si", $title_file, $last_inserted_id);
+                mysqli_stmt_execute($stmt_pic);
+                mysqli_stmt_close($stmt_pic);
+            }
+
+            if ($last_inserted_id > 0) {
+                $_SESSION['title_id_' . $count_blog] = $last_inserted_id;
+            } else {
+                // Insertion failed
+            }
+
+            for ($i = 1; $i <= 4; $i++) {
+                $last_inserted_id;
+
+                if ($i == 1) {
+                    $st_name = 'ประวัติและความสำคัญ';
+                    $st_detail = '* เพิ่มข้อมูลของคุณ';
+                    $sec_type = 1;
+                } elseif ($i == 2) {
+                    $st_name = 'กิจกรรม/พิธีกรรม';
+                    $st_detail = '* เพิ่มข้อมูลของคุณ';
+                    $sec_type = 1;
+                } elseif ($i == 3) {
+                    $st_name = 'บุคคลสำคัญ';
+                    $st_detail = '* เพิ่มข้อมูลของคุณ';
+                    $sec_type = 1;
+                } elseif ($i == 4) {
+                    $st_name = 'ติดต่อและเข้าถึง';
+                    $st_detail = '* เพิ่มข้อมูลของคุณ';
+                    $sec_type = 1;
                 }
+
+                $sql_insert_st = "INSERT INTO sub_topic (st_main, st_detail, st_date_in, t_id, st_type_sec) VALUES (?, ?, NOW(), ?, ?)";
+                $stmt_insert_st = mysqli_prepare($conn, $sql_insert_st);
+                mysqli_stmt_bind_param($stmt_insert_st, "ssii", $st_name, $st_detail, $last_inserted_id, $sec_type);
+                mysqli_stmt_execute($stmt_insert_st);
+
+                $last_sub_topic_id = mysqli_insert_id($conn);
+
+                $_SESSION['sub_title_id_' . $count_blog . '_' . $i] = $last_sub_topic_id;
+                $_SESSION['sub_title_' . $count_blog . '_' . $i] = $st_name;
+                $_SESSION['sub_title_detail_' . $count_blog . '_' . $i] = $st_detail;
+                $_SESSION['sub_title_section_' . $count_blog . '_' . $i] = $sec_type;
             }
         } else {
             // Title exists, update existing record
@@ -209,12 +234,12 @@ if (!isset($_SESSION['title_1'])) {
             $title_detail = isset($_SESSION['title_detail_' . $count_blog]) ? $_SESSION['title_detail_' . $count_blog] : null;
             $title_file = isset($_SESSION['title_file_' . $count_blog]) ? $_SESSION['title_file_' . $count_blog] : null;
 
-            $sql_topic = "SELECT * FROM topic WHERE t_id = ? AND del_flg = 0";
-            $stmt_topic = mysqli_prepare($conn, $sql_topic);
-            mysqli_stmt_bind_param($stmt_topic, "i", $title_id); // Bind the parameter to $stmt_topic, not $stmt_pic
-            mysqli_stmt_execute($stmt_topic);
-            $result_topic = mysqli_stmt_get_result($stmt_topic);
-            $row_topic = mysqli_fetch_array($result_topic);
+            $sql_sub_top = "SELECT * FROM topic WHERE t_id = ? AND del_flg = 0";
+            $stmt = mysqli_prepare($conn, $sql_sub_top);
+            mysqli_stmt_bind_param($stmt, "i", $title_id);
+            mysqli_stmt_execute($stmt);
+            $result_sub_top = mysqli_stmt_get_result($stmt);
+            $row_topic = mysqli_fetch_array($result_sub_top);
 
             $sql_update_topic = "UPDATE topic SET t_name=?,t_detail=?,t_color=? WHERE t_id = ?";
             $stmt_update_topic = mysqli_prepare($conn, $sql_update_topic);
@@ -303,19 +328,19 @@ if (!isset($_SESSION['title_1'])) {
                     $sub_title_count++;
                 }
             }
+            // Close prepared statements and database connection if necessary
+            mysqli_stmt_close($stmt_st);
         }
-
         $count_blog++;
     }
-
-    // Close prepared statements and database connection if necessary
-    mysqli_stmt_close($stmt_st);
-    mysqli_close($conn);
 }
 
+mysqli_close($conn);
 
-
+// header("Location: edit_profile.php");
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

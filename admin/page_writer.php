@@ -108,6 +108,10 @@ $blog_now = $_GET['blog'];
             color: initial-color;
             transform: scale(1);
             transition: color 0.3s ease, transform 0.3s ease;
+            border-radius: 3%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             /* Add transition for color and transform */
         }
 
@@ -116,6 +120,67 @@ $blog_now = $_GET['blog'];
             /* Change color on hover */
             transform: scale(1.1);
             /* Scale up on hover */
+        }
+
+        #icon-image-2 {
+            color: white;
+            /* Change color on hover */
+            transform: scale(1.1);
+            display: none;
+            /* Scale up on hover */
+            border-radius: 3%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #icon-image-2:hover {
+            color: white;
+            /* Change color on hover */
+            transform: scale(1.1);
+            /* Scale up on hover */
+        }
+
+        /* On screens that are 767px or less, show #icon-image and hide #icon-image-2 */
+        @media screen and (max-width: 768px) {
+            #icon-image {
+                /* Set initial properties */
+                color: initial-color;
+                transform: scale(1);
+                transition: color 0.3s ease, transform 0.3s ease;
+                display: none;
+                /* Show #icon-image */
+            }
+
+            #icon-image-2 {
+                /* Set initial properties */
+                color: initial-color;
+                transform: scale(1);
+                transition: color 0.3s ease, transform 0.3s ease;
+                display: block;
+                /* Hide #icon-image-2 */
+            }
+        }
+
+        /* On screens that are 767px or less, show #icon-image and hide #icon-image-2 */
+        @media screen and (min-width: 768px) {
+            #icon-image {
+                /* Set initial properties */
+                color: initial-color;
+                transform: scale(1);
+                transition: color 0.3s ease, transform 0.3s ease;
+                display: block;
+                /* Show #icon-image */
+            }
+
+            #icon-image-2 {
+                /* Set initial properties */
+                color: initial-color;
+                transform: scale(1);
+                transition: color 0.3s ease, transform 0.3s ease;
+                display: none;
+                /* Hide #icon-image-2 */
+            }
         }
     </style>
 
@@ -238,8 +303,6 @@ $blog_now = $_GET['blog'];
                                             textarea.style.height = (textarea.scrollHeight) + 'px';
                                         });
                                     </script>
-
-
                                     <script>
                                         // JavaScript to make the textarea auto-resize
                                         var textarea = document.querySelector('textarea.autosize');
@@ -249,9 +312,6 @@ $blog_now = $_GET['blog'];
                                             this.style.height = (this.scrollHeight) + 'px';
                                         });
                                     </script>
-
-
-
                                 </p>
                             </div>
                             <!-- <div class="buttons wow fadeInUp">
@@ -489,6 +549,23 @@ $blog_now = $_GET['blog'];
                     <style>
                         <?php
                         $file_name = 'sub_title_pic_' . $blog_now . '_' . $sub_title;
+                        ?>#picture<?= '_' . $blog_now . '_' . $sub_title ?> {
+                            width: 100%;
+                            /* Make the picture element span full width */
+                            padding: 0%;
+                            <?php
+                            if (isset($_SESSION[$file_name])) {
+                            ?>background-image: url('<?= $_SESSION[$file_name] ?>');
+                            <?php
+                            } else {
+                            ?>background-image: url('../image/example/black.PNG');
+                            <?php
+                            } ?>
+                        }
+                    </style>
+                    <!-- <style>
+                        <?php
+                        $file_name = 'sub_title_pic_' . $blog_now . '_' . $sub_title;
                         ?>@media only screen and (min-width: 767px) {
                             #picture<?= '_' . $blog_now . '_' . $sub_title ?> {
                                 width: 100%;
@@ -520,11 +597,12 @@ $blog_now = $_GET['blog'];
                                 } ?>
                             }
                         }
-                    </style>
+                    </style> -->
                     <?php
                     if (mysqli_num_rows($result_pic) > 0) {
                         if (($Section_1 % 2) == 0) { ?>
                             <!-- Section 1 -->
+
                             <d iv class="section-2-container section-container section-container-gray-bg" id="section-2">
                                 <div class="container">
                                     <div class="row">
@@ -532,7 +610,9 @@ $blog_now = $_GET['blog'];
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-8 section-2-box wow fadeInLeft">
+
+                                        <div class="col-md-8 section-2-box wow fadeInLeft">
+
                                             <h3>
                                                 <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
 
@@ -571,6 +651,7 @@ $blog_now = $_GET['blog'];
                                                 เปลี่ยนรูปภาพ
                                             </label>
                                         </div>
+
                                     </div>
                                 </div>
                             </d>
@@ -584,11 +665,10 @@ $blog_now = $_GET['blog'];
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4 section-2-box wow fadeInUp" style="border-radius: 3%; display: flex; justify-content: center; align-items: center;" id="picture<?= '_' . $blog_now . '_' . $sub_title ?>">
-                                            <label for="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="cursor: pointer;" id="icon-image">
+                                            <label for="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="cursor: pointer;">
                                                 <i class="fa fa-plus"></i>
                                                 เปลี่ยนรูปภาพ
                                             </label>
-
                                         </div>
                                         <div class="col-8 section-2-box wow fadeInLeft">
                                             <h3>
@@ -638,6 +718,12 @@ $blog_now = $_GET['blog'];
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-4 section-2-box wow fadeInUp" style="border-radius: 3%; display: flex; justify-content: center; align-items: center;" id="picture<?= '_' . $blog_now . '_' . $sub_title ?>">
+                                        <label for="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="cursor: pointer;" id="icon-image">
+                                            <i class="fa fa-plus"></i>
+                                            เปลี่ยนรูปภาพ
+                                        </label>
+                                    </div>
                                     <div class="col-md-8 section-2-box wow fadeInLeft">
                                         <h3>
                                             <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
@@ -671,18 +757,6 @@ $blog_now = $_GET['blog'];
                                             </script>
                                         </p>
                                     </div>
-
-
-                                    <div class="col-md-4 section-2-box wow fadeInUp" style="border-radius: 3%; display: flex; justify-content: center; align-items: center;" id="picture<?= '_' . $blog_now . '_' . $sub_title ?>">
-                                        <label for="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="cursor: pointer;" id="icon-image">
-                                            <!-- <p>sub_title_pic_<?= $blog_now ?>_<?= $sub_title ?></p> -->
-                                            <i class="fa fa-plus"></i>
-                                        </label>
-                                    </div>
-
-
-
-
                                 </div>
                             </div>
                         </d>

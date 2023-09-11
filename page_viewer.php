@@ -13,7 +13,7 @@ session_start();
 include('database/condb.php');
 
 // $blog_now = $_GET['blog'];
-$blog_now = 14;
+$blog_now = $_GET['blog'];
 
 if (isset($_SESSION['check_watch'])) {
 

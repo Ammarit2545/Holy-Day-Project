@@ -29,7 +29,7 @@ for ($i = $session; $i <= $count; $i++) {
         $_SESSION['title_color_' . ($i - 1)] = $_SESSION['title_color_' . $i];
         $_SESSION['title_detail_' . ($i - 1)] = $_SESSION['title_detail_' . $i];
         $_SESSION['title_id_' . ($i - 1)] = $_SESSION['title_id_' . $i];
-        $_SESSION['title_file_' . ($i - 1)]= $_SESSION['title_file_' . $i];
+        $_SESSION['title_file_' . ($i - 1)] = $_SESSION['title_file_' . $i];
         unset(
             $_SESSION['title_' . $i],
             $_SESSION['title_color_' . $i],

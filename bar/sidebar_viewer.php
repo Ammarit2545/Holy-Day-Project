@@ -33,23 +33,26 @@ if (isset($_SESSION["role_id"])) {
                 <li class="active">
                     <a class="scroll-link" href="#top-content"><i class="fas fa-home"></i> Home</a>
                 </li>
-                <li class="active">
-                    <a class="scroll-link" href="#<?= $row_con['st_id'] ?>"><i class="fas fa-home"></i>  <?= $row_con['st_main'] ?></a>
+                <li>
+                    <a  href="listview_page.php"><i class="fas fa-home"></i> กลับสู่หน้าหลัก</a>
                 </li>
-                <?php
-                $count_con++;
-            }else{
-                ?>
-                 <li class="active">
+                <li>
                     <a class="scroll-link" href="#<?= $row_con['st_id'] ?>"><i class="fas fa-home"></i> <?= $row_con['st_main'] ?></a>
                 </li>
-                
+            <?php
+                $count_con++;
+            } else {
+            ?>
+                <li>
+                    <a class="scroll-link" href="#<?= $row_con['st_id'] ?>"><i class="fas fa-home"></i> <?= $row_con['st_main'] ?></a>
+                </li>
+
                 <?php
                 $count_con++;
             }
                 ?><?php
                 } ?>
-              
+
                 <?php if (isset($_SESSION["email"])) { ?>
                     <li>
                         <a href="#" id="logout-link">

@@ -23,6 +23,47 @@ $page = 'Create Blog';
 $blog_now = $_GET['blog'];
 
 
+// Get the last inserted ID
+$last_inserted_id = mysqli_insert_id($conn);
+
+$count_blog = isset($_SESSION['title_now']) ? $_SESSION['title_now'] : null;
+$count_blog += 1;
+
+
+while (!isset($_SESSION['title_' . $count_blog])) {
+
+    if (!isset($_SESSION['sub_title_id_' . $count_blog . '_1'])) {
+        // No records found, insert new data
+        for ($i = 1; $i <= 4; $i++) {
+            $t_id; // You should set the value of $t_id here.
+
+            if ($i == 1) {
+                $st_name = 'ประวัติและความสำคัญ';
+                $st_detail = '* เพิ่มข้อมูลของคุณ';
+                $sec_type = 1;
+            } elseif ($i == 2) {
+                $st_name = 'กิจกรรม/พิธีกรรม';
+                $st_detail = '* เพิ่มข้อมูลของคุณ';
+                $sec_type = 1;
+            } elseif ($i == 3) {
+                $st_name = 'บุคคลสำคัญ';
+                $st_detail = '* เพิ่มข้อมูลของคุณ';
+                $sec_type = 1;
+            } elseif ($i == 4) {
+                $st_name = 'ติดต่อและเข้าถึง';
+                $st_detail = '* เพิ่มข้อมูลของคุณ';
+                $sec_type = 1;
+            }
+
+            $_SESSION['sub_title_id_' . $count_blog . '_' . $i] = null;
+            $_SESSION['sub_title_' . $count_blog . '_' . $i] = $st_name;
+            $_SESSION['sub_title_detail_' . $count_blog . '_' . $i] = $st_detail;
+            $_SESSION['sub_title_section_' . $count_blog . '_' . $i] = $sec_type;
+            $_SESSION['title_date_in_' . $count_blog] = date('Y-m-d H:i:s');
+        }
+    }
+    break;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
