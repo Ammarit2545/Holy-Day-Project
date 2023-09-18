@@ -31,6 +31,8 @@ if (isset($_GET['sub'])) {
     die("Blog parameter not found in the GET request.");
 }
 
+$sub_id = $_SESSION['sub_title_id_' . $blog_now . '_' . $sub];
+
 $title_page = $_POST['title_page'];
 
 // Define the base folder path
@@ -96,9 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sub_title_pic_' . $b
 
     if (in_array($fileExtension, $allowedExtensions)) {
         // Generate a unique filename to prevent overwriting existing files
-        $newFileName = uniqid() . '.' . $fileExtension;
+        $newFileName = "sub_title_$sub_id.$fileExtension"; // Change the filename here
         $uploadPath = $baseFolderPath . "holder/$blog_now/sub_title/$sub/$newFileName";
         $folderPath = $folderPath . $newFileName;
+
+        $_SESSION['sub_title_base_' . $blog_now . '_' . $sub] = $newFileName; // ชื่อไฟล์
 
         // Check if a file with the same name already exists and delete it
         if (file_exists($uploadPath)) {
@@ -125,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['sub_title_pic_' . $b
     }
 
     $st_id = $_SESSION['sub_title_id_' . $blog_now . '_' . $sub];
+    
 
     // Check if a picture with the same 'st_id' exists
     $sql_check = "SELECT * FROM picture WHERE st_id = '$st_id'";

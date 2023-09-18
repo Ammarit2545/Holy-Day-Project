@@ -24,7 +24,7 @@ if (isset($_SESSION["role_id"])) {
 			<a class="scroll-link" href="#top-content"><i class="fas fa-home"></i> หน้าหลัก</a>
 		</li>
 		<li>
-			<a class="scroll-link" href="listview_page.php"><i class="fas fa-home"></i> ดูวันสำคัญต่างๆ</a>
+			<a  href="listview_page.php"><i class="fas fa-home"></i> ดูวันสำคัญต่างๆ</a>
 		</li>
 		<li>
 			<a class="scroll-link" href="#section-1"><i class="fas fa-cog"></i> What we do</a>

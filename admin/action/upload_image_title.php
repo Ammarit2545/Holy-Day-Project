@@ -23,6 +23,8 @@ if (isset($_GET['blog'])) {
     die("Blog parameter not found in the GET request.");
 }
 
+$title_id = $_SESSION['title_id_'.$blog_now];
+
 $title_page = $_POST['title_page'];
 
 // Define the base folder path
@@ -80,15 +82,19 @@ if (is_dir($folderPath)) {
 $folderPath = "uploads/$e_id/holder/$blog_now/title/";
 $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf']; // Add allowed file extensions here
 
+// Handle file upload ----------------------------------------------------------------
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['title_file_' . $blog_now])) {
     $file = $_FILES['title_file_' . $blog_now];
     $fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
     if (in_array($fileExtension, $allowedExtensions)) {
         // Generate a unique filename to prevent overwriting existing files
-        $newFileName = uniqid() . '.' . $fileExtension;
+        $newFileName = "title_$title_id.$fileExtension"; // Change the filename here
         $uploadPath = $baseFolderPath . "holder/$blog_now/title/$newFileName";
         $folderPath = $folderPath . $newFileName;
+
+        $_SESSION['title_file_base_' . $blog_now] = $newFileName; // ชื่อไฟล์
 
         // Check if a file with the same name already exists and delete it
         if (file_exists($uploadPath)) {
@@ -118,12 +124,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['title_file_' . $blog
     $_SESSION['title_file_' . $blog_now] = $folderPath;
     // Make sure $title_page and $blog_now are defined before using them
 
-
     // Use the variables in the header function
     header("Location: ../$title_page?blog=$blog_now");
-
-
-
 
     exit; // Make sure to exit after redirecting
 }
