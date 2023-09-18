@@ -105,10 +105,13 @@ include('database/condb.php');
 					<div class="row">
 						<?php
 						$count_topic = 0;
+
 						$sql_select = "SELECT * FROM topic 
 						LEFT JOIN picture ON picture.t_id = topic.t_id
 						Where topic.del_flg = 0 AND topic.t_test = 0 AND picture.del_flg = 0";
-						$result_select = mysqli_query($conn, $sql_select);
+
+						$result_select = mysqli_query($conn, $sql_select); //Update Delete Insert
+
 						while ($row_select = mysqli_fetch_array($result_select)) {
 							$count_topic++;
 						?>

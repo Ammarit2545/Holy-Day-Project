@@ -85,7 +85,7 @@ if ($row > 0) {
         $_SESSION["Error"] = "<p>Your username or password is invalid.</p>";
         $_SESSION['add_data_alert'] = 1;
         echo "false";
-        header("location: ../index.php");
+        header("location: ../admin/sign-in.php");
     }
 
     // exit(); // Terminate the current script

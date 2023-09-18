@@ -69,7 +69,7 @@ if (!isset($_SESSION["role_id"])) {
                             </g>
                         </svg>
                     </div>
-                    <span class="nav-link-text ms-1">Tables</span>
+                    <span class="nav-link-text ms-1">Your Blog</span>
                 </a>
             </li>
             <li class="nav-item">

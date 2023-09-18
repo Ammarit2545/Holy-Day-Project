@@ -22,6 +22,8 @@ $active[5] = "active";
 $page = 'Create Blog';
 $blog_now = $_GET['blog'];
 
+$page_req = 'create_blog.php';
+
 
 // Get the last inserted ID
 $last_inserted_id = mysqli_insert_id($conn);
@@ -501,7 +503,7 @@ while (!isset($_SESSION['title_' . $count_blog])) {
                                     <h6 class="mb-0">Your Sub Title</h6>
                                 </div>
                                 <div class="col-6 text-end">
-                                    <a class="btn bg-gradient-dark mb-0" href="add_card.php?topic=<?= $blog_now ?>"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add New Card</a>
+                                    <a class="btn bg-gradient-dark mb-0" href="action/add_card.php?topic=<?= $blog_now ?>&page=<?= $page_req ?>"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add New Card</a>
                                 </div>
                             </div>
                         </div>
@@ -519,9 +521,46 @@ while (!isset($_SESSION['title_' . $count_blog])) {
                                         <div class="ms-auto text-end">
                                             <?php if (isset($_SESSION['title_id_' . $blog_now])) {
                                             ?>
-                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>" href="delete_sub_main.php?sub=<?= $_SESSION['sub_title_id_' . $blog_now . '_' . $sub_title] ?>">
+                                                <a class="btn btn-link text-danger text-gradient px-3 mb-0 delete-sub-button" data-blogid="<?= $_SESSION['title_id_' . $blog_now] ?>" data-subid="<?= $_SESSION['sub_title_id_' . $blog_now . '_' . $sub_title] ?>" data-blog="<?= $blog_now ?>" data-sub="<?= $sub_title ?>" data-page="<?= $page_req ?>" href="action/delete_sub_main.php?sub_id=<?= $_SESSION['sub_title_id_' . $blog_now . '_' . $sub_title] ?>&blog=<?= $blog_now ?>&sub=<?= $sub_title ?>&page=<?= $page_req ?>">
                                                     <i class="far fa-trash-alt me-2"></i>Delete
                                                 </a>
+                                                <!-- Add this script to your HTML -->
+                                                <script>
+                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                        // Select all elements with the class 'delete-sub-button'
+                                                        const deleteButtons = document.querySelectorAll('.delete-sub-button');
+
+                                                        // Add a click event listener to each delete button
+                                                        deleteButtons.forEach(function(button) {
+                                                            button.addEventListener('click', function(event) {
+                                                                event.preventDefault();
+
+                                                                // Get the data attributes from the button
+                                                                const subId = button.getAttribute('data-subid');
+                                                                const blog = button.getAttribute('data-blog');
+                                                                const sub = button.getAttribute('data-sub');
+                                                                const page = button.getAttribute('data-page');
+
+                                                                Swal.fire({
+                                                                    title: 'คุณแน่ใจที่จะลบหัวข้อย่อยนี้หรือไม่',
+                                                                    text: 'การลบนี้จะไม่สามารถกู้คืนได้?',
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#d33',
+                                                                    cancelButtonColor: '#3085d6',
+                                                                    confirmButtonText: 'Yes, delete it!',
+                                                                    cancelButtonText: 'Cancel'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // If the user confirms the delete action, navigate to the deletion URL
+                                                                        window.location.href = `action/delete_sub_main.php?sub_id=${subId}&blog=${blog}&sub=${sub}&page=${page}`;
+                                                                    }
+                                                                });
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
+
                                             <?php
                                             } ?>
 
@@ -1039,11 +1078,74 @@ while (!isset($_SESSION['title_' . $count_blog])) {
             });
         });
     </script>
+
+    <?php
+    if (isset($_SESSION['add_sub'])) {
+        if ($_SESSION['add_sub'] == 1) {
+    ?>
+            <script>
+                let timerInterval
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ไม่สามารถเพิ่มหัวข้อย่อยได้ !',
+                    html: 'I will close in <b></b> milliseconds.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
+                        timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer')
+                    }
+                })
+            </script>
+        <?php
+        } else {
+        ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'เพิ่มหัวข้อย่อยสำเร็จ',
+                    html: 'I will close in <b></b> milliseconds.',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
+                        timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer')
+                    }
+                })
+            </script>
+    <?php
+        }
+        unset($_SESSION['add_sub']);
+    }
+    ?>
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>
     <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {

@@ -23,7 +23,7 @@ include('../database/condb.php');
 $active = array();
 $active[5] = "active";
 
-$page = 'Billing';
+$page = 'Create Blog';
 
 $e_id = $_SESSION['id'];
 $count_blog = 1;
