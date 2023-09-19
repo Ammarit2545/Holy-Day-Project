@@ -47,9 +47,38 @@ $page = 'Your Blog';
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.all.min.js"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
+
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var myToast = new bootstrap.Toast(document.querySelector('.toast'));
+      myToast.show();
+    });
+  </script>
+
+<!-- <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto">Bootstrap</strong>
+      <small>11 mins ago</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+  </div> -->
 
   <!-- Start SideBar  -->
 
@@ -70,6 +99,7 @@ $page = 'Your Blog';
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
+                
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
@@ -78,7 +108,7 @@ $page = 'Your Blog';
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Watch</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Release</th>
-                      <th class="text-secondary opacity-7"></th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ปุ่มดำเนินการ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -98,7 +128,7 @@ $page = 'Your Blog';
                               <img src="<?= $row_blog['p_pic'] ?>" class="avatar avatar-sm me-3" alt="user1">
                             </div>
                             <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm"><?= $row_blog['t_name'] ?></h6>
+                              <a href="../page_viewer.php?id=<?= $row_blog['t_id'] ?>"><h6 class="mb-0 text-sm"><?= $row_blog['t_name'] ?></h6></a>
                               <p class="text-xs text-secondary mb-0">
                                 <?php
                                 if ($row_blog['t_update'] != NULL) {
@@ -162,10 +192,49 @@ $page = 'Your Blog';
                                                                                   }
                                                                                   ?></span>
                         </td>
-                        <td class="align-middle">
-                          <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <td class="align-middle  text-center">
+
+
+                          <a href="edit_blog.php?blog=<?= $row_blog['t_id'] ?>" class="text-secondary font-weight-bold text-xs mr-4" data-toggle="tooltip" data-original-title="Edit user">
                             Edit
                           </a>
+
+                          <a href="#" class="text-danger font-weight-bold text-xs ml-4 delete-blog<?= $row_blog['t_id'] ?>" data-blogid="<?= $t_id ?>" data-toggle="tooltip" data-original-title="Delete Blog" style="margin-left: 7%;">
+                            Delete
+                          </a>
+                          <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                              // Find all elements with class "delete-blog"
+                              const deleteLinks = document.querySelectorAll('.delete-blog<?= $row_blog['t_id'] ?>');
+
+                              // Attach a click event listener to each link
+                              deleteLinks.forEach(link => {
+                                link.addEventListener('click', function(e) {
+                                  e.preventDefault();
+
+                                  // Get the blog ID from the data-blogid attribute
+                                  const blogId = this.getAttribute('data-blogid');
+
+                                  // Show a SweetAlert confirmation dialog
+                                  Swal.fire({
+                                    title: 'คุณต้องการลบหรือไม่?',
+                                    text: 'หัวข้อ "<?= $row_blog['t_name'] ?>" จะไม่แสดงอีกต่อไป!',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#d33',
+                                    cancelButtonColor: '#3085d6',
+                                    confirmButtonText: 'Yes, delete it!'
+                                  }).then((result) => {
+                                    if (result.isConfirmed) {
+                                      // If the user confirms, redirect to the delete URL
+                                      window.location.href = `action/delete_public.php?blog=${blogId}`;
+                                    }
+                                  });
+                                });
+                              });
+                            });
+                          </script>
+
                         </td>
                       </tr>
 
@@ -173,7 +242,36 @@ $page = 'Your Blog';
                     }  ?>
 
 
+                    <?php if (isset($_SESSION['delete-blog'])) {  ?>
+                      asdasdsadsad
+                      <script>
+                        let timerInterval
+                        Swal.fire({
+                          title: 'ทำการลบ \"<?= $_SESSION['delete-blog'] ?>\" เสร็จสิ้น!',
+                          html: 'ปิดการแจ้งเตือนอัตโนมัติใน <b></b> ',
+                          timer: 3000,
+                          timerProgressBar: true,
+                          didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                              b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                          },
+                          willClose: () => {
+                            clearInterval(timerInterval)
+                          }
+                        }).then((result) => {
+                          /* Read more about handling dismissals below */
+                          if (result.dismiss === Swal.DismissReason.timer) {
+                            console.log('I was closed by the timer')
+                          }
+                        })
+                      </script>
 
+                    <?php
+                      unset($_SESSION['delete-blog']);
+                    } ?>
 
                     <!-- <tr>
                       <td>
@@ -674,6 +772,8 @@ $page = 'Your Blog';
       </div>
     </div>
   </div>
+
+
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
@@ -688,10 +788,12 @@ $page = 'Your Blog';
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
+
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
