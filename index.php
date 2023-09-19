@@ -60,30 +60,77 @@ if(isset($_GET['id'])){
 				<i class="fas fa-align-left"></i> <span>Menu</span>
 			</a>
 
+			<style>
+				/* Set the video container to cover the entire top-content */
+				.video-container {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					overflow: hidden;
+				}
+
+				/* Set the video to cover the entire video container */
+				#bgVideo {
+					min-width: 100%;
+					min-height: 100%;
+					width: auto;
+					height: auto;
+					z-index: -1;
+					/* Place the video behind other content */
+					object-fit: cover;
+					/* Maintain video aspect ratio and cover the container */
+				}
+
+				/* Add a semi-transparent overlay */
+				.overlay {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba(255, 255, 255, 0.4);
+					/* Adjust the alpha (4th value) to control the opacity */
+					z-index: -1;
+					/* Place the overlay behind the video */
+				}
+
+				/* Style the content on top of the video as needed */
+				.container {
+					position: relative;
+					/* Ensure content is positioned relative to the container */
+					z-index: 1;
+					/* Place content on top of the video */
+					/* Add other styles as needed */
+				}
+			</style>
+
 			<!-- Top content -->
-			<div class="top-content section-container" id="top-content">
-				<div class="container">
-					<div class="row">
-						<div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-							<h1 class="wow fadeIn">Holy<strong>Day</strong></h1>
-							<div class="description wow fadeInLeft">
-								<p>
-									วันสำคัญทางศาสนา หมายถึง วันที่มีเหตุการณ์สำคัญบางอย่างเกิดขึ้น ส่วนใหญ่จะเป็นวันที่เกี่ยวข้องกับความเชื่อต่างๆซึ่งจะกำหนดเอาวันที่มีเหตุการณ์พิเศษเกิดขึ้นในช่วงนั้นเป็นหลัก
-									<a href="https://azmind.com"><strong>HolyDay</strong></a>.
-								</p>
-							</div>
-							<div class="buttons wow fadeInUp">
-								<a class="btn btn-primary btn-customized " href="listview_page.php">
-									<i class="fas fa-book-open"></i> Learn More
-								</a>
-								<a class="btn btn-primary btn-customized-2 scroll-link" href="#section-3" role="button">
-									<i class="fas fa-pencil-alt"></i> Our Projects
-								</a>
+				<div class="top-content section-container" id="top-content">
+					<div class="video-container">
+						<video autoplay loop muted playsinline poster="video-poster.jpg" id="bgVideo">
+							<source src="media/video/Buddha.mp4" type="video/mp4">
+							<!-- Add more video sources for different formats (WebM, Ogg) if needed -->
+							Your browser does not support the video tag.
+						</video>
+						<!-- Add the semi-transparent overlay -->
+						<div class="overlay"></div>
+					</div>
+					<div class="container">
+						<div class="row">
+							<div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+								<h1 class="wow fadeIn">Holy<strong>Day</strong></h1>
+								<div class="description wow fadeInLeft">
+									<p>
+										วันสำคัญทางศาสนา หมายถึง วันที่มีเหตุการณ์สำคัญบางอย่างเกิดขึ้น ส่วนใหญ่จะเป็นวันที่เกี่ยวข้องกับความเชื่อต่างๆซึ่งจะกำหนดเอาวันที่มีเหตุการณ์พิเศษเกิดขึ้นในช่วงนั้นเป็นหลัก
+										<a href="#"><strong>HolyDay</strong></a>.
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
 			<!-- Section 1 -->
 			<div class="section-1-container section-container" id="section-1">

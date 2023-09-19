@@ -67,9 +67,63 @@ include('database/condb.php');
 			<a class="btn btn-primary btn-customized open-menu" href="#" role="button">
 				<i class="fas fa-align-left"></i> <span>Menu</span>
 			</a>
+			<style>
+				/* Set the video container to cover the entire top-content */
+				.video-container {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					overflow: hidden;
+				}
+
+				/* Set the video to cover the entire video container */
+				#bgVideo {
+					min-width: 100%;
+					min-height: 100%;
+					width: auto;
+					height: auto;
+					z-index: -1;
+					/* Place the video behind other content */
+					object-fit: cover;
+					/* Maintain video aspect ratio and cover the container */
+				}
+
+				/* Add a semi-transparent overlay */
+				.overlay {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba(255, 255, 255, 0.4);
+					/* Adjust the alpha (4th value) to control the opacity */
+					z-index: -1;
+					/* Place the overlay behind the video */
+				}
+
+				/* Style the content on top of the video as needed */
+				.container {
+					position: relative;
+					/* Ensure content is positioned relative to the container */
+					z-index: 1;
+					/* Place content on top of the video */
+					/* Add other styles as needed */
+				}
+			</style>
 
 			<!-- Top content -->
 			<div class="top-content section-container" id="top-content">
+				<div class="video-container">
+					<video autoplay loop muted playsinline poster="video-poster.jpg" id="bgVideo">
+						<source src="media/video/Buddha.mp4" type="video/mp4">
+						<!-- Add more video sources for different formats (WebM, Ogg) if needed -->
+						Your browser does not support the video tag.
+					</video>
+					<!-- Add the semi-transparent overlay -->
+					<div class="overlay"></div>
+				</div>
 				<div class="container">
 					<div class="row">
 						<div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
@@ -80,25 +134,20 @@ include('database/condb.php');
 									<a href="#"><strong>HolyDay</strong></a>.
 								</p>
 							</div>
-							<!-- <div class="buttons wow fadeInUp">
-								<a class="btn btn-primary btn-customized scroll-link" href="#section-1" role="button">
-									<i class="fas fa-book-open"></i> Learn More
-								</a>
-								<a class="btn btn-primary btn-customized-2 scroll-link" href="#section-3" role="button">
-									<i class="fas fa-pencil-alt"></i> Our Projects
-								</a>
-							</div> -->
 						</div>
 					</div>
 				</div>
 			</div>
+
+
+
 
 			<!-- Section 1 -->
 			<div class="section-1-container section-container" id="section-1">
 				<div class="container">
 					<div class="row">
 						<div class="col section-1 section-description wow fadeIn">
-							<h2>วันสำคัญต่างๆ</h2>
+							<h2>วันสำคัญต่างทางศาสนาของไทย</h2>
 							<div class="divider-1 wow fadeInUp"><span></span></div>
 						</div>
 					</div>
@@ -106,9 +155,15 @@ include('database/condb.php');
 						<?php
 						$count_topic = 0;
 
-						$sql_select = "SELECT * FROM topic 
+						$sql_select = "SELECT *
+						FROM topic
 						LEFT JOIN picture ON picture.t_id = topic.t_id
-						Where topic.del_flg = 0 AND topic.t_test = 0 AND picture.del_flg = 0";
+						LEFT JOIN employee ON employee.e_id = topic.e_id
+						WHERE topic.del_flg = 0
+						  AND topic.t_test = 0
+						  AND (topic.t_private != 0 OR topic.t_private = 1)
+						  AND picture.del_flg = 0;
+						";
 
 						$result_select = mysqli_query($conn, $sql_select); //Update Delete Insert
 
@@ -116,9 +171,9 @@ include('database/condb.php');
 							$count_topic++;
 						?>
 							<a href="page_viewer.php?blog=<?= $row_select['t_id'] ?>" id="bounce-item">
-								<div class="col-md-4 section-1-box wow fadeInUp m-4">
+								<div class="col-md-12">
 									<div class="row">
-										<div class="card" style="width: 100%;">
+										<div class="card" style="width: 50%;">
 											<img src="admin/<?= $row_select['p_pic'] ?>" class="card-img-top" alt="...">
 											<div class="card-body">
 												<h5 class="card-title"><?= $row_select['t_name'] ?></h5>

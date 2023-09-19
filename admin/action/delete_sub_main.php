@@ -88,8 +88,11 @@ $sql = "SELECT st_main FROM sub_topic WHERE st_id = '$sub_id'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
 
-$sql_delete = "UPDATE sub_topic SET del_flg = 1 WHERE st_id = $sub_id";
-$result_topic = mysqli_query($conn, $sql_delete);
+if ($_GET['sub_id'] != NULL) {
+    $sql_delete = "UPDATE sub_topic SET del_flg = 1 WHERE st_id = $sub_id";
+    $result_topic = mysqli_query($conn, $sql_delete);
+}
+
 
 if ($result_topic) {
     $sql_delete_pic = "UPDATE picture SET del_flg = 1 WHERE st_id = $sub_id";

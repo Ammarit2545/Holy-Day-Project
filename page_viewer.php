@@ -11,13 +11,11 @@
 
 session_start();
 include('database/condb.php');
+// Assuming you have already started the session using session_start()
 
-// $blog_now = $_GET['blog'];
 $blog_now = $_GET['blog'];
 
-if (isset($_SESSION['check_watch'])) {
-
-    echo 'asdasdadasds';
+if (!isset($_SESSION['check_watch'])) {
     // Update the SQL query with proper syntax
     $sql = "UPDATE topic SET t_watch = t_watch + 1 WHERE t_id = ? AND t_test = 0 AND del_flg = 0";
 
@@ -25,7 +23,7 @@ if (isset($_SESSION['check_watch'])) {
     $stmt = mysqli_prepare($conn, $sql);
 
     // Bind the parameter
-    mysqli_stmt_bind_param($stmt, "i", $blog_now); // Assuming $blog_now is a string, change "s" to the appropriate type if needed
+    mysqli_stmt_bind_param($stmt, "i", $blog_now); // Assuming $blog_now is an integer; change "i" to the appropriate type if needed
 
     // Execute the query
     $result = mysqli_stmt_execute($stmt);
@@ -33,10 +31,12 @@ if (isset($_SESSION['check_watch'])) {
     if ($result) {
         // Update successful
         mysqli_stmt_close($stmt);
+        $_SESSION['check_watch'] = true; // Set the session variable to prevent further updates
+    } else {
+        // Handle the error here if the update fails
     }
-
-    unset($_SESSION['check_watch']);
 }
+
 $sql = "SELECT * FROM topic 
     LEFT JOIN picture ON picture.t_id = topic.t_id
     WHERE topic.t_id = '$blog_now' AND topic.t_test = 0 AND topic.del_flg = 0;";
@@ -223,7 +223,7 @@ $row_e = mysqli_fetch_array($result_e);
                         <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
 
                             <h1 class="wow fadeIn text-center">
-                                <input type="text" name="title_<?= $blog_now ?>" id="titleInput" class="invisible-input form-control mb-0 mr-1 text-center" placeholder="* Your Title" value="<?= $row['t_name'] ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
+                                <input readonly type="text" name="title_<?= $blog_now ?>" id="titleInput" class="invisible-input form-control mb-0 mr-1 text-center" placeholder="* Your Title" value="<?= $row['t_name'] ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="หัวข้อหลัก" required>
                             </h1>
 
 
@@ -236,7 +236,7 @@ $row_e = mysqli_fetch_array($result_e);
                                         }
                                     </style>
 
-                                    <textarea name="title_detail_<?= $blog_now ?>" id="title_detail" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="Your Detail Title" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" required><?= $row['t_detail'] ?></textarea>
+                                    <textarea name="title_detail_<?= $blog_now ?>" id="title_detail" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="Your Detail Title" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" required readonly><?= $row['t_detail'] ?></textarea>
                                     <script>
                                         const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea');
 
@@ -644,11 +644,11 @@ $row_e = mysqli_fetch_array($result_e);
                                         </div>
                                         <div class="col-8 <?= $row_t['st_id'] ?>-box wow fadeInLeft">
                                             <h3>
-                                                <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
+                                                <textarea readonly name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
 
                                             </h3>
                                             <p class="medium-paragraph">
-                                                <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($detail_sub_title) ?></textarea>
+                                                <textarea readonly name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($detail_sub_title) ?></textarea>
 
                                                 <script>
                                                     $(document).ready(function() {
@@ -692,11 +692,11 @@ $row_e = mysqli_fetch_array($result_e);
                                 <div class="row">
                                     <div class="col-md-8 <?= $row_t['st_id'] ?>-box wow fadeInLeft">
                                         <h3>
-                                            <textarea name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($sub_title_main) ?></textarea>
+                                            <textarea readonly name="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;" readonly><?= htmlentities($sub_title_main) ?></textarea>
 
                                         </h3>
                                         <p class="medium-paragraph">
-                                            <textarea name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;"><?= htmlentities($detail_sub_title) ?></textarea>
+                                            <textarea readonly name="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" id="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" class="sub_title_detail_<?= $blog_now ?>_<?= $sub_title ?>" style="width: 100%; border: none; background-color: transparent; color: black;" readonly><?= htmlentities($detail_sub_title) ?></textarea>
 
                                             <script>
                                                 $(document).ready(function() {
@@ -796,8 +796,8 @@ $row_e = mysqli_fetch_array($result_e);
                 <form action="action/upload_image_sub_title.php?blog=<?= $blog_now ?>&sub=<?= $sub_title ?>" method="post" enctype="multipart/form-data" id="uploadFormPic<?= '_' . $blog_now . '_' . $sub_title ?>">
 
                     <!-- $title_page -->
-                    <input type="file" name="sub_title_pic_<?= $blog_now ?>_<?= $sub_title ?>" id="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="display: none;">
-                    <input type="text" name="title_page" id="title_page_<?= $blog_now ?>_<?= $sub_title ?>" value="page_writer.php" style="display: none;">
+                    <input readonly type="file" name="sub_title_pic_<?= $blog_now ?>_<?= $sub_title ?>" id="picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>" style="display: none;">
+                    <input readonly type="text" name="title_page" id="title_page_<?= $blog_now ?>_<?= $sub_title ?>" value="page_writer.php" style="display: none;">
                 </form>
                 <script>
                     var pictureBlogInput = document.getElementById('picture_blog<?= '_' . $blog_now . '_' . $sub_title ?>');
@@ -895,23 +895,23 @@ $row_e = mysqli_fetch_array($result_e);
 
                 </div>
             </div> -->
-
+            <br><br>
             <!-- Section 4 -->
-            <div class="section-4-container section-container section-container-image-bg" id="section-4">
+            <div class="section-4-container section-container section-container-image-bg mt-4" id="section-4">
                 <div class="container">
                     <div class="row">
                         <div class="col section-4 section-description wow fadeInLeftBig">
-                            <h2>We Think That...</h2>
-                            <p>
+                            <h2>มีวันสำคัญทางศาสนาของไทยอื่นๆอีกมากมาย</h2>
+                            <!-- <p>
                                 Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
                                 aliquip ex ea commodo consequat. Ut wisi enim ad minim veniam, quis nostrud.
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                     <div class="row">
                         <div class="col section-bottom-button wow fadeInUp">
                             <a class="btn btn-primary btn-customized-2 scroll-link" href="#section-6" role="button">
-                                <i class="fas fa-envelope"></i> Contact Us
+                                <i class="fas fa-envelope"></i> ข้อมูลผู้เขียน
                             </a>
                         </div>
                     </div>
@@ -923,13 +923,39 @@ $row_e = mysqli_fetch_array($result_e);
                 <div class="container">
                     <div class="row">
                         <div class="col section-5 section-description wow fadeIn">
-                            <h2>Portfolio</h2>
+                            <h2>วันสำคัญอื่นๆ</h2>
                             <div class="divider-1 wow fadeInUp"><span></span></div>
-                            <p>We have completed 486 projects since we started back in 2013. Check them out!</p>
+                            <p>วันสำคัญทางศาสนาอื่นๆ ที่คุณอาจสนใจ!</p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 section-5-box wow fadeInUp">
+                        <?php
+                        $sql_topic = "SELECT *
+						FROM topic
+						LEFT JOIN picture ON picture.t_id = topic.t_id
+						LEFT JOIN employee ON employee.e_id = topic.e_id
+						WHERE topic.del_flg = 0
+						  AND topic.t_test = 0
+                          AND topic.t_id != $blog_now
+						  AND (topic.t_private != 0 OR topic.t_private = 1)
+						  AND picture.del_flg = 0 ORDER BY topic.t_id DESC LIMIT 3";
+                        $result_topic = mysqli_query($conn, $sql_topic);
+
+                        while ($row_topic = mysqli_fetch_array($result_topic)) {
+                        ?>
+                            <a href="page_viewer.php?blog=<?=  $row_topic['t_id'] ?> ">
+                                <div class="col-md-4 section-5-box wow fadeInUp">
+                                    <div class="section-5-box-image"><img src="admin/<?= $row_topic['p_pic'] ?>" alt="portfolio-1"></div>
+                                    <h3><a href="page_viewer.php?blog=<?=  $row_topic['t_id'] ?> "><?= $row_topic['t_name']  ?></a> <i class="fas fa-angle-right"></i></h3>
+                                    <div class="section-5-box-date"><i class="far fa-calendar"></i> June 2019</div>
+                                    <p><?= mb_substr($row_topic['t_detail'], 0, 100, 'UTF-8') ?></p>
+
+                                </div>
+                            </a>
+                        <?php
+                        }
+                        ?>
+                        <!-- <div class="col-md-4 section-5-box wow fadeInUp">
                             <div class="section-5-box-image"><img src="assets/img/portfolio/1.jpg" alt="portfolio-1"></div>
                             <h3><a href="#">Acme branding</a> <i class="fas fa-angle-right"></i></h3>
                             <div class="section-5-box-date"><i class="far fa-calendar"></i> June 2019</div>
@@ -946,15 +972,15 @@ $row_e = mysqli_fetch_array($result_e);
                             <h3><a href="#">WordPress design</a> <i class="fas fa-angle-right"></i></h3>
                             <div class="section-5-box-date"><i class="far fa-calendar"></i> November 2018</div>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col section-bottom-button wow fadeInUp">
                             <a class="btn btn-primary btn-customized" href="#" role="button">
                                 <i class="fas fa-sync"></i> View All
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

@@ -60,7 +60,7 @@ $page = 'Your Blog';
 
 <body class="g-sidenav-show  bg-gray-100">
 
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var myToast = new bootstrap.Toast(document.querySelector('.toast'));
@@ -68,7 +68,7 @@ $page = 'Your Blog';
     });
   </script>
 
-<!-- <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <!-- <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
       <img src="..." class="rounded me-2" alt="...">
       <strong class="me-auto">Bootstrap</strong>
@@ -99,7 +99,7 @@ $page = 'Your Blog';
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                
+
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
@@ -115,12 +115,135 @@ $page = 'Your Blog';
 
                     <?php
 
-                    $sql_blog = "SELECT topic.t_id,topic.t_name ,topic.t_date_in,topic.t_update,topic.t_private,topic.t_watch,picture.p_pic FROM topic 
+                    $sql_blog = "SELECT topic.t_id,topic.t_name,topic.t_detail ,topic.t_color,topic.t_date_in,topic.t_update,topic.t_private,topic.t_watch,picture.p_pic FROM topic 
                     LEFT JOIN picture ON picture.t_id = topic.t_id
-                    WHERE topic.del_flg = 0 AND topic.e_id = '$e_id' AND t_test = 0 ORDER BY topic.t_update DESC";
+                    WHERE topic.del_flg = 0 AND topic.e_id = '$e_id' AND t_test = 0 ORDER BY topic.t_date_in DESC";
                     $result_blog = mysqli_query($conn, $sql_blog);
                     while ($row_blog = mysqli_fetch_array($result_blog)) {
+                      $t_id = $row_blog['t_id'];
+
+                      // sub id -------------------------------------------------------------------------
+                      $i = 1;
+                   
+                      while (isset($_SESSION['sub_title_id_' . $t_id . '_' . $i])) {
+
+                        // $_SESSION['sub_title_id_' . $t_id . '_' . $i] != $row_sub_blog['st_id'];
+                        // $_SESSION['sub_title_' . $t_id . '_' . $i] != $row_sub_blog['st_main'];
+                        // $_SESSION['sub_title_detail_' . $t_id . '_' . $i] != $row_sub_blog['st_detail'];
+                        // $_SESSION['sub_title_section_' . $t_id . '_' . $i] != $row_sub_blog['st_type_sec'];
+                        // $_SESSION['title_date_in_' . $t_id . '_' . $i] != $row_sub_blog['st_date_in'];
+                        // $_SESSION['sub_title_pic_' . $t_id . '_' . $i] != $row_sub_blog['p_pic'];
+
+                        if (
+                          isset($_SESSION['sub_title_id_' . $t_id . '_' . $i]) &&
+                          isset($_SESSION['sub_title_' . $t_id . '_' . $i]) &&
+                          isset( $_SESSION['sub_title_detail_' . $t_id . '_' . $i]) &&
+                          isset( $_SESSION['sub_title_section_' . $t_id . '_' . $i]) &&
+                          isset($_SESSION['title_date_in_' . $t_id . '_' . $i]) &&
+                          isset($_SESSION['sub_title_pic_' . $t_id . '_' . $i])
+                        ) {
+                          $id_sub = $_SESSION['sub_title_id_' . $t_id . '_' . $i];
+                          $sql_sub_blog = "SELECT *
+                          FROM sub_topic 
+                          LEFT JOIN picture ON picture.st_id = sub_topic.st_id
+                          WHERE sub_topic.del_flg = 0 AND sub_topic.st_id = '$id_sub'";
+        $result_sub_blog = mysqli_query($conn, $sql_sub_blog);
+        $row_sub_blog = mysqli_fetch_array($result_sub_blog);
+        
+                          if (
+                           
+
+                            $_SESSION['sub_title_id_' . $t_id . '_' . $i] != $row_sub_blog['st_id'] ||
+                            $_SESSION['sub_title_' . $t_id . '_' . $i] != $row_sub_blog['st_main'] ||
+                            $_SESSION['sub_title_detail_' . $t_id . '_' . $i] != $row_sub_blog['st_detail'] ||
+                            $_SESSION['sub_title_section_' . $t_id . '_' . $i] != $row_sub_blog['st_type_sec'] ||
+                            $_SESSION['title_date_in_' . $t_id . '_' . $i] != $row_sub_blog['st_date_in'] ||
+                            $_SESSION['sub_title_pic_' . $t_id . '_' . $i] != $row_sub_blog['p_pic']
+                          ) {
                     ?>
+                            <script>
+                              Swal.fire({
+                                title: '<?= $row_blog['t_name'] ?> มีการแก้ไข',
+                                text: "คุณต้องการบันทึกข้อมูลใหม่หรือไม่!",
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'บันทึก!',
+                                cancelButtonText: 'ดูข้อมูลเดิม', // Add a third button with custom text
+                                showDenyButton: true, // Show the third button
+                                denyButtonText: 'ยกเลิก' // Customize the third button text
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  // Redirect to save_edit_blog.php if the user confirms
+                                  window.location.href = 'action/save_edit_blog.php?blog=<?= $t_id ?>';
+                                } else if (result.isDenied) {
+                                  // Redirect to a different action when the user clicks the third button
+                                  window.location.href = 'action/get_old_data.php?blog=<?= $t_id ?>';
+                                } else {
+                                  // Redirect to edit_blog.php if the user cancels
+                                  window.location.href = 'edit_blog.php?blog=<?= $t_id ?>';
+                                }
+                              });
+                            </script>
+
+
+                          <?php
+                          }
+                        }
+                        $i++;
+                      }
+
+                      // sub id -------------------------------------------------------------------------
+
+                      if (
+                        isset($_SESSION['title_' . $t_id]) &&
+                        isset($_SESSION['title_color_' . $t_id]) &&
+                        isset($_SESSION['title_detail_' . $t_id]) &&
+                        isset($_SESSION['title_id_' . $t_id]) &&
+                        isset($_SESSION['title_date_in_' . $t_id]) &&
+                        isset($_SESSION['title_file_' . $t_id])
+                      ) {
+                        if (
+                          $row_blog['t_name'] != $_SESSION['title_' . $t_id] ||
+                          $row_blog['t_color'] != $_SESSION['title_color_' . $t_id] ||
+                          $row_blog['t_detail'] != $_SESSION['title_detail_' . $t_id] ||
+                          $row_blog['t_id'] != $_SESSION['title_id_' . $t_id] ||
+                          $row_blog['t_date_in'] != $_SESSION['title_date_in_' . $t_id] ||
+                          $row_blog['p_pic'] != $_SESSION['title_file_' . $t_id]
+                        ) {
+                          ?>
+                          <script>
+                            Swal.fire({
+                              title: '<?= $row_blog['t_name'] ?> มีการแก้ไข',
+                              text: "คุณต้องการบันทึกข้อมูลใหม่หรือไม่!",
+                              icon: 'question',
+                              showCancelButton: true,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: '#d33',
+                              confirmButtonText: 'บันทึก!',
+                              cancelButtonText: 'ดูข้อมูลเดิม', // Add a third button with custom text
+                              showDenyButton: true, // Show the third button
+                              denyButtonText: 'ยกเลิก' // Customize the third button text
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                // Redirect to save_edit_blog.php if the user confirms
+                                window.location.href = 'action/save_edit_blog.php?blog=<?= $t_id ?>';
+                              } else if (result.isDenied) {
+                                // Redirect to a different action when the user clicks the third button
+                                window.location.href = 'action/get_old_data.php?blog=<?= $t_id ?>';
+                              } else {
+                                // Redirect to edit_blog.php if the user cancels
+                                window.location.href = 'edit_blog.php?blog=<?= $t_id ?>';
+                              }
+                            });
+                          </script>
+
+
+                      <?php
+                        }
+                      }
+                      ?>
                       <tr>
                         <td>
                           <div class="d-flex px-2 py-1">
@@ -128,7 +251,9 @@ $page = 'Your Blog';
                               <img src="<?= $row_blog['p_pic'] ?>" class="avatar avatar-sm me-3" alt="user1">
                             </div>
                             <div class="d-flex flex-column justify-content-center">
-                              <a href="../page_viewer.php?id=<?= $row_blog['t_id'] ?>"><h6 class="mb-0 text-sm"><?= $row_blog['t_name'] ?></h6></a>
+                              <a href="../page_viewer.php?id=<?= $row_blog['t_id'] ?>">
+                                <h6 class="mb-0 text-sm"><?= $row_blog['t_name'] ?></h6>
+                              </a>
                               <p class="text-xs text-secondary mb-0">
                                 <?php
                                 if ($row_blog['t_update'] != NULL) {
@@ -167,21 +292,23 @@ $page = 'Your Blog';
                           <p class="text-xs text-secondary mb-0">ครั้ง</p>
                         </td>
                         <td class="align-middle text-center text-sm">
-                          <span class="badge badge-sm bg-gradient-<?php
-                                                                  if ($row_blog['t_private'] != NULL && $row_blog['t_private'] != '1') {
-                                                                    echo 'danger';
-                                                                  } else {
-                                                                    echo 'success';
-                                                                  }
-                                                                  ?>">
-                            <?php
-                            if ($row_blog['t_private'] != NULL && $row_blog['t_private'] != '1') {
-                              echo 'Private';
-                            } else {
-                              echo 'Public';
-                            }
-                            ?>
-                          </span>
+                          <a href="action/change_status.php?blog=<?= $t_id ?>">
+                            <span class="badge badge-sm bg-gradient-<?php
+                                                                    if ($row_blog['t_private'] != NULL && $row_blog['t_private'] != '1') {
+                                                                      echo 'danger';
+                                                                    } else {
+                                                                      echo 'success';
+                                                                    }
+                                                                    ?>">
+                              <?php
+                              if ($row_blog['t_private'] != NULL && $row_blog['t_private'] != '1') {
+                                echo 'Private';
+                              } else {
+                                echo 'Public';
+                              }
+                              ?>
+                            </span>
+                          </a>
                         </td>
                         <td class="align-middle text-center">
                           <span class="text-secondary text-xs font-weight-bold"> <?php
@@ -448,7 +575,7 @@ $page = 'Your Blog';
           </div>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
@@ -671,7 +798,7 @@ $page = 'Your Blog';
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -773,6 +900,36 @@ $page = 'Your Blog';
     </div>
   </div>
 
+  <?php if (isset($_SESSION['success'])) {
+    if ($_SESSION['success'] != NULL) { ?>
+      <script>
+        let timerInterval
+        Swal.fire({
+          title: 'บันทึก <?= $_SESSION['success'] ?> เสร็จสิ้น!',
+          html: 'ปิดอัตโนมัติภายใน 2 วินาที',
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+          }
+        })
+      </script>
+  <?php
+      unset($_SESSION['success']);
+    }
+  } ?>
 
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>

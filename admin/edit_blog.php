@@ -28,44 +28,44 @@ $page_req = 'create_blog.php';
 // Get the last inserted ID
 $last_inserted_id = mysqli_insert_id($conn);
 
-$count_blog = isset($_SESSION['title_now']) ? : null;
+$count_blog = isset($_SESSION['title_now']) ?: null;
 $count_blog += 1;
 
+$sql_select = "SELECT * FROM topic 
+LEFT JOIN picture ON picture.t_id = topic.t_id
+WHERE topic.t_id = '$blog_now' ";
+$result_select = mysqli_query($conn, $sql_select);
+$row_select = mysqli_fetch_array($result_select);
 
-while (!isset($_SESSION['title_0' . $count_blog])) {
+if (!isset($_SESSION['title_id_' . $blog_now])) {
+    $_SESSION['title_' . $blog_now] = $row_select['t_name'];
+    $_SESSION['title_color_' . $blog_now] = $row_select['t_color'];
+    $_SESSION['title_detail_' . $blog_now] = $row_select['t_detail'];
+    $_SESSION['title_id_' . $blog_now] = $t_id = $row_select['t_id'];
+    $_SESSION['title_date_in_' . $blog_now] = $row_select['t_date_in'];
+    $_SESSION['title_file_' . $blog_now] = $row_select['p_pic'];
 
-    if (!isset($_SESSION['sub_title_id_0' . $count_blog . '_1'])) {
-        // No records found, insert new data
-        for ($i = 1; $i <= 4; $i++) {
-            $t_id; // You should set the value of $t_id here.
+    $i = 1;
+    $sql_select = "SELECT * FROM sub_topic 
+LEFT JOIN picture ON picture.st_id = sub_topic.st_id
+WHERE sub_topic.t_id = '$blog_now' ";
+    $result_select = mysqli_query($conn, $sql_select);
+    while ($row_select = mysqli_fetch_array($result_select)) {
 
-            if ($i == 1) {
-                $st_name = 'ประวัติและความสำคัญ';
-                $st_detail = '* เพิ่มข้อมูลของคุณ';
-                $sec_type = 1;
-            } elseif ($i == 2) {
-                $st_name = 'กิจกรรม/พิธีกรรม';
-                $st_detail = '* เพิ่มข้อมูลของคุณ';
-                $sec_type = 1;
-            } elseif ($i == 3) {
-                $st_name = 'บุคคลสำคัญ';
-                $st_detail = '* เพิ่มข้อมูลของคุณ';
-                $sec_type = 1;
-            } elseif ($i == 4) {
-                $st_name = 'ติดต่อและเข้าถึง';
-                $st_detail = '* เพิ่มข้อมูลของคุณ';
-                $sec_type = 1;
-            }
-
-            $_SESSION['sub_title_id_' . $count_blog . '_' . $i] = null;
-            $_SESSION['sub_title_' . $count_blog . '_' . $i] = $st_name;
-            $_SESSION['sub_title_detail_' . $count_blog . '_' . $i] = $st_detail;
-            $_SESSION['sub_title_section_' . $count_blog . '_' . $i] = $sec_type;
-            $_SESSION['title_date_in_' . $count_blog] = date('Y-m-d H:i:s');
-        }
+        $_SESSION['sub_title_id_' . $blog_now . '_' . $i] = $row_select['st_id'];
+        $_SESSION['sub_title_' . $blog_now . '_' . $i] = $row_select['st_main'];
+        $_SESSION['sub_title_detail_' . $blog_now . '_' . $i] = $row_select['st_detail'];
+        $_SESSION['sub_title_section_' . $blog_now . '_' . $i] = $row_select['st_type_sec'];
+        $_SESSION['title_date_in_' . $blog_now . '_' . $i] = $row_select['st_date_in'];
+        $_SESSION['sub_title_pic_' . $blog_now . '_' . $i] = $row_select['p_pic'];
+        $i++;
     }
-    break;
 }
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -221,7 +221,7 @@ while (!isset($_SESSION['title_0' . $count_blog])) {
 
                         <h1 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-bs-toggle="tooltip" data-bs-placement="left" title="ข้อมูลส่วนตัวของคุณ">
-                                <h2>Create Your Blog</h2>
+                                <h2>Edit Your Blog</h2>
                             </button>
                         </h1>
 
@@ -242,7 +242,7 @@ while (!isset($_SESSION['title_0' . $count_blog])) {
                                                 <!-- <i class="fa fa-color w-5 mb-0 p-4" aria-hidden="true"></i> -->
                                                 <i class="fa fa-paint-brush w-5 mb-0 p-4" aria-hidden="true" data-bs-toggle="tooltip" data-bs-placement="top" title="Change Color Text" style="color:gray"></i>
                                             </label>
-                                            <a class="btn bg-gradient-dark mb-0" href="page_writer.php?blog=<?= $blog_now ?>"><i class="fas fa-desktop"></i>&nbsp;&nbsp;See Demo Web</a>
+                                            <a class="btn bg-gradient-dark mb-0" href="page_edit_writer.php?blog=<?= $blog_now ?>"><i class="fas fa-desktop"></i>&nbsp;&nbsp;See Demo Web</a>
                                         </div>
                                     </div>
 
@@ -333,13 +333,13 @@ while (!isset($_SESSION['title_0' . $count_blog])) {
                                                 </div> -->
 
                                                 <!-- Your file input remains unchanged -->
-                                                <form id="upload_image" action="action/upload_image_title.php?blog=<?= $blog_now ?>" method="POST" enctype="multipart/form-data">
+                                                <form id="upload_image" action="action/edit_image_title.php?blog=<?= $blog_now ?>" method="POST" enctype="multipart/form-data">
                                                     <input type="file" class="invisible-input form-control" id="titleFile" name="title_file_<?= $blog_now ?>" placeholder="Your File" style="display: none;" required hidden accept=".jpg, .jpeg .png">
-                                                    <input type="text" class="invisible-input form-control" id="titlePage" name="title_page" placeholder="Your Page" value="create_blog.php" style="display: none;" required hidden>
+                                                    <input type="text" class="invisible-input form-control" id="titlePage" name="title_page" placeholder="Your Page" value="edit_blog.php" style="display: none;" required hidden>
                                                 </form>
-                                                <input type="color" class="invisible-input form-control w-0" id="titleColor" name="title_color_<?= $blog_now ?>" placeholder="*Your Color" value="<?php if (isset($_SESSION['title_color_' . $blog_now])) {
-                                                                                                                                                                                                        echo $_SESSION['title_color_' . $blog_now];
-                                                                                                                                                                                                    } ?>" required hidden>
+                                                <input type="color" class="invisible-input form-control w-0" onchange="return updateSession(this)" id="titleColor" name="title_color_<?= $blog_now ?>" placeholder="*Your Color" value="<?php if (isset($_SESSION['title_color_' . $blog_now])) {
+                                                                                                                                                                                                                                            echo $_SESSION['title_color_' . $blog_now];
+                                                                                                                                                                                                                                        } ?>" required hidden>
 
                                             </div>
                                             <hr>
@@ -985,6 +985,7 @@ while (!isset($_SESSION['title_0' . $count_blog])) {
             </div>
         </div>
     </div>
+    <!-- fix -->
     <script>
         const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea, .sub_title_input');
 
