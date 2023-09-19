@@ -157,8 +157,8 @@ if (rename($sourceFolder, $destinationFolder . basename($sourceFolder))) {
         // $sql_update = "UPDATE picture SET p_pic = '$pic_path_sub' ,p_update = NOW() WHERE p_id = '$p_id' AND del_flg = 0";
         // $result = mysqli_query($conn, $sql_update);
 
-        $sql_update = "UPDATE picture SET p_pic = '$pic_path' ,p_update = NOW() WHERE st_id = '$st_id' AND del_flg = 0";
-        $result = mysqli_query($conn, $sql_update);
+        $sql_update_sub = "UPDATE picture SET p_pic = '$pic_path' ,p_update = NOW() WHERE st_id = '$st_id' AND del_flg = 0";
+        $result_update_sub = mysqli_query($conn, $sql_update_sub);
     }
 
     unset(
