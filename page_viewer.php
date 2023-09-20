@@ -989,9 +989,9 @@ $row_e = mysqli_fetch_array($result_e);
                 <div class="container">
                     <div class="row">
                         <div class="col section-6 section-description wow fadeIn">
-                            <h2>Contact Us</h2>
+                            <h2>ข้อมูลผู้เขียน</h2>
                             <div class="divider-1 wow fadeInUp"><span></span></div>
-                            <p>Send us an email using the form below or follow us on our social media channels.</p>
+                            <p>หากคุณต้องการข้อมูลที่เป็นประโยชน์ เว็บไซต์เรามีข้อมูลที่เตรียมพร้อมเพื่อคุณเสมอ</p>
                         </div>
                     </div>
                     <div class="row">
@@ -1000,13 +1000,13 @@ $row_e = mysqli_fetch_array($result_e);
                             <div class="section-6-form">
                                 <!-- <form role="form" action="assets/contact.php" method="post"> -->
                                 <div class="form-group">
-                                    <p id="contact-email">Name : <?= $row_e['e_fname'] . ' ' . $row_e['e_lname'] ?></p>
+                                    <p id="contact-email">ชื่อสกุล : <?= $row_e['e_fname'] . ' ' . $row_e['e_lname'] ?></p>
                                 </div>
                                 <div class="form-group">
-                                    <p id="contact-email">Email : <?= $row_e['e_email'] ?></p>
+                                    <p id="contact-email">Email ติดต่อ: <?= $row_e['e_email'] ?></p>
                                 </div>
                                 <div class="form-group">
-                                    <p id="contact-email">Role : <?= $row_e['r_name'] ?></p>
+                                    <p id="contact-email">ตำแหน่ง : <?= $row_e['r_name'] ?></p>
 
                                 </div>
                                 <!-- <div class="form-group">
@@ -1014,16 +1014,6 @@ $row_e = mysqli_fetch_array($result_e);
                                     </div> -->
                                 <!-- <button type="submit" class="btn btn-primary btn-customized"><i class="fas fa-paper-plane"></i> Send Message</button> -->
                                 <!-- </form> -->
-                            </div>
-                        </div>
-                        <div class="col-md-5 offset-md-1 section-6-box wow fadeInDown">
-                            <h3>Follow us</h3>
-                            <div class="section-6-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-dribbble"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                <a href="#"><i class="fab fa-pinterest"></i></a>
                             </div>
                         </div>
                     </div>

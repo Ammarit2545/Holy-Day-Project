@@ -56,7 +56,7 @@ include('database/condb.php');
     <div class="wrapper">
 
         <!-- Sidebar -->
-        <?php include('bar/sidebar.php'); ?>
+        <?php include('bar/slidebar_contect.php'); ?>
         <!-- End sidebar -->
 
         <!-- Dark overlay -->
@@ -142,9 +142,10 @@ include('database/condb.php');
             </div>
             <br>
             <h1>แก้ไขข้อมูลส่วนตัว</h1>
-            <br><hr><br>
+            <br>
+            <hr><br>
             <div class="container">
-                <form class="row g-3 needs-validation" action="action/edit_member.php" method="POST" novalidate>
+                <form id="profile-form" class="row g-3 needs-validation" action="action/edit_member.php" method="POST" novalidate>
                     <div class="col-md-4">
                         <label for="validationCustom01" class="form-label">ชื่อจริง</label>
                         <input type="text" class="form-control" id="validationCustom01" name="fname" value="<?= $_SESSION['fname'] ?>" required>
@@ -207,7 +208,35 @@ include('database/condb.php');
 
 
                     <div class="col-12 mt-4">
-                        <button class="btn btn-primary" type="submit">บันทึกข้อมูล</button>
+                        <button class="btn btn-primary" type="submit" id="submit-button">บันทึกข้อมูล</button>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                const form = document.getElementById("profile-form");
+                                const submitButton = document.getElementById("submit-button");
+
+                                form.addEventListener("submit", function(e) {
+                                    e.preventDefault(); // Prevent the default form submission
+
+                                    // Display SweetAlert confirmation dialog
+                                    Swal.fire({
+                                        title: "ยืนยันการบันทึกข้อมูล?",
+                                        text: "คุณต้องการที่จะบันทึกข้อมูลนี้หรือไม่?",
+                                        icon: "question",
+                                        showCancelButton: true,
+                                        confirmButtonColor: "#3085d6",
+                                        cancelButtonColor: "#d33",
+                                        confirmButtonText: "บันทึก",
+                                        cancelButtonText: "ยกเลิก",
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // If the user clicks "บันทึก" in the dialog, submit the form
+                                            form.submit();
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+
                     </div>
                 </form>
             </div>

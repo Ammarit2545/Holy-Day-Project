@@ -30,18 +30,7 @@ if (isset($_SESSION["role_id"])) {
 		<li>
 			<a href="edit_member.php"><i class="fas fa-user"></i> แก้ไขข้อมูลส่วนตัว</a>
 		</li>
-		<li>
-			<a class="scroll-link" href="#section-1"><i class="fas fa-cog"></i> What we do</a>
-		</li>
-		<li>
-			<a class="scroll-link" href="#section-2"><i class="fas fa-user"></i> About us</a>
-		</li>
-		<li>
-			<a class="scroll-link" href="#section-5"><i class="fas fa-pencil-alt"></i> Portfolio</a>
-		</li>
-		<li>
-			<a class="scroll-link" href="#section-6"><i class="fas fa-envelope"></i> Contact us</a>
-		</li>
+		
 		<?php if (isset($_SESSION["email"])) { ?>
 			<li>
 				<a href="#" id="logout-link">
@@ -56,7 +45,7 @@ if (isset($_SESSION["role_id"])) {
 			</li>
 		<?php
 		} ?>
-		<li>
+		<!-- <li>
 			<a href="#otherSections" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" role="button" aria-controls="otherSections">
 				<i class="fas fa-sync"></i>Other sections
 			</a>
@@ -68,7 +57,7 @@ if (isset($_SESSION["role_id"])) {
 					<a class="scroll-link" href="#section-4">We think that...</a>
 				</li>
 			</ul>
-		</li>
+		</li> -->
 	</ul>
 
 	<!-- <div class="to-top">

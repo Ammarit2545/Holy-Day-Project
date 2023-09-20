@@ -17,7 +17,7 @@ if (isset($_SESSION["role_id"])) {
 
     <div class="logo">
         <h3>
-            <a href="index.html">Bootstrap 4 Template with Sidebar Menu</a>
+            <a href="index.php">Bootstrap 4 Template with Sidebar Menu</a>
         </h3>
     </div>
 

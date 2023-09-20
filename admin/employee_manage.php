@@ -227,6 +227,7 @@ $page = 'หน้าจัดการบุคลากร';
                             } else {
                             ?>
                               <a href="profile.php?id=<?= $row_em['e_id'] ?>" class="btn btn-warning">ดูข้อมูล</a>
+                              <a href="edit_profile.php?id=<?= $row_em['e_id'] ?>" class="btn btn-primary">แก้ไข</a>
                             <?php
                             }
                             ?>

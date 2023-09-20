@@ -173,7 +173,7 @@ include('database/condb.php');
 							<a href="page_viewer.php?blog=<?= $row_select['t_id'] ?>" id="bounce-item">
 								<div class="col-md-12">
 									<div class="row">
-										<div class="card" style="width: 50%;">
+										<div class="card" style="width: 80%;">
 											<img src="admin/<?= $row_select['p_pic'] ?>" class="card-img-top" alt="...">
 											<div class="card-body">
 												<h5 class="card-title"><?= $row_select['t_name'] ?></h5>
@@ -269,7 +269,7 @@ include('database/condb.php');
 
 					<div class="row">
 						<div class="col section-3 section-description wow fadeIn">
-							<h2>Our Projects</h2>
+							<h2>สิ่งที่มีความสำคัญสำหรับผู้นับถือศาสนานั้นมีหลายอย่าง </h2>
 							<div class="divider-1 wow fadeInUp"><span></span></div>
 						</div>
 					</div>
@@ -283,10 +283,9 @@ include('database/condb.php');
 									</div>
 								</div>
 								<div class="col-md-9">
-									<h3>Ut wisi enim ad minim</h3>
+									<h3>การบรรลุความเสมอภาค</h3>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-										Ut wisi enim ad minim veniam, quis nostrud.
+										วันสำคัญทางศาสนาช่วยให้ผู้นับถือศาสนามีโอกาสที่จะมีการพัฒนาตนเองในทางศีลธรรมและจิตใจ ซึ่งทำให้พวกเขามีโอกาสสร้างความสัมพันธ์ที่เข้มแข็งกับพระเจ้าและชาวศาสนาคนอื่นๆในชุมชนของพวกเขา
 									</p>
 								</div>
 							</div>
@@ -299,10 +298,9 @@ include('database/condb.php');
 									</div>
 								</div>
 								<div class="col-md-9">
-									<h3>Sed do eiusmod tempor</h3>
+									<h3>การเคารพและสืบทอดความเชื่อ</h3>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-										Ut wisi enim ad minim veniam, quis nostrud.
+										วันสำคัญทางศาสนาเป็นโอกาสในการสืบทอดความเชื่อศาสนาจากพระบรมราชาอันยิ่งใหญ่ไปสู่รุ่นหลัง โดยการเป็นตัวอย่างในการรักษาความเคารพและการปฏิบัติตามพระราชาาณเทวดาและบทความศักดิ์สิทธิ์
 									</p>
 								</div>
 							</div>
@@ -318,10 +316,9 @@ include('database/condb.php');
 									</div>
 								</div>
 								<div class="col-md-9">
-									<h3>Quis nostrud exerci tat</h3>
+									<h3>การสร้างชุมชนและความผูกพัน</h3>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-										Ut wisi enim ad minim veniam, quis nostrud.
+										วันสำคัญทางศาสนาสร้างโอกาสในการรวมกลุ่มของผู้นับถือศาสนาเข้าร่วมกันในพิธีกรรมและพิธีกรรมทางศาสนา ซึ่งเสริมสร้างความผูกพันและสร้างชุมชนที่มีความสามัคคี
 									</p>
 								</div>
 							</div>
@@ -334,10 +331,9 @@ include('database/condb.php');
 									</div>
 								</div>
 								<div class="col-md-9">
-									<h3>Minim veniam quis nostrud</h3>
+									<h3>การสืบทอดประเพณีและประเพณี</h3>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-										Ut wisi enim ad minim veniam, quis nostrud.
+										วันสำคัญทางศาสนาเป็นโอกาสในการสืบทอดประเพณีและพิธีกรรมทางศาสนาจากรุ่นที่แล้วไปสู่รุ่นใหม่ ซึ่งมีบทบาทสำคัญในการรักษาและสืบทอดความเชื่อทางศาสนา
 									</p>
 								</div>
 							</div>
@@ -348,7 +344,7 @@ include('database/condb.php');
 			</div>
 
 			<!-- Section 4 -->
-			<div class="section-4-container section-container section-container-image-bg" id="section-4">
+			<!-- <div class="section-4-container section-container section-container-image-bg" id="section-4">
 				<div class="container">
 					<div class="row">
 						<div class="col section-4 section-description wow fadeInLeftBig">
@@ -367,89 +363,62 @@ include('database/condb.php');
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 			<!-- Section 5 -->
 			<div class="section-5-container section-container" id="section-5">
 				<div class="container">
 					<div class="row">
 						<div class="col section-5 section-description wow fadeIn">
-							<h2>Portfolio</h2>
+							<h2>วันสำคัญต่างๆที่น่าสนใจ</h2>
 							<div class="divider-1 wow fadeInUp"><span></span></div>
-							<p>We have completed 486 projects since we started back in 2013. Check them out!</p>
+							<p>วันสำคัญทางศาสนาอื่นๆ ที่คุณอาจสนใจ!</p>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4 section-5-box wow fadeInUp">
-							<div class="section-5-box-image"><img src="assets/img/portfolio/1.jpg" alt="portfolio-1"></div>
-							<h3><a href="#">Acme branding</a> <i class="fas fa-angle-right"></i></h3>
-							<div class="section-5-box-date"><i class="far fa-calendar"></i> June 2019</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-						</div>
-						<div class="col-md-4 section-5-box wow fadeInDown">
-							<div class="section-5-box-image"><img src="assets/img/portfolio/2.jpg" alt="portfolio-2"></div>
-							<h3><a href="#">Created 150 flyers</a> <i class="fas fa-angle-right"></i></h3>
-							<div class="section-5-box-date"><i class="far fa-calendar"></i> February 2019</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-						</div>
-						<div class="col-md-4 section-5-box wow fadeInUp">
-							<div class="section-5-box-image"><img src="assets/img/portfolio/3.jpg" alt="portfolio-3"></div>
-							<h3><a href="#">WordPress design</a> <i class="fas fa-angle-right"></i></h3>
-							<div class="section-5-box-date"><i class="far fa-calendar"></i> November 2018</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col section-bottom-button wow fadeInUp">
-							<a class="btn btn-primary btn-customized" href="#" role="button">
-								<i class="fas fa-sync"></i> View All
+						<?php
+						$sql_topic = "SELECT *
+						FROM topic
+						LEFT JOIN picture ON picture.t_id = topic.t_id
+						LEFT JOIN employee ON employee.e_id = topic.e_id
+						WHERE topic.del_flg = 0
+						  AND topic.t_test = 0
+						  AND (topic.t_private != 0 OR topic.t_private = 1)
+						  AND picture.del_flg = 0 ORDER BY topic.t_id ASC LIMIT 3";
+						$result_topic = mysqli_query($conn, $sql_topic);
+
+						while ($row_topic = mysqli_fetch_array($result_topic)) {
+						?>
+							<a href="page_viewer.php?blog=<?= $row_topic['t_id'] ?> ">
+								<div class="col-md-4 section-5-box wow fadeInUp">
+									<div class="section-5-box-image"><img src="admin/<?= $row_topic['p_pic'] ?>" alt="portfolio-1"></div>
+									<h3><a href="page_viewer.php?blog=<?= $row_topic['t_id'] ?> "><?= $row_topic['t_name']  ?></a> <i class="fas fa-angle-right"></i></h3>
+									<div class="section-5-box-date"><i class="far fa-calendar"></i> June 2019</div>
+									<p><?= mb_substr($row_topic['t_detail'], 0, 100, 'UTF-8') ?></p>
+
+								</div>
 							</a>
-						</div>
+						<?php
+						}
+						?>
 					</div>
 				</div>
 			</div>
+
 
 			<!-- Section 6 -->
 			<div class="section-6-container section-container section-container-image-bg" id="section-6">
 				<div class="container">
 					<div class="row">
 						<div class="col section-6 section-description wow fadeIn">
-							<h2>Contact Us</h2>
+							<h2>ขอบคุณที่ไว้ใจเรา</h2>
 							<div class="divider-1 wow fadeInUp"><span></span></div>
-							<p>Send us an email using the form below or follow us on our social media channels.</p>
+							<p>หากคุณต้องการข้อมูลที่เป็นประโยชน์ เว็บไซต์เรามีข้อมูลที่เตรียมพร้อมเพื่อคุณเสมอ</p>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6 section-6-box wow fadeInUp">
-							<h3>By eMail</h3>
-							<div class="section-6-form">
-								<form role="form" action="assets/contact.php" method="post">
-									<div class="form-group">
-										<label class="sr-only" for="contact-email">Email</label>
-										<input type="text" name="email" placeholder="Email..." class="contact-email form-control" id="contact-email">
-									</div>
-									<div class="form-group">
-										<label class="sr-only" for="contact-subject">Subject</label>
-										<input type="text" name="subject" placeholder="Subject..." class="contact-subject form-control" id="contact-subject">
-									</div>
-									<div class="form-group">
-										<label class="sr-only" for="contact-message">Message</label>
-										<textarea name="message" placeholder="Message..." class="contact-message form-control" id="contact-message"></textarea>
-									</div>
-									<button type="submit" class="btn btn-primary btn-customized"><i class="fas fa-paper-plane"></i> Send Message</button>
-								</form>
-							</div>
-						</div>
-						<div class="col-md-5 offset-md-1 section-6-box wow fadeInDown">
-							<h3>Follow us</h3>
-							<div class="section-6-social">
-								<a href="#"><i class="fab fa-facebook-f"></i></a>
-								<a href="#"><i class="fab fa-dribbble"></i></a>
-								<a href="#"><i class="fab fa-twitter"></i></a>
-								<a href="#"><i class="fab fa-instagram"></i></a>
-								<a href="#"><i class="fab fa-pinterest"></i></a>
-							</div>
-						</div>
+						
+						
 					</div>
 				</div>
 			</div>
