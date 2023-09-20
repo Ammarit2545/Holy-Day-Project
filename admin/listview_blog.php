@@ -233,6 +233,7 @@ if (!isset($_SESSION['title_1'])) {
             $title_color = isset($_SESSION['title_color_' . $count_blog]) ? $_SESSION['title_color_' . $count_blog] : null;
             $title_detail = isset($_SESSION['title_detail_' . $count_blog]) ? $_SESSION['title_detail_' . $count_blog] : null;
             $title_file = isset($_SESSION['title_file_' . $count_blog]) ? $_SESSION['title_file_' . $count_blog] : null;
+            $title_date_of = isset($_SESSION['title_date_of_' . $count_blog]) ? $_SESSION['title_date_of_' . $count_blog] : null;
 
             $sql_sub_top = "SELECT * FROM topic WHERE t_id = ? AND del_flg = 0";
             $stmt = mysqli_prepare($conn, $sql_sub_top);
@@ -241,9 +242,9 @@ if (!isset($_SESSION['title_1'])) {
             $result_sub_top = mysqli_stmt_get_result($stmt);
             $row_topic = mysqli_fetch_array($result_sub_top);
 
-            $sql_update_topic = "UPDATE topic SET t_name=?,t_detail=?,t_color=? WHERE t_id = ?";
+            $sql_update_topic = "UPDATE topic SET t_name=?,t_detail=?,t_color=?,t_date_day=? WHERE t_id = ?";
             $stmt_update_topic = mysqli_prepare($conn, $sql_update_topic);
-            mysqli_stmt_bind_param($stmt_update_topic, "sssi", $t_name, $title_detail, $title_color, $title_id);
+            mysqli_stmt_bind_param($stmt_update_topic, "ssssi", $t_name, $title_detail, $title_color,$title_date_of, $title_id);
             mysqli_stmt_execute($stmt_update_topic);
             mysqli_stmt_close($stmt_update_topic);
 

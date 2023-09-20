@@ -141,21 +141,66 @@ include('database/condb.php');
 
 
 
+			<style>
+				/* เพิ่ม CSS เพื่อจัด layout และจัดกลางเนื้อหา */
+				.container {
+					max-width: 1200px;
+					margin: 0 auto;
+					padding: 20px;
+				}
 
+				.section-1 {
+					text-align: center;
+					margin-bottom: 30px;
+				}
+
+				.divider-1 span {
+					background-color: #333;
+				}
+
+				/* เพิ่ม CSS เพื่อปรับขนาดของรูปภาพให้ responsive */
+				.card-img-top {
+					max-width: 100%;
+					height: auto;
+				}
+
+				/* เพิ่ม CSS เพื่อปรับแต่งรูปแบบการแสดงผลของการ์ด */
+				.card {
+					margin: 10px;
+					border: 1px solid #ddd;
+					border-radius: 5px;
+					box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+					transition: transform 0.2s;
+				}
+
+				.card:hover {
+					transform: scale(1.05);
+				}
+
+				/* เพิ่ม CSS เพื่อปรับแต่งปุ่มดูเพิ่มเติม */
+				.btn-primary {
+					background-color: #007bff;
+					color: #fff;
+					border: none;
+				}
+
+				.btn-primary:hover {
+					background-color: #0056b3;
+				}
+			</style>
 			<!-- Section 1 -->
-			<div class="section-1-container section-container" id="section-1">
-				<div class="container">
-					<div class="row">
-						<div class="col section-1 section-description wow fadeIn">
-							<h2>วันสำคัญต่างทางศาสนาของไทย</h2>
-							<div class="divider-1 wow fadeInUp"><span></span></div>
-						</div>
+			<div class="container">
+				<div class="row">
+					<div class="col section-1 section-description wow fadeIn">
+						<h2>วันสำคัญต่างทางศาสนาของไทย</h2>
+						<div class="divider-1 wow fadeInUp"><span></span></div>
 					</div>
-					<div class="row">
-						<?php
-						$count_topic = 0;
+				</div>
+				<div class="row">
+					<?php
+					$count_topic = 0;
 
-						$sql_select = "SELECT *
+					$sql_select = "SELECT *
 						FROM topic
 						LEFT JOIN picture ON picture.t_id = topic.t_id
 						LEFT JOIN employee ON employee.e_id = topic.e_id
@@ -165,59 +210,33 @@ include('database/condb.php');
 						  AND picture.del_flg = 0;
 						";
 
-						$result_select = mysqli_query($conn, $sql_select); //Update Delete Insert
+					$result_select = mysqli_query($conn, $sql_select); //Update Delete Insert
 
-						while ($row_select = mysqli_fetch_array($result_select)) {
-							$count_topic++;
-						?>
-							<a href="page_viewer.php?blog=<?= $row_select['t_id'] ?>" id="bounce-item">
-								<div class="col-md-12">
-									<div class="row">
-										<div class="card" style="width: 80%;">
-											<img src="admin/<?= $row_select['p_pic'] ?>" class="card-img-top" alt="...">
-											<div class="card-body">
-												<h5 class="card-title"><?= $row_select['t_name'] ?></h5>
-												<p class="card-text"><?= mb_substr($row_select['t_detail'], 0, 100, 'UTF-8') ?> ....</p>
-												<hr>
-												<a href="page_viewer.php?blog=<?= $row_select['t_id'] ?>" class="btn btn-primary">ดูเพิ่มเติม</a>
-											</div>
+					while ($row_select = mysqli_fetch_array($result_select)) {
+						$count_topic++;
+					?>
+
+						<a href="page_viewer.php?blog=<?= $row_select['t_id'] ?>" id="bounce-item">
+							<div class="col-md-4">
+								<div class="row">
+									<div class="card" style="width: 80%;">
+										<img src="admin/<?= $row_select['p_pic'] ?>" class="card-img-top" alt="...">
+										<div class="card-body">
+											<h5 class="card-title"><?= $row_select['t_name'] ?></h5>
+											<p class="card-text"><?= mb_substr($row_select['t_detail'], 0, 100, 'UTF-8') ?> ....</p>
+											<hr>
+											<a href="page_viewer.php?blog=<?= $row_select['t_id'] ?>" class="btn btn-primary">ดูเพิ่มเติม</a>
 										</div>
 									</div>
 								</div>
-							</a>
-						<?php
-
-						} ?>
-
-						<!-- <div class="col-md-4 section-1-box wow fadeInDown">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="section-1-box-icon">
-										<i class="fas fa-cog"></i>
-									</div>
-								</div>
-								<div class="col-md-8">
-									<h3>Web design</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-								</div>
 							</div>
-						</div>
-						<div class="col-md-4 section-1-box wow fadeInUp">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="section-1-box-icon">
-										<i class="fab fa-twitter"></i>
-									</div>
-								</div>
-								<div class="col-md-8">
-									<h3>Social media</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-								</div>
-							</div>
-						</div> -->
-					</div>
+						</a>
+					<?php
+
+					} ?>
 				</div>
 			</div>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 			<!-- Section 2 -->
 			<div class="section-2-container section-container section-container-gray-bg" id="section-2">
@@ -417,8 +436,8 @@ include('database/condb.php');
 						</div>
 					</div>
 					<div class="row">
-						
-						
+
+
 					</div>
 				</div>
 			</div>

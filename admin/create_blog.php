@@ -344,6 +344,15 @@ while (!isset($_SESSION['title_' . $count_blog])) {
                                             </div>
                                             <hr>
                                             <div class="col-6 d-flex align-items-center">
+                                                <h6 class="mb-0">วันที่ของวันสำคัญ</h6>
+                                            </div>
+                                            <input type="text" name="title_date_of_<?= $blog_now ?>" id="image_bg_back" class="invisible-input form-control mb-0 mr-1 p-4" placeholder="Your Detail Title" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" style=" color: white; font-size: 18px;" value="<?php if (isset($_SESSION['title_date_of_' . $blog_now])) {
+                                                                                                                                                                                                                                                                                                                                            echo $_SESSION['title_date_of_' . $blog_now];
+                                                                                                                                                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                                                                                                                                                            echo '* Your Detail';
+                                                                                                                                                                                                                                                                                                                                        } ?>" required>
+                                            <hr>
+                                            <div class="col-6 d-flex align-items-center">
                                                 <h6 class="mb-0">Your Title Details</h6>
                                             </div>
                                             <br>
@@ -370,6 +379,7 @@ while (!isset($_SESSION['title_' . $count_blog])) {
                                                                                                                                                                                                                                                                                                                                                             } else {
                                                                                                                                                                                                                                                                                                                                                                 echo '* Your Detail';
                                                                                                                                                                                                                                                                                                                                                             } ?></textarea>
+
                                                                 <script>
                                                                     $(document).ready(function() {
                                                                         var textarea = document.getElementById('ControlTextarea_Detail');
@@ -414,6 +424,7 @@ while (!isset($_SESSION['title_' . $count_blog])) {
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div class="col-md-2 mb-md-0 mb-4" hidden>
                                             <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row" id="image_bg_back">
