@@ -32,7 +32,7 @@ $page = 'Your Blog';
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../image/icon/logo.png">
   <title>
-    Soft UI Dashboard by Creative Tim
+    บทความ - HolyDay
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -124,7 +124,7 @@ $page = 'Your Blog';
 
                       // sub id -------------------------------------------------------------------------
                       $i = 1;
-                   
+
                       while (isset($_SESSION['sub_title_id_' . $t_id . '_' . $i])) {
 
                         // $_SESSION['sub_title_id_' . $t_id . '_' . $i] != $row_sub_blog['st_id'];
@@ -137,8 +137,8 @@ $page = 'Your Blog';
                         if (
                           isset($_SESSION['sub_title_id_' . $t_id . '_' . $i]) &&
                           isset($_SESSION['sub_title_' . $t_id . '_' . $i]) &&
-                          isset( $_SESSION['sub_title_detail_' . $t_id . '_' . $i]) &&
-                          isset( $_SESSION['sub_title_section_' . $t_id . '_' . $i]) &&
+                          isset($_SESSION['sub_title_detail_' . $t_id . '_' . $i]) &&
+                          isset($_SESSION['sub_title_section_' . $t_id . '_' . $i]) &&
                           isset($_SESSION['title_date_in_' . $t_id . '_' . $i]) &&
                           isset($_SESSION['sub_title_pic_' . $t_id . '_' . $i])
                         ) {
@@ -147,11 +147,11 @@ $page = 'Your Blog';
                           FROM sub_topic 
                           LEFT JOIN picture ON picture.st_id = sub_topic.st_id
                           WHERE sub_topic.del_flg = 0 AND sub_topic.st_id = '$id_sub'";
-        $result_sub_blog = mysqli_query($conn, $sql_sub_blog);
-        $row_sub_blog = mysqli_fetch_array($result_sub_blog);
-        
+                          $result_sub_blog = mysqli_query($conn, $sql_sub_blog);
+                          $row_sub_blog = mysqli_fetch_array($result_sub_blog);
+
                           if (
-                           
+
 
                             $_SESSION['sub_title_id_' . $t_id . '_' . $i] != $row_sub_blog['st_id'] ||
                             $_SESSION['sub_title_' . $t_id . '_' . $i] != $row_sub_blog['st_main'] ||
@@ -245,27 +245,27 @@ $page = 'Your Blog';
                       }
                       ?>
                       <tr>
-                        <td>
-                          <div class="d-flex px-2 py-1">
-                            <div>
-                              <img src="<?= $row_blog['p_pic'] ?>" class="avatar avatar-sm me-3" alt="user1">
+                          <td>
+                            <div class="d-flex px-2 py-1">
+                              <div>
+                                <img src="<?= $row_blog['p_pic'] ?>" class="avatar avatar-sm me-3" alt="user1">
+                              </div>
+                              <div class="d-flex flex-column justify-content-center">
+                                <a href="page_viewer.php?blog=<?= $row_blog['t_id'] ?>">
+                                  <h6 class="mb-0 text-sm"><?= $row_blog['t_name'] ?></h6>
+                               
+                                <p class="text-xs text-secondary mb-0">
+                                  <?php
+                                  if ($row_blog['t_update'] != NULL) {
+                                    echo $row_blog['t_update'];
+                                  } else {
+                                    echo 'ไม่มีวันที่';
+                                  }
+                                  ?>
+                                </p>
+                              </div>
                             </div>
-                            <div class="d-flex flex-column justify-content-center">
-                              <a href="../page_viewer.php?id=<?= $row_blog['t_id'] ?>">
-                                <h6 class="mb-0 text-sm"><?= $row_blog['t_name'] ?></h6>
-                              </a>
-                              <p class="text-xs text-secondary mb-0">
-                                <?php
-                                if ($row_blog['t_update'] != NULL) {
-                                  echo $row_blog['t_update'];
-                                } else {
-                                  echo 'ไม่มีวันที่';
-                                }
-                                ?>
-                              </p>
-                            </div>
-                          </div>
-                        </td>
+                          </td>
                         <td>
                           <?php
                           $t_id = $row_blog['t_id'];
@@ -799,38 +799,7 @@ $page = 'Your Blog';
           </div>
         </div>
       </div> -->
-      <footer class="footer pt-3  ">
-        <div class="container-fluid">
-          <div class="row align-items-center justify-content-lg-between">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="copyright text-center text-sm text-muted text-lg-start">
-                © <script>
-                  document.write(new Date().getFullYear())
-                </script>,
-                made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                for a better web.
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <?php include('bar/footer.php'); ?>
     </div>
   </main>
   <div class="fixed-plugin">

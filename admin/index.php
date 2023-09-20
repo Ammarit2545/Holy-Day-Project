@@ -18,7 +18,9 @@ include('../database/condb.php');
 $active = array();
 $active[0] = "active";
 
-$page = 'Dashboard';
+$id = $_SESSION['id'];
+
+$page = 'หน้าหลัก';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +31,7 @@ $page = 'Dashboard';
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../image/icon/logo.png">
     <title>
-        Soft UI Dashboard by Creative Tim
+    หน้าหลัก - HolyDay
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -66,16 +68,26 @@ $page = 'Dashboard';
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">ยอดชมทั้งหมด</p>
                                         <h5 class="font-weight-bolder mb-0">
-                                            $53,000
-                                            <span class="text-success text-sm font-weight-bolder">+55%</span>
+                                            <?php
+                                            $count_watch = 0;
+                                            $count_topic = 0;
+                                            $sql = "SELECT t_watch FROM topic WHERE e_id = '$id' AND del_flg=0";
+                                            $result = mysqli_query($conn, $sql);
+                                            while ($row_watch = mysqli_fetch_array($result)) {
+                                                $count_watch += $row_watch['t_watch'];
+                                                $count_topic++;
+                                            }
+                                            ?>
+                                            <?= $count_watch  ?>
+                                            <!-- <span class="text-success text-sm font-weight-bolder">+55%</span> -->
                                         </h5>
                                     </div>
                                 </div>
@@ -88,16 +100,18 @@ $page = 'Dashboard';
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Users</p>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">บทความที่เผยแพร่</p>
                                         <h5 class="font-weight-bolder mb-0">
-                                            2,300
-                                            <span class="text-success text-sm font-weight-bolder">+3%</span>
+                                            <?php
+                                            ?>
+                                            <?= $count_topic  ?>
+                                            <!-- <span class="text-success text-sm font-weight-bolder">+3%</span> -->
                                         </h5>
                                     </div>
                                 </div>
@@ -110,16 +124,24 @@ $page = 'Dashboard';
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
                     <div class="card">
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">New Clients</p>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">บทความที่กำลังทำ</p>
                                         <h5 class="font-weight-bolder mb-0">
-                                            +3,462
-                                            <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                                            <?php
+                                            $count_test = 0;
+                                            $sql = "SELECT t_id FROM topic WHERE e_id = '$id' AND del_flg=0 AND t_test = 1";
+                                            $result = mysqli_query($conn, $sql);
+                                            while ($row_watch = mysqli_fetch_array($result)) {
+                                                $count_test++;
+                                            }
+                                            ?>
+                                            <?= $count_test  ?>
+                                            <!-- <span class="text-danger text-sm font-weight-bolder">-2%</span> -->
                                         </h5>
                                     </div>
                                 </div>
@@ -132,13 +154,13 @@ $page = 'Dashboard';
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-sm-6">
+                <!-- <div class="col-xl-3 col-sm-6">
                     <div class="card">
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Sales</p>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">[Sales]</p>
                                         <h5 class="font-weight-bolder mb-0">
                                             $103,430
                                             <span class="text-success text-sm font-weight-bolder">+5%</span>
@@ -153,44 +175,57 @@ $page = 'Dashboard';
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="row mt-4">
                 <div class="col-lg-7 mb-lg-0 mb-4">
-                    <div class="card">
-                        <div class="card-body p-3">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="d-flex flex-column h-100">
-                                        <p class="mb-1 pt-2 text-bold">Built by developers</p>
-                                        <h5 class="font-weight-bolder">Soft UI Dashboard</h5>
-                                        <p class="mb-5">From colors, cards, typography to complex elements, you will find the full documentation.</p>
-                                        <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-                                            Read More
-                                            <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
-                                        </a>
+                    <?php
+                    $count_watch = 0;
+                    $count_topic = 0;
+                    $sql = "SELECT * FROM topic 
+                    LEFT JOIN picture ON picture.t_id = topic.t_id
+                    WHERE topic.e_id = '$id' AND topic.del_flg = 0 ORDER BY topic.t_watch DESC LIMIT 1";
+                    $result = mysqli_query($conn, $sql);
+                    while ($row_good = mysqli_fetch_array($result)) {
+                    ?>
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="d-flex flex-column h-100">
+                                            <p class="mb-1 pt-2 text-bold">บทความยอดนิยมของคุณ</p>
+                                            <h5 class="font-weight-bolder"><?= $row_good['t_name'] ?></h5>
+                                            <p class="mb-5">ยอดเข้าชม <?= $row_good['t_watch'] ?></p>
+                                            <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="page_viewer.php?blog=<?= $row_good['t_id'] ?>">
+                                                Read More
+                                                <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
-                                    <div class="bg-gradient-primary border-radius-lg h-100">
-                                        <img src="../assets/img/shapes/waves-white.svg" class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
-                                        <div class="position-relative d-flex align-items-center justify-content-center h-100">
-                                            <img class="w-100 position-relative z-index-2 pt-4" src="../assets/img/illustrations/rocket-white.png" alt="rocket">
+                                    <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
+                                        <div class="bg-gradient-primary border-radius-lg h-100">
+                                            <img src="<?= $row_good['p_pic'] ?>" class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
+                                            <div class="position-relative d-flex align-items-center justify-content-center h-100">
+                                                <img class="w-100 position-relative z-index-2 pt-4" src="<?= $row_good['p_pic'] ?>" alt="rocket">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
+
                 </div>
                 <div class="col-lg-5">
                     <div class="card h-100 p-3">
                         <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
                             <span class="mask bg-gradient-dark"></span>
                             <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
-                                <h5 class="text-white font-weight-bolder mb-4 pt-2">Work with the rockets</h5>
-                                <p class="text-white">Wealth creation is an evolutionarily recent positive-sum game. It is all about who take the opportunity first.</p>
-                                <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
+                                <h5 class="text-white font-weight-bolder mb-4 pt-2">โปรไฟล์ขของคุณ</h5>
+                                <p class="text-white"><?= $_SESSION['fname'] . ' ' . $_SESSION['lname'] ?></p>
+                                <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="profile.php">
                                     Read More
                                     <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
                                 </a>
@@ -199,7 +234,7 @@ $page = 'Dashboard';
                     </div>
                 </div>
             </div>
-            <div class="row mt-4">
+            <!-- <div class="row mt-4">
                 <div class="col-lg-5 mb-lg-0 mb-4">
                     <div class="card z-index-2">
                         <div class="card-body p-3">
@@ -677,39 +712,8 @@ $page = 'Dashboard';
                         </div>
                     </div>
                 </div>
-            </div>
-            <footer class="footer pt-3  ">
-                <div class="container-fluid">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-start">
-                                © <script>
-                                    document.write(new Date().getFullYear())
-                                </script>,
-                                made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                                for a better web.
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            </div> -->
+            <?php include('bar/footer.php'); ?>
         </div>
     </main>
     <div class="fixed-plugin">

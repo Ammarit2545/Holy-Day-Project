@@ -184,7 +184,7 @@ $row = mysqli_fetch_array($result);
                 $topic_count = 0;
                 $sql_topic = "SELECT * FROM topic 
                 LEFT JOIN picture ON picture.t_id = topic.t_id
-                WHERE topic.e_id = '$e_id' ORDER BY topic.t_update DESC LIMIT 5";
+                WHERE topic.e_id = '$e_id' AND topic.del_flg = 0 ORDER BY topic.t_update DESC LIMIT 5";
                 $result_topic = mysqli_query($conn, $sql_topic);
                 while ($row_topic = mysqli_fetch_array($result_topic)) {
                   $topic_count++;
@@ -194,8 +194,11 @@ $row = mysqli_fetch_array($result);
                       <img src="<?= $row_topic['p_pic'] ?>" alt="kal" class="border-radius-lg shadow">
                     </div>
                     <div class="d-flex align-items-start flex-column justify-content-center">
-                      <h6 class="mb-0 text-sm"><?= $row_topic['t_name'] ?></h6>
-                      <p class="mb-0 text-xs">วันที่สร้าง : <?= $row_topic['t_date_in'] ?></p>
+                      <a href="page_viewer.php?blog=<?= $row_topic['t_id'] ?>" >
+                        <h6 class="mb-0 text-sm"><?= $row_topic['t_name'] ?></h6>
+                        <p class="mb-0 text-xs">วันที่สร้าง : <?= $row_topic['t_date_in'] ?></p>
+                      </a>
+
                     </div>
                     <!-- <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto" href="javascript:;">Reply</a> -->
                   </li>
@@ -300,21 +303,8 @@ $row = mysqli_fetch_array($result);
 
                         </p>
                         <div class="d-flex align-items-center justify-content-between">
-                          <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>
-                          <div class="avatar-group mt-2">
-                            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Elena Morison">
-                              <img alt="Image placeholder" src="../assets/img/team-1.jpg">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Milly">
-                              <img alt="Image placeholder" src="../assets/img/team-2.jpg">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nick Daniel">
-                              <img alt="Image placeholder" src="../assets/img/team-3.jpg">
-                            </a>
-                            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Peterson">
-                              <img alt="Image placeholder" src="../assets/img/team-4.jpg">
-                            </a>
-                          </div>
+                          <!-- <a herf="page_viewer.php?blog=<?= $row_topic['t_id'] ?>" class="btn btn-outline-primary btn-sm mb-0">View Project</a> -->
+                          <a href="page_viewer.php?blog=<?= $row_topic['t_id'] ?>" class="btn btn-outline-primary btn-sm mb-0">View Project</a>
                         </div>
                       </div>
                     </div>
@@ -322,9 +312,11 @@ $row = mysqli_fetch_array($result);
                 <?php } ?>
                 <?php
                 if ($row_log === null) {
-                  ?>
-                  <center><h5>ไม่มีข้อมูลในขณะนี้</h5></center>
-                  <?php
+                ?>
+                  <center>
+                    <h5>ไม่มีข้อมูลในขณะนี้</h5>
+                  </center>
+                <?php
                 } elseif ($e_id == $_SESSION['id'] && isset($row_log['le_date_in']) && $row_log['le_date_in'] !== null) {
                 ?>
                   <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
@@ -348,38 +340,7 @@ $row = mysqli_fetch_array($result);
           </div>
         </div>
       </div>
-      <footer class="footer pt-3  ">
-        <div class="container-fluid">
-          <div class="row align-items-center justify-content-lg-between">
-            <div class="col-lg-6 mb-lg-0 mb-4">
-              <div class="copyright text-center text-sm text-muted text-lg-start">
-                © <script>
-                  document.write(new Date().getFullYear())
-                </script>,
-                made with <i class="fa fa-heart"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                for a better web.
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <?php include('bar/footer.php'); ?>
     </div>
   </div>
   <div class="fixed-plugin">
