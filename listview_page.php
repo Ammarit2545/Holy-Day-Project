@@ -194,13 +194,38 @@ include('database/condb.php');
 					<div class="col section-1 section-description wow fadeIn">
 						<h2>วันสำคัญต่างทางศาสนาของไทย</h2>
 						<div class="divider-1 wow fadeInUp"><span></span></div>
+						<br>
+						<form action="listview_page.php" method="POST" class="google-search-form">
+							<div class="input-group mb-3">
+								<input type="text" name="search_query" id="title_date" class="form-control" placeholder="หาข้อมูลวันที่สำคัญต้องการ ..." style="color: black;" required>
+								<div class="input-group-append">
+									<button type="submit" class="btn btn-orange" name="search" style="background-color: orange;color:white">Search</button>
+								</div>
+							</div>
+						</form>
+
+
 					</div>
 				</div>
 				<div class="row">
 					<?php
 					$count_topic = 0;
 
-					$sql_select = "SELECT *
+					if (isset($_POST['search'])) {
+						$search_query = $_POST['search_query'];
+
+						// Modify your SQL query to search by t_name with similar results
+						$sql_select = "SELECT *
+							FROM topic
+							LEFT JOIN picture ON picture.t_id = topic.t_id
+							LEFT JOIN employee ON employee.e_id = topic.e_id
+							WHERE topic.del_flg = 0
+							  AND topic.t_test = 0
+							  AND (topic.t_private != 0 OR topic.t_private = 1)
+							  AND picture.del_flg = 0
+							  AND topic.t_name LIKE '%$search_query%';"; // Use the search query in the SQL query
+					} else {
+						$sql_select = "SELECT *
 						FROM topic
 						LEFT JOIN picture ON picture.t_id = topic.t_id
 						LEFT JOIN employee ON employee.e_id = topic.e_id
@@ -209,6 +234,8 @@ include('database/condb.php');
 						  AND (topic.t_private != 0 OR topic.t_private = 1)
 						  AND picture.del_flg = 0;
 						";
+					}
+
 
 					$result_select = mysqli_query($conn, $sql_select); //Update Delete Insert
 
