@@ -254,64 +254,7 @@ $blog_now = $_GET['blog'];
                                                                                                                                                                                                                                                                                                     } else {
                                                                                                                                                                                                                                                                                                         echo '* Your Detail';
                                                                                                                                                                                                                                                                                                     } ?></textarea>
-                                    <script>
-                                        const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea');
 
-                                        inputs.forEach(input => {
-                                            input.addEventListener('input', function() {
-                                                if (this.value.trim() !== '') {
-                                                    this.classList.add('has-content');
-                                                    updateSession(this);
-                                                } else {
-                                                    this.classList.remove('has-content');
-                                                }
-                                            });
-                                        });
-
-                                        function updateSession(input) {
-                                            const name = input.getAttribute('name');
-                                            const value = input.value;
-
-                                            // Create an AJAX request to update the session based on input name
-                                            const xhr = new XMLHttpRequest();
-                                            xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all inputs
-                                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-                                            // Send the data as a single string in the request body
-                                            const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
-                                            xhr.send(data);
-
-                                            // Handle the response if needed
-                                            xhr.onload = function() {
-                                                if (xhr.status === 200) {
-                                                    const response = JSON.parse(xhr.responseText);
-                                                    console.log(response.message); // You can handle the response here
-                                                } else {
-                                                    console.error('Error:', xhr.statusText);
-                                                }
-                                            };
-                                        }
-                                    </script>
-                                    <script>
-                                        $(document).ready(function() {
-                                            var textarea = document.getElementById('title_detail');
-
-                                            // Set the height of the textarea to auto
-                                            textarea.style.height = 'auto';
-
-                                            // Set the textarea's height to its scrollHeight (content height)
-                                            textarea.style.height = (textarea.scrollHeight) + 'px';
-                                        });
-                                    </script>
-                                    <script>
-                                        // JavaScript to make the textarea auto-resize
-                                        var textarea = document.querySelector('textarea.autosize');
-
-                                        textarea.addEventListener('input', function() {
-                                            this.style.height = 'auto';
-                                            this.style.height = (this.scrollHeight) + 'px';
-                                        });
-                                    </script>
                                 </p>
                             </div>
                             <!-- <div class="buttons wow fadeInUp">
@@ -325,6 +268,11 @@ $blog_now = $_GET['blog'];
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="badge badge-dark">
+                <input type="text" name="title_date_of_<?= $blog_now ?>" id="title_date_of_<?= $blog_now ?>" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="ไม่มีวันที่" value="<?php if (isset($_SESSION['title_date_of_' . $blog_now])) {
+                                                                                                                                                                                                                        echo $_SESSION['title_date_of_' . $blog_now];
+                                                                                                                                                                                                                    } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="วันที่" style="color: white; font-weight: bold;font-size:150%" required>
             </div>
             <script>
                 // When a file is selected, trigger the form submission
@@ -341,7 +289,64 @@ $blog_now = $_GET['blog'];
                     });
                 });
             </script>
+            <script>
+                const inputs = document.querySelectorAll('.invisible-input, .invisible-textarea');
 
+                inputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        if (this.value.trim() !== '') {
+                            this.classList.add('has-content');
+                            updateSession(this);
+                        } else {
+                            this.classList.remove('has-content');
+                        }
+                    });
+                });
+
+                function updateSession(input) {
+                    const name = input.getAttribute('name');
+                    const value = input.value;
+
+                    // Create an AJAX request to update the session based on input name
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'action/update-session.php'); // Use the same PHP script for all inputs
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+                    // Send the data as a single string in the request body
+                    const data = `name=${encodeURIComponent(name)}&value=${encodeURIComponent(value)}`;
+                    xhr.send(data);
+
+                    // Handle the response if needed
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            console.log(response.message); // You can handle the response here
+                        } else {
+                            console.error('Error:', xhr.statusText);
+                        }
+                    };
+                }
+            </script>
+            <script>
+                $(document).ready(function() {
+                    var textarea = document.getElementById('title_detail');
+
+                    // Set the height of the textarea to auto
+                    textarea.style.height = 'auto';
+
+                    // Set the textarea's height to its scrollHeight (content height)
+                    textarea.style.height = (textarea.scrollHeight) + 'px';
+                });
+            </script>
+            <script>
+                // JavaScript to make the textarea auto-resize
+                var textarea = document.querySelector('textarea.autosize');
+
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            </script>
             <br>
             <br>
             <br>

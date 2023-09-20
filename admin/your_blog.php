@@ -115,7 +115,7 @@ $page = 'Your Blog';
 
                     <?php
 
-                    $sql_blog = "SELECT topic.t_id,topic.t_name,topic.t_detail ,topic.t_color,topic.t_date_in,topic.t_update,topic.t_private,topic.t_watch,picture.p_pic FROM topic 
+                    $sql_blog = "SELECT topic.t_id,topic.t_date_day,topic.t_name,topic.t_detail ,topic.t_color,topic.t_date_in,topic.t_update,topic.t_private,topic.t_watch,picture.p_pic FROM topic 
                     LEFT JOIN picture ON picture.t_id = topic.t_id
                     WHERE topic.del_flg = 0 AND topic.e_id = '$e_id' AND t_test = 0 ORDER BY topic.t_date_in DESC";
                     $result_blog = mysqli_query($conn, $sql_blog);
@@ -202,6 +202,7 @@ $page = 'Your Blog';
                         isset($_SESSION['title_detail_' . $t_id]) &&
                         isset($_SESSION['title_id_' . $t_id]) &&
                         isset($_SESSION['title_date_in_' . $t_id]) &&
+                        isset($_SESSION['title_date_of_' . $t_id]) &&
                         isset($_SESSION['title_file_' . $t_id])
                       ) {
                         if (
@@ -210,7 +211,8 @@ $page = 'Your Blog';
                           $row_blog['t_detail'] != $_SESSION['title_detail_' . $t_id] ||
                           $row_blog['t_id'] != $_SESSION['title_id_' . $t_id] ||
                           $row_blog['t_date_in'] != $_SESSION['title_date_in_' . $t_id] ||
-                          $row_blog['p_pic'] != $_SESSION['title_file_' . $t_id]
+                          $row_blog['p_pic'] != $_SESSION['title_file_' . $t_id] ||
+                          $row_blog['t_date_day'] != $_SESSION['title_date_of_' . $t_id]
                         ) {
                           ?>
                           <script>

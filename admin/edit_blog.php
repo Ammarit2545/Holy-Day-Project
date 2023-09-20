@@ -44,7 +44,8 @@ if (!isset($_SESSION['title_id_' . $blog_now])) {
     $_SESSION['title_id_' . $blog_now] = $t_id = $row_select['t_id'];
     $_SESSION['title_date_in_' . $blog_now] = $row_select['t_date_in'];
     $_SESSION['title_file_' . $blog_now] = $row_select['p_pic'];
-
+    $_SESSION['title_date_of_' . $blog_now] = $row_select['t_date_day'];
+    
     $i = 1;
     $sql_select = "SELECT * FROM sub_topic 
 LEFT JOIN picture ON picture.st_id = sub_topic.st_id
@@ -342,6 +343,16 @@ WHERE sub_topic.t_id = '$blog_now' ";
                                                                                                                                                                                                                                         } ?>" required hidden>
 
                                             </div>
+
+                                            <hr>
+                                            <div class="col-6 d-flex align-items-center">
+                                                <h6 class="mb-0">วันที่ของวันสำคัญ</h6>
+                                            </div>
+                                            <input type="text" name="title_date_of_<?= $blog_now ?>" id="image_bg_back" class="invisible-input form-control mb-0 mr-1 p-4" placeholder="Your Detail Title" data-bs-toggle="tooltip" data-bs-placement="left" title="รายละเอียดหัวข้อหลัก" style=" color: white; font-size: 18px;" value="<?php if (isset($_SESSION['title_date_of_' . $blog_now])) {
+                                                                                                                                                                                                                                                                                                                                                echo $_SESSION['title_date_of_' . $blog_now];
+                                                                                                                                                                                                                                                                                                                                            } else {
+                                                                                                                                                                                                                                                                                                                                                echo '* Your Detail';
+                                                                                                                                                                                                                                                                                                                                            } ?>" required>
                                             <hr>
                                             <div class="col-6 d-flex align-items-center">
                                                 <h6 class="mb-0">Your Title Details</h6>

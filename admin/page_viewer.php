@@ -217,7 +217,7 @@ $row_e = mysqli_fetch_array($result_e);
             <div style="<?php if ($row['p_pic'] != NULL || $row['p_pic'] != '') {
 
                         ?>background: url('<?= $row['p_pic'] ?>');<?php } else {
-                                                                        ?>background-color:gray;<?php
+                                                                    ?>background-color:gray;<?php
                                                                                             } ?> width: 100%; padding: 60px 0 120px 0; ">
                 <div class="container">
                     <div class="row">
@@ -314,7 +314,16 @@ $row_e = mysqli_fetch_array($result_e);
                         </div>
                     </div>
                 </div>
+
             </div>
+            <?php if ($row['t_date_day'] != NULL) {
+            ?>
+                <div class="badge badge-dark">
+                    <input type="text" name="title_date_of_<?= $blog_now ?>" id="title_date_of_<?= $blog_now ?>" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="ไม่มีวันที่" value="<?= $row['t_date_day']  ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="วันที่" style="color: white; font-weight: bold;font-size:150%" required>
+                </div>
+            <?php
+            } ?>
+
             <script>
                 // When a file is selected, trigger the form submission
                 $('#titleFile').on('change', function() {

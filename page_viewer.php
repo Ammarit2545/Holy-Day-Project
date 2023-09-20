@@ -314,6 +314,13 @@ $row_e = mysqli_fetch_array($result_e);
                     </div>
                 </div>
             </div>
+            <?php if ($row['t_date_day'] != NULL) {
+            ?>
+                <div class="badge badge-dark">
+                    <input readonly type="text" name="title_date_of_<?= $blog_now ?>" id="title_date_of_<?= $blog_now ?>" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="ไม่มีวันที่" value="<?= $row['t_date_day']  ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="วันที่" style="color: white; font-weight: bold;font-size:150%" required>
+                </div>
+            <?php
+            } ?>
             <script>
                 // When a file is selected, trigger the form submission
                 $('#titleFile').on('change', function() {
@@ -943,10 +950,10 @@ $row_e = mysqli_fetch_array($result_e);
 
                         while ($row_topic = mysqli_fetch_array($result_topic)) {
                         ?>
-                            <a href="page_viewer.php?blog=<?=  $row_topic['t_id'] ?> ">
+                            <a href="page_viewer.php?blog=<?= $row_topic['t_id'] ?> ">
                                 <div class="col-md-4 section-5-box wow fadeInUp">
                                     <div class="section-5-box-image"><img src="admin/<?= $row_topic['p_pic'] ?>" alt="portfolio-1"></div>
-                                    <h3><a href="page_viewer.php?blog=<?=  $row_topic['t_id'] ?> "><?= $row_topic['t_name']  ?></a> <i class="fas fa-angle-right"></i></h3>
+                                    <h3><a href="page_viewer.php?blog=<?= $row_topic['t_id'] ?> "><?= $row_topic['t_name']  ?></a> <i class="fas fa-angle-right"></i></h3>
                                     <div class="section-5-box-date"><i class="far fa-calendar"></i> June 2019</div>
                                     <p><?= mb_substr($row_topic['t_detail'], 0, 100, 'UTF-8') ?></p>
 

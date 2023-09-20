@@ -77,6 +77,15 @@ $blog_now = $_GET['blog'];
             text-shadow: 0 0 3px black;
             /* Change this to the desired placeholder text color */
         }
+        #title_dete {
+            font-weight: lighter;
+            border: none;
+            background-color: transparent;
+            color: initial;
+            color: white;
+            text-shadow: 0 0 3px black;
+            /* Change this to the desired placeholder text color */
+        }
 
         /* Show the text value in white when input has a value */
         .invisible-input:not(:placeholder-shown):not(#title_detail) {
@@ -325,6 +334,11 @@ $blog_now = $_GET['blog'];
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="badge badge-dark">
+                <input type="text" name="title_date_of_<?= $blog_now ?>"  id="title_date_of_<?= $blog_now ?>" class="invisible-input form-control mb-0 mr-1 text-center autosize" placeholder="ไม่มีวันที่" value="<?php if (isset($_SESSION['title_date_of_' . $blog_now])) {
+                                                                                                                                                                                    echo $_SESSION['title_date_of_' . $blog_now];
+                                                                                                                                                                                } ?>" data-bs-toggle="tooltip" data-bs-placement="left" title="วันที่" style="color: white; font-weight: bold;font-size:150%" required>
             </div>
             <script>
                 // When a file is selected, trigger the form submission
