@@ -34,7 +34,10 @@ if (isset($_SESSION["role_id"])) {
                     <a class="scroll-link" href="#top-content"><i class="fas fa-home"></i> Home</a>
                 </li>
                 <li>
-                    <a  href="listview_page.php"><i class="fas fa-home"></i> กลับสู่หน้าหลัก</a>
+                    <a  href="listview_page.php"><i class="fas fa-plane"></i> กลับสู่หน้าหลัก</a>
+                </li>
+                <li>
+                    <a  href="edit_member.php"><i class="fas fa-user"></i> แก้ไขข้อมูลส่วนตัว</a>
                 </li>
                 <li>
                     <a class="scroll-link" href="#<?= $row_con['st_id'] ?>"><i class="fas fa-home"></i> <?= $row_con['st_main'] ?></a>
@@ -44,7 +47,7 @@ if (isset($_SESSION["role_id"])) {
             } else {
             ?>
                 <li>
-                    <a class="scroll-link" href="#<?= $row_con['st_id'] ?>"><i class="fas fa-home"></i> <?= $row_con['st_main'] ?></a>
+                    <a class="scroll-link" href="#<?= $row_con['st_id'] ?>"><i class="fas fa-book"></i> <?= $row_con['st_main'] ?></a>
                 </li>
 
                 <?php
