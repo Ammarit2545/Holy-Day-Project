@@ -17,9 +17,9 @@ session_start();
 include('../database/condb.php');
 $my_e_id = $_SESSION['id'];
 $active = array();
-$active[2] = "active";
+$active[8] = "active";
 
-$page = 'หน้าจัดการบุคลากร';
+$page = 'หน้าแก้ไขข้อมูล';
 ?>
 <!DOCTYPE html>
 <html lang="en">

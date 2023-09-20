@@ -18,7 +18,7 @@ include('../database/condb.php');
 $active = array();
 $active[4] = "active";
 
-$page = 'Profile';
+$page = 'โปรไฟล์';
 if (!isset($_GET['id'])) {
   $e_id = $_SESSION['id'];
 } else {
@@ -31,6 +31,7 @@ LEFT JOIN role ON role.r_id = employee.r_id
 WHERE employee.e_id = $e_id AND employee.del_flg = 0";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
+
 
 ?>
 <!DOCTYPE html>
