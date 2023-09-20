@@ -25,7 +25,7 @@ include('../database/condb.php');
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../image/icon/logo.png">
   <title>
-    Soft UI Dashboard by Creative Tim
+    Login - HolyDay
   </title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -53,8 +53,8 @@ include('../database/condb.php');
             <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
               <div class="card card-plain mt-8">
                 <div class="card-header pb-0 text-left bg-transparent">
-                  <h3 class="font-weight-bolder text-info text-gradient">Welcome back</h3>
-                  <p class="mb-0">Enter your email and password to sign in</p>
+                  <h3 class="font-weight-bolder text-info text-gradient">ยินดีต้อนรับสู่เว็บไซต์ HolyDay</h3>
+                  <p class="mb-0">กรุณากรอก Email และ รหัสผ่านเพื่อเข้าสู่ระบบ</p>
                 </div>
                 <div class="card-body">
                   <form role="form" action="../action/sign-in.php" method="POST">
@@ -66,19 +66,15 @@ include('../database/condb.php');
                     <div class="mb-3">
                       <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password" required>
                     </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
-                      <label class="form-check-label" for="rememberMe">Remember me</label>
-                    </div>
                     <div class="text-center">
-                      <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
+                      <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">เข้าสู่ระบบ</button>
                     </div>
                   </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <a href="sign-up.php" class="text-info text-gradient font-weight-bold">Sign up</a>
+                    ยังไม่มีบัญชีใช่หรือไม่
+                    <a href="sign-up.php" class="text-info text-gradient font-weight-bold">ลงทะเบียน</a>
                   </p>
                 </div>
               </div>

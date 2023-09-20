@@ -20,16 +20,22 @@ if (isset($_SESSION["role_id"])) {
 	</div>
 
 	<ul class="list-unstyled menu-elements">
-		<li class="active">
+		<!-- <li class="active">
 			<a class="scroll-link" href="#top-content"><i class="fas fa-home"></i> หน้าหลัก</a>
-		</li>
+		</li> -->
 
 		<li>
 			<a href="listview_page.php"><i class="fas fa-home"></i> ดูวันสำคัญต่างๆ</a>
 		</li>
-		<li>
-			<a href="edit_member.php"><i class="fas fa-user"></i> แก้ไขข้อมูลส่วนตัว</a>
-		</li>
+		<?php
+                if (isset($_SESSION['id'])) {
+                ?>
+                    <li>
+                        <a href="edit_member.php"><i class="fas fa-user"></i> แก้ไขข้อมูลส่วนตัว</a>
+                    </li>
+                <?php
+                }
+                ?>
 		<li>
 			<a class="scroll-link" href="#section-1"><i class="fas fa-cog"></i> What we do</a>
 		</li>

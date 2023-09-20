@@ -2,7 +2,7 @@
 session_start();
 include('database/condb.php');
 
-if(isset($_GET['id'])){
+if (isset($_GET['id'])) {
 	$id_test = $_GET['id'];
 }
 ?>
@@ -15,7 +15,7 @@ if(isset($_GET['id'])){
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title>Main  - Holy Day</title>
+	<title>Main - Holy Day</title>
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&display=swap">
@@ -107,78 +107,25 @@ if(isset($_GET['id'])){
 			</style>
 
 			<!-- Top content -->
-				<div class="top-content section-container" id="top-content">
-					<div class="video-container">
-						<video autoplay loop muted playsinline poster="video-poster.jpg" id="bgVideo">
-							<source src="media/video/Buddha.mp4" type="video/mp4">
-							<!-- Add more video sources for different formats (WebM, Ogg) if needed -->
-							Your browser does not support the video tag.
-						</video>
-						<!-- Add the semi-transparent overlay -->
-						<div class="overlay"></div>
-					</div>
-					<div class="container">
-						<div class="row">
-							<div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-								<h1 class="wow fadeIn">Holy<strong>Day</strong></h1>
-								<div class="description wow fadeInLeft">
-									<p>
-										วันสำคัญทางศาสนา หมายถึง วันที่มีเหตุการณ์สำคัญบางอย่างเกิดขึ้น ส่วนใหญ่จะเป็นวันที่เกี่ยวข้องกับความเชื่อต่างๆซึ่งจะกำหนดเอาวันที่มีเหตุการณ์พิเศษเกิดขึ้นในช่วงนั้นเป็นหลัก
-										<a href="#"><strong>HolyDay</strong></a>.
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
+			<div class="top-content section-container" id="top-content">
+				<div class="video-container">
+					<video autoplay loop muted playsinline poster="video-poster.jpg" id="bgVideo">
+						<source src="media/video/Buddha.mp4" type="video/mp4">
+						<!-- Add more video sources for different formats (WebM, Ogg) if needed -->
+						Your browser does not support the video tag.
+					</video>
+					<!-- Add the semi-transparent overlay -->
+					<div class="overlay"></div>
 				</div>
-
-			<!-- Section 1 -->
-			<div class="section-1-container section-container" id="section-1">
 				<div class="container">
 					<div class="row">
-						<div class="col section-1 section-description wow fadeIn">
-							<h2>What We Do</h2>
-							<div class="divider-1 wow fadeInUp"><span></span></div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-4 section-1-box wow fadeInUp">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="section-1-box-icon">
-										<i class="fas fa-magic"></i>
-									</div>
-								</div>
-								<div class="col-md-8">
-									<h3>Branding</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 section-1-box wow fadeInDown">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="section-1-box-icon">
-										<i class="fas fa-cog"></i>
-									</div>
-								</div>
-								<div class="col-md-8">
-									<h3>Web design</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4 section-1-box wow fadeInUp">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="section-1-box-icon">
-										<i class="fab fa-twitter"></i>
-									</div>
-								</div>
-								<div class="col-md-8">
-									<h3>Social media</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-								</div>
+						<div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+							<h1 class="wow fadeIn">Holy<strong>Day</strong></h1>
+							<div class="description wow fadeInLeft">
+								<p>
+									วันสำคัญทางศาสนา หมายถึง วันที่มีเหตุการณ์สำคัญบางอย่างเกิดขึ้น ส่วนใหญ่จะเป็นวันที่เกี่ยวข้องกับความเชื่อต่างๆซึ่งจะกำหนดเอาวันที่มีเหตุการณ์พิเศษเกิดขึ้นในช่วงนั้นเป็นหลัก
+									<a href="#"><strong>HolyDay</strong></a>.
+								</p>
 							</div>
 						</div>
 					</div>
@@ -194,17 +141,33 @@ if(isset($_GET['id'])){
 					</div>
 					<div class="row">
 						<div class="col-8 section-2-box wow fadeInLeft">
-							<h3>About Us</h3>
+							<h3>ทำไมถึงต้องมีวันสำคัญทางศาสนา?</h3>
 							<p class="medium-paragraph">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-								sed do eiusmod tempor incididunt ut labore et. Ut wisi enim ad minim veniam, quis nostrud.
+								วันสำคัญทางศาสนามักจะมีบทบาทสำคัญในการกำหนดและรักษาความเชื่อทางศาสนา โดยมีเป้าหมายหลักคือเป็นช่วงเวลาที่สถานีและชี้ทางให้คนที่นับถือศาสนานั้นตระหนักถึงความสำคัญของความเชื่อ
 							</p>
 							<p>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-								Ut wisi enim ad minim veniam, quis nostrud.
-								Exerci tation ullamcorper suscipit <a href="holy_detail.php">lobortis nisl</a> ut aliquip ex ea commodo consequat.
-								Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl.
+								วันสำคัญในพระพุทธศาสนา เป็นวันที่มีเหตุการณ์ที่สำคัญ อันเนื่องด้วยพระรัตนตรัย คือพระพุทธเจ้า, พระธรรมคำสั่งสอนของพระพุทธเจ้า และพระสงฆ์สาวกของพระพุทธเจ้า เหตุการณ์ที่สำคัญดังกล่าว เป็นประโยชน์เกื้อกูลแก่พุทธศาสนิกชนทุกหมู่เหล่า คือบริษัท ๔ ได้แก่ ภิกษุ ภิกษุณี อุบาสก และอุบาสิกา ให้น้อมรำลึกถึงคุณของพระรัตนตรัยในหลักที่สำคัญ เพื่อนำไปประพฤติปฏิบัติ เพื่อจรรโลงให้พระพุทธศาสนา ดำรงคงอยู่สถิตสถาพร เป็นคุณประโยชน์อันยิ่งใหญ่แก่ตนเองและแก่สัตว์โลกทั้งปวง ซึ่งมิใช่จำกัดอยู่เพียงมนุษยชาติเท่านั้น
 							</p>
+							<!-- <p>
+								การสร้างความสันติสันต่อ: บางวันสำคัญทางศาสนาถูกออกแบบมาเพื่อสร้างความสันติและความสัมพันธ์ดีในชุมชน การเชื่อฟังการวางแผนและการนำบางเรื่องมาอภิปรายในวันสำคัญอาจช่วยให้คนรู้สึกว่าพวกเขามีส่วนร่วมในการบูรณาการชีวิตร่วมกัน.
+
+
+							</p>
+							<p>
+								การรักษาความเชื่อ: วันสำคัญทางศาสนามักจะเป็นโอกาสที่ช่วยในการรักษาและส่งเสริมความเชื่อทางศาสนาของผู้นับถือ การตระหนักถึงพิธีกรรม การบูรณาการ และข้อความทางศาสนาสามารถกระตุ้นความเชื่อและความกรุณาในการปฏิบัติตามคำสอนของศาสนา.
+
+
+							</p>
+							<p>
+								การปฏิบัติศาสนา: วันสำคัญทางศาสนาสามารถเป็นโอกาสสำหรับการปฏิบัติศาสนาและทำพิธีกรรมทางศาสนาที่สำคัญ นี้อาจรวมถึงการนมัสการและการสวดมนต์ เช่น การบูรณาการคริสต์มาสในคริสต์ศาสนา การปฏิบัติศาสนาในวันสำคัญช่วยให้ผู้นับถือรู้สึกว่าพวกเขาได้รับการเชื่อมต่อกับศาสนาของพวกเขาอย่างสมบูรณ์และอย่างถูกต้อง.
+
+
+							</p>
+							<p>
+								การสืบทอดความเชื่อ: วันสำคัญทางศาสนามักเป็นโอกาสสำหรับการสืบทอดความเชื่อระหว่างรุ่นสู่รุ่น ผ่านพิธีกรรมและปฏิบัติศาสนาที่ได้รับมาตรฐาน นี่อาจช่วยในการรักษาความเชื่อและความสัมพันธ์ทางศาสนาในครอบครัวและชุมชน.
+
+								รวมถึงเหตุผลด้านบน มีแนวคิดอื่นๆ อีกหลายประการที่เป็นที่ยอมรับในสังคมที่มีความหลากหลายทางศาสนา วันสำคัญทางศาสนาสามารถสร้างความเชื่อมั่นและความเข้าใจระหว่างกลุ่มคนที่นับถือศาสนาเดียวกัน และช่วยให้คนรู้เรื่องเกี่ยวกับประวัติและความสำคัญของศาสนาของพวกเขามากขึ้น ดังนั้น วันสำคัญทางศาสนามีบทบาทสำคัญในการเสริมสร้างความเชื่อและความเข้าใจในศาสนาและชุมชนที่นับถือศาสนานั้น.
+							</p> -->
 						</div>
 						<div class="col-4 section-2-box wow fadeInUp">
 							<img src="assets/img/about-us.jpg" alt="about-us">
@@ -219,7 +182,7 @@ if(isset($_GET['id'])){
 
 					<div class="row">
 						<div class="col section-3 section-description wow fadeIn">
-							<h2>Our Projects</h2>
+							<h2>สิ่งที่มีความสำคัญสำหรับผู้นับถือศาสนานั้นมีหลายอย่าง </h2>
 							<div class="divider-1 wow fadeInUp"><span></span></div>
 						</div>
 					</div>
@@ -233,10 +196,9 @@ if(isset($_GET['id'])){
 									</div>
 								</div>
 								<div class="col-md-9">
-									<h3>Ut wisi enim ad minim</h3>
+									<h3>การบรรลุความเสมอภาค</h3>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-										Ut wisi enim ad minim veniam, quis nostrud.
+										วันสำคัญทางศาสนาช่วยให้ผู้นับถือศาสนามีโอกาสที่จะมีการพัฒนาตนเองในทางศีลธรรมและจิตใจ ซึ่งทำให้พวกเขามีโอกาสสร้างความสัมพันธ์ที่เข้มแข็งกับพระเจ้าและชาวศาสนาคนอื่นๆในชุมชนของพวกเขา
 									</p>
 								</div>
 							</div>
@@ -249,10 +211,9 @@ if(isset($_GET['id'])){
 									</div>
 								</div>
 								<div class="col-md-9">
-									<h3>Sed do eiusmod tempor</h3>
+									<h3>การเคารพและสืบทอดความเชื่อ</h3>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-										Ut wisi enim ad minim veniam, quis nostrud.
+										วันสำคัญทางศาสนาเป็นโอกาสในการสืบทอดความเชื่อศาสนาจากพระบรมราชาอันยิ่งใหญ่ไปสู่รุ่นหลัง โดยการเป็นตัวอย่างในการรักษาความเคารพและการปฏิบัติตามพระราชาาณเทวดาและบทความศักดิ์สิทธิ์
 									</p>
 								</div>
 							</div>
@@ -268,10 +229,9 @@ if(isset($_GET['id'])){
 									</div>
 								</div>
 								<div class="col-md-9">
-									<h3>Quis nostrud exerci tat</h3>
+									<h3>การสร้างชุมชนและความผูกพัน</h3>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-										Ut wisi enim ad minim veniam, quis nostrud.
+										วันสำคัญทางศาสนาสร้างโอกาสในการรวมกลุ่มของผู้นับถือศาสนาเข้าร่วมกันในพิธีกรรมและพิธีกรรมทางศาสนา ซึ่งเสริมสร้างความผูกพันและสร้างชุมชนที่มีความสามัคคี
 									</p>
 								</div>
 							</div>
@@ -284,10 +244,9 @@ if(isset($_GET['id'])){
 									</div>
 								</div>
 								<div class="col-md-9">
-									<h3>Minim veniam quis nostrud</h3>
+									<h3>การสืบทอดประเพณีและประเพณี</h3>
 									<p>
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-										Ut wisi enim ad minim veniam, quis nostrud.
+										วันสำคัญทางศาสนาเป็นโอกาสในการสืบทอดประเพณีและพิธีกรรมทางศาสนาจากรุ่นที่แล้วไปสู่รุ่นใหม่ ซึ่งมีบทบาทสำคัญในการรักษาและสืบทอดความเชื่อทางศาสนา
 									</p>
 								</div>
 							</div>
@@ -297,64 +256,43 @@ if(isset($_GET['id'])){
 				</div>
 			</div>
 
-			<!-- Section 4 -->
-			<div class="section-4-container section-container section-container-image-bg" id="section-4">
-				<div class="container">
-					<div class="row">
-						<div class="col section-4 section-description wow fadeInLeftBig">
-							<h2>We Think That...</h2>
-							<p>
-								Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
-								aliquip ex ea commodo consequat. Ut wisi enim ad minim veniam, quis nostrud.
-							</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col section-bottom-button wow fadeInUp">
-							<a class="btn btn-primary btn-customized-2 scroll-link" href="#section-6" role="button">
-								<i class="fas fa-envelope"></i> Contact Us
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
 
 			<!-- Section 5 -->
 			<div class="section-5-container section-container" id="section-5">
 				<div class="container">
 					<div class="row">
 						<div class="col section-5 section-description wow fadeIn">
-							<h2>Portfolio</h2>
+							<h2>วันสำคัญต่างๆที่น่าสนใจ</h2>
 							<div class="divider-1 wow fadeInUp"><span></span></div>
-							<p>We have completed 486 projects since we started back in 2013. Check them out!</p>
+							<p>วันสำคัญทางศาสนาอื่นๆ ที่คุณอาจสนใจ!</p>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-4 section-5-box wow fadeInUp">
-							<div class="section-5-box-image"><img src="assets/img/portfolio/1.jpg" alt="portfolio-1"></div>
-							<h3><a href="#">Acme branding</a> <i class="fas fa-angle-right"></i></h3>
-							<div class="section-5-box-date"><i class="far fa-calendar"></i> June 2019</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-						</div>
-						<div class="col-md-4 section-5-box wow fadeInDown">
-							<div class="section-5-box-image"><img src="assets/img/portfolio/2.jpg" alt="portfolio-2"></div>
-							<h3><a href="#">Created 150 flyers</a> <i class="fas fa-angle-right"></i></h3>
-							<div class="section-5-box-date"><i class="far fa-calendar"></i> February 2019</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-						</div>
-						<div class="col-md-4 section-5-box wow fadeInUp">
-							<div class="section-5-box-image"><img src="assets/img/portfolio/3.jpg" alt="portfolio-3"></div>
-							<h3><a href="#">WordPress design</a> <i class="fas fa-angle-right"></i></h3>
-							<div class="section-5-box-date"><i class="far fa-calendar"></i> November 2018</div>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col section-bottom-button wow fadeInUp">
-							<a class="btn btn-primary btn-customized" href="#" role="button">
-								<i class="fas fa-sync"></i> View All
+						<?php
+						$sql_topic = "SELECT *
+						FROM topic
+						LEFT JOIN picture ON picture.t_id = topic.t_id
+						LEFT JOIN employee ON employee.e_id = topic.e_id
+						WHERE topic.del_flg = 0
+						  AND topic.t_test = 0
+						  AND (topic.t_private != 0 OR topic.t_private = 1)
+						  AND picture.del_flg = 0 ORDER BY topic.t_id ASC LIMIT 3";
+						$result_topic = mysqli_query($conn, $sql_topic);
+
+						while ($row_topic = mysqli_fetch_array($result_topic)) {
+						?>
+							<a href="page_viewer.php?blog=<?= $row_topic['t_id'] ?> ">
+								<div class="col-md-4 section-5-box wow fadeInUp">
+									<div class="section-5-box-image"><img src="admin/<?= $row_topic['p_pic'] ?>" alt="portfolio-1"></div>
+									<h3><a href="page_viewer.php?blog=<?= $row_topic['t_id'] ?> "><?= $row_topic['t_name']  ?></a> <i class="fas fa-angle-right"></i></h3>
+									<div class="section-5-box-date"><i class="far fa-calendar"></i> June 2019</div>
+									<p><?= mb_substr($row_topic['t_detail'], 0, 100, 'UTF-8') ?></p>
+
+								</div>
 							</a>
-						</div>
+						<?php
+						}
+						?>
 					</div>
 				</div>
 			</div>
@@ -364,42 +302,14 @@ if(isset($_GET['id'])){
 				<div class="container">
 					<div class="row">
 						<div class="col section-6 section-description wow fadeIn">
-							<h2>Contact Us</h2>
+							<h2>ขอบคุณที่ไว้ใจเรา</h2>
 							<div class="divider-1 wow fadeInUp"><span></span></div>
-							<p>Send us an email using the form below or follow us on our social media channels.</p>
+							<p>หากคุณต้องการข้อมูลที่เป็นประโยชน์ เว็บไซต์เรามีข้อมูลที่เตรียมพร้อมเพื่อคุณเสมอ</p>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6 section-6-box wow fadeInUp">
-							<h3>By eMail</h3>
-							<div class="section-6-form">
-								<form role="form" action="assets/contact.php" method="post">
-									<div class="form-group">
-										<label class="sr-only" for="contact-email">Email</label>
-										<input type="text" name="email" placeholder="Email..." class="contact-email form-control" id="contact-email">
-									</div>
-									<div class="form-group">
-										<label class="sr-only" for="contact-subject">Subject</label>
-										<input type="text" name="subject" placeholder="Subject..." class="contact-subject form-control" id="contact-subject">
-									</div>
-									<div class="form-group">
-										<label class="sr-only" for="contact-message">Message</label>
-										<textarea name="message" placeholder="Message..." class="contact-message form-control" id="contact-message"></textarea>
-									</div>
-									<button type="submit" class="btn btn-primary btn-customized"><i class="fas fa-paper-plane"></i> Send Message</button>
-								</form>
-							</div>
-						</div>
-						<div class="col-md-5 offset-md-1 section-6-box wow fadeInDown">
-							<h3>Follow us</h3>
-							<div class="section-6-social">
-								<a href="#"><i class="fab fa-facebook-f"></i></a>
-								<a href="#"><i class="fab fa-dribbble"></i></a>
-								<a href="#"><i class="fab fa-twitter"></i></a>
-								<a href="#"><i class="fab fa-instagram"></i></a>
-								<a href="#"><i class="fab fa-pinterest"></i></a>
-							</div>
-						</div>
+						
+						
 					</div>
 				</div>
 			</div>

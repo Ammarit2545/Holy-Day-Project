@@ -30,15 +30,22 @@ if (isset($_SESSION["role_id"])) {
         while ($row_con = mysqli_fetch_array($result_con)) {
 
             if ($count_con == 1) {  ?>
-                <li class="active">
+                <!-- <li class="active">
                     <a class="scroll-link" href="#top-content"><i class="fas fa-home"></i> Home</a>
-                </li>
+                </li> -->
                 <li>
-                    <a  href="listview_page.php"><i class="fas fa-plane"></i> กลับสู่หน้าหลัก</a>
+                    <a href="listview_page.php"><i class="fas fa-plane"></i> กลับสู่หน้าหลัก</a>
                 </li>
-                <li>
-                    <a  href="edit_member.php"><i class="fas fa-user"></i> แก้ไขข้อมูลส่วนตัว</a>
-                </li>
+                <?php
+                if (isset($_SESSION['id'])) {
+                ?>
+                    <li>
+                        <a href="edit_member.php"><i class="fas fa-user"></i> แก้ไขข้อมูลส่วนตัว</a>
+                    </li>
+                <?php
+                }
+                ?>
+
                 <li>
                     <a class="scroll-link" href="#<?= $row_con['st_id'] ?>"><i class="fas fa-home"></i> <?= $row_con['st_main'] ?></a>
                 </li>
